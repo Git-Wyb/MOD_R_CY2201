@@ -51,7 +51,7 @@ void main(void)
 {
     _DI();             // 关全局中断
     RAM_clean();       // 清除RAM
-    WDT_init();        //看门狗
+    //WDT_init();        //看门狗
     VHF_GPIO_INIT();   //IO初始化
     SysClock_Init();   //系统时钟初始化
     InitialFlashReg(); //flash EEPROM
@@ -60,7 +60,7 @@ void main(void)
     beep_init();       // 蜂鸣器
     ClearWDT();        // Service the WDT
     ADF7030Init();     //射频初始化
-    UART1_INIT();      // UART1 for PC Software
+    //UART1_INIT();      // UART1 for PC Software
     _EI();             // 允许中断
     ClearWDT();        // Service the WDT
     RF_test_mode();

@@ -76,7 +76,9 @@ void ADF7030Init(void)
     ADF7030_WRITING_PROFILE_FROM_POWERON();
     ClearWDT(); // Service the WDT
     if (WORK_TEST == 1)
-        ADF7030_RECEIVING_FROM_POWEROFF();
+        ADF7030_ACC_FROM_POWEROFF();
+    TIMER18ms = 5;
+    //     ADF7030_RECEIVING_FROM_POWEROFF();
     ClearWDT(); // Service the WDT
     CONFIGURING_THE_POINTERS_FOR_POINTER_BASED_ACCESSES();
     ClearWDT(); // Service the WDT
@@ -621,7 +623,7 @@ void SCAN_RECEIVE_PACKET(void)
         RSSI_Read_Counter = 0;
         RAM_RSSI_SUM = 0;
         TIMER18ms = 28;
-        Flag_FREQ_Scan = 0;
+        Flag_FREQ_Scan = 1;
         Receiver_LED_RX = !Receiver_LED_RX;
     }
     else if ((ADF7030_GPIO3 == 0) && (ADF7030_GPIO2 == 1))
@@ -724,7 +726,6 @@ void ReceiveTestModesCFG(void)
     // ADF7030_WRITING_PROFILE_FROM_POWERON();
     ADF7030_ACC_FROM_POWEROFF();
 }
-
 
 /**
  ****************************************************************************

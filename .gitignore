@@ -5,6 +5,8 @@
 *.o
 *.obj
 *.pbi
+*.cout
+*.pbi
 
 # Linker output
 *.ilk
@@ -49,3 +51,7 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# generated files
+Debug/
+gen/

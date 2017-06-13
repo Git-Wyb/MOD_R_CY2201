@@ -475,7 +475,7 @@ void RF_BRE_Check(void)
             Receiver_LED_RX = 1;
         else
             Receiver_LED_RX = 0;
-        sprintf(errbuff, "%d\r\n", X_ERR);
+        //sprintf(errbuff, "%d\r\n", X_ERR);
         Send_String((u8 *)errbuff);
         //for (j = 0; j < 4; j++)
         //lcd    display_map_xy(70 + j * 6, 45, 5, 8, char_Small + (CacheData[3 - j] - ' ') * 5);

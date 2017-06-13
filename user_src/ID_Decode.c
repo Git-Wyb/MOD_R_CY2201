@@ -69,92 +69,6 @@ void DataReceive(void)
     }
     EXTI_SR1_P4F = 1;
 }
-/*
-void ID_Decode_function(void)
-{
-    UINT16 DATA_Packet_Syn_bak = 0;
-    if (FLAG_APP_RX == 1)
-    {
-        TIME_EMC = 10;
-        switch (rxphase)
-        {
-        case 0:
-            DATA_Packet_Syn = DATA_Packet_Syn << 1;
-            if (ADF7021_DATA_rx)
-                DATA_Packet_Syn += 1;
-            if (TIMER18ms == 0)
-            {
-                DATA_Packet_Syn_bak = DATA_Packet_Syn & 0x0000FFFF;
-                if ((DATA_Packet_Syn_bak == 0x5555) || (DATA_Packet_Syn_bak == 0xAAAA))
-                    ;
-                else
-                    FLAG_Receiver_Scanning = 1;
-            }
-            //if(DATA_Packet_Syn==0x55555555){rxphase=1;TIMER18ms=65;DATA_Packet_Syn=0;DATA_Packet_Head=0;}
-            if ((DATA_Packet_Syn & 0xFFFFFFFF) == 0x55555555)
-            {
-                rxphase = 1;
-                TIMER18ms = 2000;
-                DATA_Packet_Syn = 0;
-                DATA_Packet_Head = 0;
-                //Receiver_LED_RX=1;
-                FG_Receiver_LED_RX = 1;
-                TIMER300ms = 500;
-            }
-            break;
-        case 1:
-            DATA_Packet_Head = DATA_Packet_Head << 1;
-            if (ADF7021_DATA_rx)
-                DATA_Packet_Head += 1;
-            //DATA_Packet_Head=DATA_Packet_Head&0x0000FFFF;
-            if (TIMER18ms == 0)
-                rxphase = 0;
-            if (DATA_Packet_Head == 0x5515)
-            {
-                rxphase = 2;
-                DATA_Packet_Syn = 0;
-                DATA_Packet_Head = 0;
-                DATA_Packet_Code_i = 0;
-            }
-            break;
-        case 2:
-            DATA_Packet_Code_g = DATA_Packet_Code_i / 32;
-            DATA_Packet_Code[DATA_Packet_Code_g] = DATA_Packet_Code[DATA_Packet_Code_g] << 1;
-            if (ADF7021_DATA_rx)
-                DATA_Packet_Code[DATA_Packet_Code_g] += 1;
-            DATA_Packet_Code_i++;
-            if (DATA_Packet_Code_i == 96)
-            {
-                if ((DATA_Packet_Code[1] & 0x0000FFFF) == 0x5556)
-                    ;
-                else
-                    rxphase = 3;
-            }
-            else if (DATA_Packet_Code_i >= 192)
-                rxphase = 3;
-            break;
-        case 3:
-            FLAG_Receiver_IDCheck = 1;
-            //                if((Freq_Scanning_CH==1)||(Freq_Scanning_CH==3)||(Freq_Scanning_CH==5))Freq_Scanning_CH_bak=0;   //暂时记录下收到信号的频率信道,0代表426M
-            //                else Freq_Scanning_CH_bak=1;                                                                                 //                       1代表429M
-            rxphase = 0;
-            DATA_Packet_Syn = 0;
-            TIMER18ms = 0; //0ms，接受可靠稳定
-            break;
-        default:
-            break;
-        }
-    }
-    else if (FG_test_rx == 1)
-    {
-        X_COUNT++;
-        if ((ADF7021_DATA_rx == X_HIS) && (X_COUNT != 1))
-            X_ERR++;
-        X_HIS = ADF7021_DATA_rx;
-    }
-    EXTI_SR1_bit.P2F = 1;
-}
-*/
 void ID_Decode_IDCheck(void)
 {
 
@@ -625,9 +539,41 @@ void ID_Decode_OUT(void)
 
 void Freq_Scanning(void)
 {
+    short Cache;
     if (TIMER18ms == 0)
     {
         if (Flag_FREQ_Scan == 0)
+        {
+            //ADF7030_Read_RESIGER(0x2000037C,)
+            while (GET_STATUE_BYTE().CMD_READY == 0)
+                ;
+
+            ADF7030_READ_REGISTER_NOPOINTER_LONGADDR(0x2000037C, 6);
+            Cache = ((short)((ADF7030_RESIGER_VALUE_READ & 0x07ff) << 5)) / 128;
+            if (Cache > -80)
+            {
+                while (GET_STATUE_BYTE().CMD_READY == 0)
+                    ;
+                ADF7030_CHANGE_STATE(STATE_PHY_ON);
+                while (GET_STATUE_BYTE().FW_STATUS == 0)
+                    ;
+                DELAY_30U();
+                ADF7030_Clear_IRQ();
+                WaitForADF7030_FIXED_DATA(); //等待芯片空闲/可接受CMD状态
+                DELAY_30U();
+                ADF7030_CHANGE_STATE(STATE_PHY_RX);
+                while (GET_STATUE_BYTE().FW_STATUS == 0)
+                    ;
+                DELAY_30U();
+                //ADF7030_RECEIVING_FROM_POWEROFF();
+                while (GET_STATUE_BYTE().FW_STATUS != 1)
+                    ;
+                Flag_FREQ_Scan = 1;
+                TIMER18ms = 14;
+                return;
+            }
+        }
+        if (Flag_FREQ_Scan == 1)
         {
             if (ADF7030_Read_RESIGER(0x4000380C, 1, 0) != 0)
             {
@@ -642,6 +588,10 @@ void Freq_Scanning(void)
             ;
         DELAY_30U();
         ADF7030_CHANGE_STATE(STATE_PHY_ON);
+        while (GET_STATUE_BYTE().FW_STATUS == 0)
+            ;
+
+
         ADF7030_Change_Channel();
         GET_STATUE_BYTE();
         WaitForADF7030_FIXED_DATA(); //等待芯片空闲/可接受CMD状态
@@ -656,29 +606,32 @@ void Freq_Scanning(void)
         ADF7030_Clear_IRQ();
         WaitForADF7030_FIXED_DATA(); //等待芯片空闲/可接受CMD状态
         DELAY_30U();
-        ADF7030_CHANGE_STATE(STATE_PHY_RX);
+        ADF7030_WRITE_REGISTER_NOPOINTER_LONGADDR_MSB(0x20000378, 0x06C00043);
+        WaitForADF7030_FIXED_DATA(); //等待芯片空闲/可接受CMD状态
+        DELAY_30U();
+        ADF7030_CHANGE_STATE(STATE_CMD_CCA);
         while (GET_STATUE_BYTE().FW_STATUS == 0)
             ;
+        ADF7030_CHANGE_STATE(STATE_CMD_CCA);
         DELAY_30U();
-        //ADF7030_RECEIVING_FROM_POWEROFF();
         while (GET_STATUE_BYTE().FW_STATUS != 1)
             ;
         Receiver_LED_RX = !Receiver_LED_RX;
         ChannelTimerTest = !ChannelTimerTest;
-        TIMER18ms = 14;
+        TIMER18ms = 3;
         Flag_FREQ_Scan = 0;
     }
-
-    if (((FLAG_Receiver_Scanning == 1) || (TIME_EMC == 0) || (TIME_Fine_Calibration == 0)) && (FLAG_APP_RX == 1))
-    {
-        FLAG_Receiver_Scanning = 0;
-        if (TIME_Fine_Calibration == 0)
-        {
-            TIME_Fine_Calibration = 900;
-
-            //ttset dd_set_ADF7021_Power_on();
-            //ttset dd_set_RX_mode();
-        }
-        //ttset dd_set_ADF7021_Freq();
-    }
+    //
+    //    if (((FLAG_Receiver_Scanning == 1) || (TIME_EMC == 0) || (TIME_Fine_Calibration == 0)) && (FLAG_APP_RX == 1))
+    //    {
+    //        FLAG_Receiver_Scanning = 0;
+    //        if (TIME_Fine_Calibration == 0)
+    //        {
+    //            TIME_Fine_Calibration = 900;
+    //
+    //            //ttset dd_set_ADF7021_Power_on();
+    //            //ttset dd_set_RX_mode();
+    //        }
+    //        //ttset dd_set_ADF7021_Freq();
+    //    }
 }
