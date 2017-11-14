@@ -35,6 +35,10 @@
 #define Floating 0
 #define InterruptDisable 0
 #define InterruptEnable 1
+
+extern u8 Key_Trg;     //按鍵單次狀態
+extern u8 Key_Count;   //按鍵長按狀態
+extern u8 Key_Restain; //按鍵按捺狀態
 /*******************系统预定义  end**********************/
 
 typedef union { // ID No.
@@ -58,4 +62,5 @@ void ClearWDT(void);
 void RF_BRE_Check(void);
 void BerExtiInit(void);
 void BerExtiUnInit(void);
+void Eland_KeyState_Read(void);
 #endif

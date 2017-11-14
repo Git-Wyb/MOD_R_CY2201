@@ -1694,6 +1694,9 @@
       <name>$PROJ_DIR$\user_src\Initial.c</name>
     </file>
     <file>
+      <name>$PROJ_DIR$\user_src\lcd.c</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\user_src\main.c</name>
     </file>
     <file>

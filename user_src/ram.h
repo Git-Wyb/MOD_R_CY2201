@@ -11,7 +11,7 @@ extern uFLAG FLAG_test1;
 //------------------------------------------------
 #define BIT_SIO FLAG_test1.BIT.Bit0
 #define FG_auto_out FLAG_test1.BIT.Bit1
-#define FG_OUT_OPEN_CLOSE FLAG_test1.BIT.Bit2 //锟斤拷史锟斤拷录   锟斤拷锟斤拷锟绞诧拷锟斤拷锟斤拷
+#define FG_OUT_OPEN_CLOSE FLAG_test1.BIT.Bit2 //锟斤拷史锟斤拷录   锟斤拷锟斤拷锟绞诧拷锟斤拷锟斤拷 \
 											  //    #define		FG_auto_outbz		FLAG_test1.BIT.Bit3
 #define FG_auto_open_time FLAG_test1.BIT.Bit4
 #define FG_auto_manual_mode FLAG_test1.BIT.Bit5 //1=auto,0=manual
@@ -133,7 +133,9 @@ void SPI_INIT(void);
 u32 ADF7030_GET_MISC_FW(void); //??MISC_FW?????
 void ADF7030_WRITING_PROFILE_FROM_POWERON(void);
 void ADF7030_TRANSMITTING_FROM_POWEROFF(void);
+void ADF7030_TRANSMITTING_FROM_RX(void);
 void ADF7030_RECEIVING_FROM_POWEROFF(void);
+void ADF7030_RECEIVING_FROM_POWERON(void);
 void SCAN_RECEIVE_PACKET(void);
 u32 ConfigurationLen(void);
 

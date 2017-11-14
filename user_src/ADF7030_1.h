@@ -150,7 +150,7 @@ u32 ADF7030_READ_REGISTER_NOPOINTER_LONGADDR(u32 x_ADDR, u8 x_fnum);
 void WaitForADF7030_FIXED_DATA(void);
 void TX_DataLoad(u32 IDCache, u8 CtrCmd, u8 *Packet);
 void TestCarrier(u8 mode);
-void ADF7030_ACC_FROM_POWEROFF(void);
+void ADF7030_CCA_FROM_POWEROFF(void);
 ADF7030_1_STATUS_TYPE GET_STATUE_BYTE(void);
 u8 ADF7030_GET_FW_STATE(void);
 void ModeTrans(u8 KeyVavle);

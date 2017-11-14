@@ -485,6 +485,7 @@ void ADF7030_TRANSMITTING_FROM_POWEROFF(void)
     while (GET_STATUE_BYTE().CMD_READY == 0)
         ;
     ADF7030_CHANGE_STATE(STATE_PHY_OFF);
+
     while (GET_STATUE_BYTE().FW_STATUS == 0)
         ;
     DELAY_30U();
@@ -516,6 +517,61 @@ void ADF7030_TRANSMITTING_FROM_POWEROFF(void)
     while (GET_STATUE_BYTE().FW_STATUS == 0)
         ;
 }
+void ADF7030_TRANSMITTING_FROM_RX(void)
+{
+
+    DELAY_30U();
+    ADF7030_WRITE_REGISTER_NOPOINTER_LONGADDR_OFFSET_MSB(ADF7030Cfg, CFG_SIZE(), ADDR_GENERIC_FIELDS, 8, 24);
+    WaitForADF7030_FIXED_DATA(); //等待芯片空闲/可接受CMD状态
+    DELAY_30U();
+    ADF7030_WRITE_REGISTER_NOPOINTER_LONGADDR_OFFSET_MSB(ADF7030Cfg, CFG_SIZE(), ADDR_CHANNEL_FERQUENCY, 8, 4);
+    WaitForADF7030_FIXED_DATA(); //等待芯片空闲/可接受CMD状态
+    DELAY_30U();
+    Memory_Write_Block_Pointer_Short_Address(CONST_TXPACKET_DATA_20000AF0, PNTR_CUSTOM1_ADDR, 12);
+    //    ADF7030_WRITE_REGISTER_NOPOINTER_LONGADDR(ADDR_TXPACKET_DATA,CONST_TXPACKET_DATA_20000AF0,OPEN_LONG);
+    WaitForADF7030_FIXED_DATA(); //等待芯片空闲/可接受CMD状态
+    DELAY_30U();
+    ADF7030_CHANGE_STATE(STATE_PHY_TX);
+    WaitForADF7030_FIXED_DATA(); //等待芯片空闲/可接受CMD状态
+    /*   while((PORTRead(ADF7030_GPIO3_PORT)&ADF7030_GPIO3_PIN)==0)//????????
+    {
+    DELAY_30U();
+    }*/
+    DELAY_30U();
+    ADF7030_Clear_IRQ();
+    WaitForADF7030_FIXED_DATA(); //等待芯片空闲/可接受CMD状态
+    DELAY_30U();
+    ADF7030_CHANGE_STATE(STATE_PHY_ON);
+    while (GET_STATUE_BYTE().FW_STATUS == 0)
+        ;
+}
+/*RECEIVE A SINGLE PACKET FROM POWER OFF*/
+void ADF7030_RECEIVING_FROM_POWERON(void)
+{
+    CG2214M6_USE_R;
+    while (GET_STATUE_BYTE().CMD_READY == 0)
+        ;
+    ADF7030_CHANGE_STATE(STATE_PHY_ON);
+    WaitForADF7030_FIXED_DATA(); //等待芯片空闲/可接受CMD状态
+    DELAY_30U();
+    ADF7030_WRITE_REGISTER_NOPOINTER_LONGADDR_OFFSET_MSB(ADF7030Cfg, CFG_SIZE(), ADDR_GENERIC_FIELDS, 8, 24);
+    ADF7030_WRITE_REGISTER_NOPOINTER_LONGADDR_MSB(ADDR_GENERIC_PKT_FRAME_CFG1, GENERIC_PKT_FRAME_CFG1); //
+    PROFILE_CH_FREQ_32bit_200002EC = 426075000;
+    ADF7030_WRITE_REGISTER_NOPOINTER_LONGADDR_MSB(ADDR_CHANNEL_FERQUENCY, PROFILE_CH_FREQ_32bit_200002EC); //
+    WaitForADF7030_FIXED_DATA();                                                                           //等待芯片空闲/可接受CMD状态
+    DELAY_30U();
+    ADF7030_Clear_IRQ();
+    GET_STATUE_BYTE();
+    DELAY_30U();
+    while (ADF7030_GPIO3 == 1) //清中断 GPIO3被置高 等待回位
+        ;
+    ADF7030_CHANGE_STATE(STATE_PHY_RX);
+    while (GET_STATUE_BYTE().FW_STATUS == 0)
+        ;
+    while (GET_STATUE_BYTE().FW_STATUS != 1)
+        ;
+    DELAY_30U();
+}
 /*RECEIVE A SINGLE PACKET FROM POWER OFF*/
 void ADF7030_RECEIVING_FROM_POWEROFF(void)
 {
@@ -543,9 +599,8 @@ void ADF7030_RECEIVING_FROM_POWEROFF(void)
         ;
     DELAY_30U();
 }
-
 /*RECEIVE A SINGLE PACKET FROM POWER OFF*/
-void ADF7030_ACC_FROM_POWEROFF(void)
+void ADF7030_CCA_FROM_POWEROFF(void)
 {
     WaitForADF7030_FIXED_DATA(); //等待芯片空闲/可接受CMD状态
     DELAY_30U();
@@ -588,7 +643,8 @@ void RX_ANALYSIS(void)
                                   (u32)SPI_RECEIVE_BUFF[i * 4 + 6] << 24;
     }
     FLAG_Receiver_IDCheck = 1;
-    ID_Decode_IDCheck();
+    //ID_Decode_IDCheck();
+    Signal_DATA_Decode(0);
 }
 
 void SCAN_RECEIVE_PACKET(void)
@@ -649,7 +705,7 @@ void WaitForADF7030_FIXED_DATA(void)
         DELAY_30U();
         ADF7030_FIXED_DATA();
         ClearWDT();
-        count++;
+        //count++;
     } while ((((ADF7030_Read_OneByte & 0x20) != 0x20) || ((ADF7030_Read_OneByte & 0x06) != 0x04)) && (count < 200));
 }
 /**
@@ -715,7 +771,7 @@ void TX_DataLoad(u32 IDCache, u8 CtrCmd, u8 *Packet)
 void ReceiveTestModesCFG(void)
 {
     // ADF7030_WRITING_PROFILE_FROM_POWERON();
-    ADF7030_ACC_FROM_POWEROFF();
+    ADF7030_CCA_FROM_POWEROFF();
 }
 
 /**
@@ -860,7 +916,7 @@ void TestFunV2(u8 KeyVel)
                     {
                         ADF7030_WRITING_PROFILE_FROM_POWERON();
 
-                        ADF7030_ACC_FROM_POWEROFF();
+                        ADF7030_CCA_FROM_POWEROFF();
                     }
                 }
                 //lcd                display_map_58_6(10, 63, 7, "Startup");

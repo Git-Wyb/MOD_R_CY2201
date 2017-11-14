@@ -29,16 +29,21 @@
 #include "ID_Decode.h"    // ID_Decode处理
 #include "eeprom.h"       // eeprom
 #include "uart.h"         // uart
+#include "lcd.h"
 /** @addtogroup STM8L15x_StdPeriph_Template
   * @{
   */
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
+#define OpenMode (u8)(0x08)
+#define StopMode (u8)(0x04)
+#define CloseMode (u8)(0x02)
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
+u8 FLAG_SW10 = 0;
+u16 KEY_COUNT = 0;
 /* Private function prototypes -----------------------------------------------*/
-
 /* Private functions ---------------------------------------------------------*/
 
 /**
@@ -51,38 +56,69 @@ void main(void)
 {
     _DI();             // 关全局中断
     RAM_clean();       // 清除RAM
-    WDT_init();        //看门狗
-    VHF_GPIO_INIT();   //IO初始化
-    SysClock_Init();   //系统时钟初始化
-    InitialFlashReg(); //flash EEPROM
-    eeprom_sys_load(); //ID载入
+    WDT_init();        // 看门狗
+    VHF_GPIO_INIT();   // IO初始化
+    SysClock_Init();   // 系统时钟初始化
+    InitialFlashReg(); // flash EEPROM
+    eeprom_sys_load(); // ID载入
     TIM4_Init();       // 定时器
     beep_init();       // 蜂鸣器
     ClearWDT();        // Service the WDT
-    ADF7030Init();     //射频初始化
-    UART1_INIT();      // UART1 for PC Software
-    _EI();             // 允许中断
-    ClearWDT();        // Service the WDT
-    RF_test_mode();
+    lcd_init();
+    ADF7030Init(); // 射频初始化
+    UART1_INIT();  // UART1 for PC Software
+    _EI();         // 允许中断
+    ClearWDT();    // Service the WDT
+    //RF_test_mode();
     FLAG_APP_RX = 1;
     FG_Receiver_LED_RX = 0;
     TIME_EMC = 10;
     while (1)
     {
         ClearWDT(); // Service the WDT
-        if (time_Login_exit_256 == 0)
-            ID_Decode_OUT();
-        //Freq_Scanning();
-        ID_learn();
-        //LEDCtr();
-        SCAN_RECEIVE_PACKET(); //扫描接收数据
+        // if (time_Login_exit_256 == 0)
+        //     ID_Decode_OUT();
+        //ID_learn();
+        lcd_desplay();
         TranmissionACK();
-        //        READ_RSSI_avg();
+        while (1)
+        {
+            SCAN_RECEIVE_PACKET(); //扫描接收数据
+            Freq_Scanning();
+            if (Timer_Counter_1ms > 20) //20ms
+            {
+                Timer_Counter_1ms = 0;
+                break;
+            }
+        }
+        Eland_KeyState_Read();
+        if (Key_Trg != KEY_Empty)
+        {
 
-        if (FG_Receiver_LED_RX == 1)
-            Receiver_LED_RX = 1;
-        else if (FG_Receiver_LED_RX == 0)
-            Receiver_LED_RX = 0;
+            if (KEY_SW2_Down & Key_Trg)
+                TX_DataLoad(1, OpenMode, &CONST_TXPACKET_DATA_20000AF0[0]);
+            else if (KEY_SW3_Down & Key_Trg)
+                TX_DataLoad(2, StopMode, &CONST_TXPACKET_DATA_20000AF0[0]);
+            else if (KEY_SW4_Down & Key_Trg)
+                TX_DataLoad(3, CloseMode, &CONST_TXPACKET_DATA_20000AF0[0]);
+
+            if (FLAG_SW10 == 0)
+            {
+                ADF7030_TRANSMITTING_FROM_RX();
+                //YELLOWLED_OFF();
+                FLAG_SW10 = 1;
+            }
+        }
+        else
+        {
+            if (FLAG_SW10 == 1)
+            {
+                FLAG_SW10 = 0;
+                ADF7030_WRITING_PROFILE_FROM_POWERON();
+                ADF7030_RECEIVING_FROM_POWEROFF();
+                // ADF7030_ACC_FROM_POWEROFF();
+            }
+        }
     }
 }
 

@@ -15,6 +15,11 @@
 #include "uart.h" // uart
 #include "Timer.h"
 uFLAG YellowLedFlag, RedLedFalg;
+
+u8 Key_Trg = 0;     //按鍵單次狀態
+u8 Key_Count = 0;   //按鍵長按狀態
+u8 Key_Restain = 0; //按鍵按捺狀態
+
 void RAM_clean(void)
 { // 清除RAM
     //  asm("ldw X,#0");
@@ -65,6 +70,7 @@ void VHF_GPIO_INIT(void) // CPU端口设置
     PIN_BEEP = 0;
 
     LED_GPIO_Init();
+    KEY_GPIO_Init();
     ADF7030_GPIO_INIT();
     CG2214M6_GPIO_Init();
     Receiver_OUT_GPIO_Init(); // Output   受信机继电器
@@ -283,35 +289,35 @@ void BerExtiUnInit(void)
 **/
 void KEY_GPIO_Init(void)
 {
-    // KEY_SW2_DDR = Input; //输入
-    // KEY_SW2_CR1 = 1;     //1: Input with pull-up 0: Floating input
-    // KEY_SW2_CR2 = 0;     //禁止中断
+    KEY_SW2_DDR = Input; //输入
+    KEY_SW2_CR1 = 1;     //1: Input with pull-up 0: Floating input
+    KEY_SW2_CR2 = 0;     //禁止中断
 
-    // KEY_SW3_DDR = Input; //输入
-    // KEY_SW3_CR1 = 1;     //1: Input with pull-up 0: Floating input
-    // KEY_SW3_CR2 = 0;     //禁止中断
+    KEY_SW3_DDR = Input; //输入
+    KEY_SW3_CR1 = 1;     //1: Input with pull-up 0: Floating input
+    KEY_SW3_CR2 = 0;     //禁止中断
 
-    // KEY_SW4_DDR = Input; //输入
-    // KEY_SW4_CR1 = 1;     //1: Input with pull-up 0: Floating input
-    // KEY_SW4_CR2 = 0;     //禁止中断
+    KEY_SW4_DDR = Input; //输入
+    KEY_SW4_CR1 = 1;     //1: Input with pull-up 0: Floating input
+    KEY_SW4_CR2 = 0;     //禁止中断
 
-    Receiver_Login_direc = Input;          // Input   受信机登录键   低电平有效
-    Receiver_Login_CR1 = Floating;         //1: Input with pull-up 0: Floating input
-    Receiver_Login_CR2 = InterruptDisable; //禁止中断
+    // Receiver_Login_direc = Input;          // Input   受信机登录键   低电平有效
+    // Receiver_Login_CR1 = Floating;         //1: Input with pull-up 0: Floating input
+    // Receiver_Login_CR2 = InterruptDisable; //禁止中断
     //   Receiver_test_direc = Input;
     // Receiver_test_CR1 = 1;
 
-    WORK_TEST_DDR = Input;            // 输入     test脚
-    WORK_TEST_CR1 = Pull_up;          //1: Input with pull-up 0: Floating input
-    WORK_TEST_CR2 = InterruptDisable; //禁止中断
+    // WORK_TEST_DDR = Input;            // 输入     test脚
+    // WORK_TEST_CR1 = Pull_up;          //1: Input with pull-up 0: Floating input
+    // WORK_TEST_CR2 = InterruptDisable; //禁止中断
 
-    TP3_DDR = Input;            // 输入     test脚
-    TP3_CR1 = Pull_up;          //1: Input with pull-up 0: Floating input
-    TP3_CR2 = InterruptDisable; //禁止中断
+    // TP3_DDR = Input;            // 输入     test脚
+    // TP3_CR1 = Pull_up;          //1: Input with pull-up 0: Floating input
+    // TP3_CR2 = InterruptDisable; //禁止中断
 
-    TP4_DDR = Input;            // 输入     test脚
-    TP4_CR1 = Pull_up;          //1: Input with pull-up 0: Floating input
-    TP4_CR2 = InterruptDisable; //禁止中断
+    // TP4_DDR = Input;            // 输入     test脚
+    // TP4_CR1 = Pull_up;          //1: Input with pull-up 0: Floating input
+    // TP4_CR2 = InterruptDisable; //禁止中断
 }
 
 /**
@@ -478,4 +484,48 @@ void RF_test_mode(void)
     FLAG_APP_RX = 1;
     TIME_Fine_Calibration = 900;
     TIME_EMC = 10;
+}
+/**
+ ****************************************************************************
+ * @Function : uint16_t Eland_PinState_Read(void)
+ * @File     : key.c
+ * @Program  : none
+ * @Created  : 2017/10/25 by seblee
+ * @Brief    : read pin state
+ * @Version  : V1.0
+**/
+u8 Eland_PinState_Read(void)
+{
+    u8 Cache = 0;
+
+    if (KEY_SW2)
+        Cache |= 0x01;
+    if (KEY_SW3)
+        Cache |= 0x02;
+    if (KEY_SW4)
+        Cache |= 0x04;
+    return Cache;
+}
+/**
+ ****************************************************************************
+ * @Function : void Eland_KeyState_Read(void)
+ * @File     : key.c
+ * @Program  : none
+ * @Created  : 2017/10/25 by seblee
+ * @Brief    : key state read
+ * @Version  : V1.0
+**/
+void Eland_KeyState_Read(void)
+{
+    static u8 KeyValue_last = 0;
+    u8 KeyValue_present, ReadData;
+    KeyValue_present = Eland_PinState_Read(); //key当前值
+    if (KeyValue_present == KeyValue_last)    //去抖20ms
+    {
+        ReadData = KeyValue_present ^ 0x07;
+        Key_Trg = ReadData & (ReadData ^ Key_Count);
+        Key_Count = ReadData;
+    }
+    KeyValue_last = KeyValue_present;
+    //Eland_Key_Long_Press_State();
 }

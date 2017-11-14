@@ -13,6 +13,8 @@
 #include "uart.h"
 u16 ErrStateTimeer = 1;
 u16 StateReadTimer = 500;
+
+volatile u32 Timer_Counter_1ms = 0;
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Timer 4 start   1ms
 void TIM4_Init(void)
 {
@@ -46,6 +48,6 @@ void TIM4_UPD_OVF(void)
         Flag_RSSI_Read_Timer--;
     if (X_ERRTimer)
         X_ERRTimer--;
-
+    Timer_Counter_1ms++;
     TIM4_SR1_bit.UIF = 0; // 清除中断标记
 }
