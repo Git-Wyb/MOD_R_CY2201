@@ -34,19 +34,19 @@ typedef enum {
 } ADI_ADF7030_1_RADIO_SPI_PNTR_TYPE;
 
 /******************************************************/
-#define PHY_SLEEP 0x00
-#define PHY_OFF 0x01
-#define PHY_ON 0x02
-#define PHY_RX 0x03
-#define PHY_TX 0x04
-#define DO_CFG_DEV 0x05
-#define PHY_CCA 0x06
-#define PHY_PATCH 0x07
-#define DO_IRCAL 0x08
-#define DO_CAL 0x09
-#define DO_TEMP_MEAS 0x0A
-#define DO_XTAL_TCAL 0x0B
-#define DO_LFRC_CAL 0x0C
+#define PHY_SLEEP (u8)0x00
+#define PHY_OFF (u8)0x01
+#define PHY_ON (u8)0x02
+#define PHY_RX (u8)0x03
+#define PHY_TX (u8)0x04
+#define DO_CFG_DEV (u8)0x05
+#define PHY_CCA (u8)0x06
+#define PHY_PATCH (u8)0x07
+#define DO_IRCAL (u8)0x08
+#define DO_CAL (u8)0x09
+#define DO_TEMP_MEAS (u8)0x0A
+#define DO_XTAL_TCAL (u8)0x0B
+#define DO_LFRC_CAL (u8)0x0C
 
 /*! \cond PRIVATE */
 //Debug states
@@ -67,6 +67,7 @@ typedef enum {
 #define DO_HFRC_OFF 0x1D
 #define DO_ANC_PLL_ON 0x1E
 #define DO_PHY_ERROR_HANDLER 0x1F
+#define DO_PHY_RESET 0xC7
 /*! \endcond */
 
 /**************TEST MODE******************************/
@@ -80,6 +81,8 @@ typedef enum {
 #define TestTx_PN9 0x07
 
 /**************************************************/
+#define ADDR_PMU_KEY 0x40000C08
+#define ADDR_CRMGT_PROC_CLK_EN 0X40004278
 #define ADDR_MISC_FW 0X400042B4
 #define ADDR_PROFILE_START 0X200002E4
 #define ADDR_GENERIC_START 0X200004F4
@@ -137,6 +140,8 @@ extern UINT32 DATA_Packet_ID;
 extern UINT8 DATA_Packet_Control;
 extern UINT8 DATA_Packet_Contro_buf; //2015.3.24����
 
+extern u8 Packet_counte;
+
 extern u8 Flag_FREQ_Scan;
 
 void DELAY_30U(void);
@@ -155,6 +160,7 @@ ADF7030_1_STATUS_TYPE GET_STATUE_BYTE(void);
 u8 ADF7030_GET_FW_STATE(void);
 void ModeTrans(u8 KeyVavle);
 void TestFunV2(u8 KeyVel);
+void ADF7030_SYSTEM_RESET(void);
 void ADF7030_WRITE_REGISTER_NOPOINTER_LONGADDR(u32 x_ADDR, const u8 *x_data, u16 x_long);
 void ADF7030_WRITE_REGISTER_NOPOINTER_LONGADDR_MSB(u32 x_ADDR, u32 x_data);
 u32 CONFIGURING_THE_POINTERS_FOR_POINTER_BASED_ACCESSES(void);

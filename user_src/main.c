@@ -54,6 +54,7 @@ u16 KEY_COUNT = 0;
 
 void main(void)
 {
+    u8 counter = 0;
     _DI();             // 关全局中断
     RAM_clean();       // 清除RAM
     WDT_init();        // 看门狗
@@ -84,7 +85,8 @@ void main(void)
         while (1)
         {
             SCAN_RECEIVE_PACKET(); //扫描接收数据
-            Freq_Scanning();
+            // if (FLAG_SW10 == 0)
+            //     Freq_Scanning();
             if (Timer_Counter_1ms > 20) //20ms
             {
                 Timer_Counter_1ms = 0;
@@ -94,7 +96,6 @@ void main(void)
         Eland_KeyState_Read();
         if (Key_Trg != KEY_Empty)
         {
-
             if (KEY_SW2_Down & Key_Trg)
                 TX_DataLoad(1, OpenMode, &CONST_TXPACKET_DATA_20000AF0[0]);
             else if (KEY_SW3_Down & Key_Trg)
@@ -104,19 +105,27 @@ void main(void)
 
             if (FLAG_SW10 == 0)
             {
-                ADF7030_TRANSMITTING_FROM_RX();
+                ADF7030_WRITING_PROFILE_FROM_POWERON();
+                ADF7030_TRANSMITTING_FROM_POWEROFF();
                 //YELLOWLED_OFF();
                 FLAG_SW10 = 1;
+                counter = 0;
             }
         }
         else
         {
             if (FLAG_SW10 == 1)
             {
-                FLAG_SW10 = 0;
-                ADF7030_WRITING_PROFILE_FROM_POWERON();
-                ADF7030_RECEIVING_FROM_POWEROFF();
-                // ADF7030_ACC_FROM_POWEROFF();
+                counter++;
+                if (counter > 5)
+                {
+                    FLAG_SW10 = 0;
+                    //ADF7030_SYSTEM_RESET();
+                    ADF7030_WRITING_PROFILE_FROM_POWERON();
+                    ADF7030_RECEIVING_FROM_POWEROFF();
+                    TIMER18ms = 15;
+                    // ADF7030_ACC_FROM_POWEROFF();
+                }
             }
         }
     }

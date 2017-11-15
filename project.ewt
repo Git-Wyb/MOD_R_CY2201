@@ -2051,6 +2051,9 @@
       <name>$PROJ_DIR$\user_src\ram.c</name>
     </file>
     <file>
+      <name>$PROJ_DIR$\user_src\Settings_ADF7030-1.cfg</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\user_src\spi.c</name>
     </file>
     <file>

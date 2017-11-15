@@ -210,6 +210,14 @@ void lcd_desplay(void)
             num = num / 10;
             display_map_xy(1 + (7 - i) * 9, 24, 7, 16, char_Medium + data * 14);
         }
+        num = Packet_counte;
+
+        for (i = 0; i < 3; i++)
+        {
+            data = num % 10;
+            num = num / 10;
+            display_map_xy(1 + (7 - i) * 9, 0, 7, 16, char_Medium + data * 14);
+        }
 
         switch (DATA_Packet_Contro_buf)
         {
