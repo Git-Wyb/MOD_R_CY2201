@@ -111,3 +111,12 @@ const ADF70XX_REG_T Default_adf7030_value[16] = {
 };
 u32 PROFILE_CH_FREQ_32bit_200002EC = 426075000ul;
 u32 PROFILE_RADIO_AFC_CFG1_32bit_2000031C = 0x0005005A;
+
+
+
+
+u32 TX_ID_data=0;
+u8 TX_Control_code_TYPE01=0;
+u8 TX_Control_code_TYPE02[20]={0};
+
+

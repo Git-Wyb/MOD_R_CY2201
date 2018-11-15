@@ -139,4 +139,10 @@ void ADF7030_RECEIVING_FROM_POWEROFF(void);
 void SCAN_RECEIVE_PACKET(void);
 u32 ConfigurationLen(void);
 
+
+
+
+extern u32 TX_ID_data;
+extern u8 TX_Control_code_TYPE01;
+extern u8 TX_Control_code_TYPE02[20];
 #endif

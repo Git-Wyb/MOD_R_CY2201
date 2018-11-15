@@ -324,8 +324,29 @@ void ReceiveFrame(UINT8 Cache)
 
 void OprationFrame(void)
 { 
+  u16 check_sum=0,n;
+  u8 i=0;
+  uni_rom_id xn;
 	if ((Uart_Type == 0x01)||(Uart_Type == 0x02))
 	{
+           for(i=0;i<UART_DATA_buffer[3]-2;i++)  check_sum+=UART_DATA_buffer[i+4];
+           n=UART_DATA_buffer[i+4]+UART_DATA_buffer[i+5]*256;
+           if(check_sum==n)
+           {
+                xn.IDB[0]=0;
+                xn.IDB[1]=UART_DATA_buffer[6];
+                xn.IDB[2]=UART_DATA_buffer[5];
+                xn.IDB[3]=UART_DATA_buffer[4];
+                TX_ID_data=xn.IDL;
+                if(Uart_Type== 0x01)
+                {
+                  TX_Control_code_TYPE01=UART_DATA_buffer[7];
+                }
+                else if(Uart_Type== 0x02)
+                {
+                  TX_Control_code_TYPE02[0]=UART_DATA_buffer[7];
+                  for(i=0;i<UART_DATA_buffer[7];i++)TX_Control_code_TYPE02[i+1]=UART_DATA_buffer[i+8];
+                }
 		ACKBack[0] = FrameHead;
                 ACKBack[1] = Uart_Fremo_NO;
                 ACKBack[2] = 0x80;
@@ -336,6 +357,7 @@ void OprationFrame(void)
                 ACKBack[7] = 0x00;
                 ACKBack[8] = 0x00;
                 ACKBack_LEN=9;
+           }
 	}
 	else if (Uart_Type == 0x60)
 	{
