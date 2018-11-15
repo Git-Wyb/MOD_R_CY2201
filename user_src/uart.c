@@ -19,11 +19,15 @@ u8 u1busyCache = 0;
 
 UINT8 UartStatus = 0;
 UINT8 UartLen = 0;
+UINT8 Uart_Fremo_NO = 0;
+UINT8 Uart_Type = 0;
 UINT8 UartCount = 0;
-UINT8 UART_DATA_buffer[9] = {0};
+//UINT8 UART_DATA_buffer[9] = {0};
+UINT8 UART_DATA_buffer[50] = {0};
 __Databits_t Databits_t;
 __U1Statues U1Statues;
-UINT8 ACKBack[3] = {0x02, 0x03, 0x00};
+UINT8 ACKBack[50] = {0x00};
+UINT8 ACKBack_LEN=0;
 unsigned int U1AckTimer = 0;
 
 //********************************************
@@ -31,9 +35,9 @@ void UART1_INIT(void)
 {
 	unsigned int baud_div = 0;
 	SYSCFG_RMPCR1_USART1TR_REMAP = 0;
-	USART1_CR1_bit.M = 1;
-	USART1_CR1_bit.PCEN = 1;
-	USART1_CR1_bit.PS = 1;
+	USART1_CR1_bit.M = 0;   //1
+	USART1_CR1_bit.PCEN = 0;  //1
+	USART1_CR1_bit.PS = 0;  //1
 	USART1_CR2_bit.TIEN = 0;
 	USART1_CR2_bit.TCIEN = 0;
 	USART1_CR2_bit.RIEN = 1;
@@ -45,7 +49,7 @@ void UART1_INIT(void)
 	//	USART1_CR4 = 0;
 	//	USART1_CR5 = 0x00;  //0x08;						// 半双工模式
 	/*设置波特率*/
-	baud_div = 16000000 / 9600; /*求出分频因子*/
+	baud_div = 16000000 / 115200; /*求出分频因子*/   //9600
 	USART1_BRR2 = baud_div & 0x0f;
 	USART1_BRR2 |= ((baud_div & 0xf000) >> 8);
 	USART1_BRR1 = ((baud_div & 0x0ff0) >> 4); /*先给BRR2赋值 最后再设置BRR1*/
@@ -55,7 +59,7 @@ void UART1_INIT(void)
 	//16.00M/9600 = 0x683
 	//USART1_CR2 = 0x08;	// 允许发送
 	//USART1_CR2 = 0x24;
-	Send_char(0xa5);
+	//Send_char(0xa5);
 }
 void UART1_end(void)
 { //
@@ -271,27 +275,76 @@ void PC_PRG(void) // 串口命令
 }
 void ReceiveFrame(UINT8 Cache)
 {
+//	switch (UartStatus)
+//	{
+//	case FrameHeadSataus:
+//	{
+//		UART_DATA_buffer[0] = UART_DATA_buffer[1];
+//		UART_DATA_buffer[1] = UART_DATA_buffer[2];
+//		UART_DATA_buffer[2] = Cache;
+//		if ((UART_DATA_buffer[0] == FrameHead) &&
+//			(UART_DATA_buffer[2] == FrameSingnalID))
+//		{
+//			U1Statues = ReceivingStatues;
+//			UartStatus++;
+//			UartLen = UART_DATA_buffer[1];
+//		}
+//	}
+//	break;
+//	case DataStatus:
+//	{
+//		UART_DATA_buffer[UartCount + 3] = Cache;
+//		UartCount++;
+//		if (UartCount >= (UartLen - 3))
+//			UartStatus++;
+//	}
+//	break;
+//	default:
+//		UartStatus = 0;
+//		U1Statues = IdelStatues;
+//		break;
+//	}
+//	if (UartStatus == FrameEndStatus) //接收完一帧处理数据
+//	{
+//		//add Opration function
+//		OprationFrame();
+//		UartStatus = 0;
+//		UartCount = 0;
+//		//        Receiver_LED_OUT_INV = !Receiver_LED_OUT_INV;
+//		U1Statues = ReceiveDoneStatues;
+//		U1AckTimer = U1AckDelayTime;
+//		U1Busy_OUT = 1;
+//	}
+  
+  
 	switch (UartStatus)
 	{
 	case FrameHeadSataus:
 	{
 		UART_DATA_buffer[0] = UART_DATA_buffer[1];
 		UART_DATA_buffer[1] = UART_DATA_buffer[2];
-		UART_DATA_buffer[2] = Cache;
+                UART_DATA_buffer[2] = UART_DATA_buffer[3];
+		UART_DATA_buffer[3] = Cache;
 		if ((UART_DATA_buffer[0] == FrameHead) &&
-			(UART_DATA_buffer[2] == FrameSingnalID))
+			(UART_DATA_buffer[1] != FrameHead)
+                          &&(UART_DATA_buffer[2] != FrameHead)
+                            &&(UART_DATA_buffer[3] != FrameHead))
 		{
 			U1Statues = ReceivingStatues;
 			UartStatus++;
-			UartLen = UART_DATA_buffer[1];
+                        UartCount=0;
+                        Uart_Fremo_NO = UART_DATA_buffer[1];
+                        Uart_Type = UART_DATA_buffer[2];
+			UartLen = UART_DATA_buffer[3];
+                        if(UartLen==0)UartStatus++;
 		}
 	}
 	break;
 	case DataStatus:
 	{
-		UART_DATA_buffer[UartCount + 3] = Cache;
+		UART_DATA_buffer[UartCount + 4] = Cache;
 		UartCount++;
-		if (UartCount >= (UartLen - 3))
+		if (UartCount >= UartLen)
 			UartStatus++;
 	}
 	break;
@@ -310,87 +363,124 @@ void ReceiveFrame(UINT8 Cache)
 		U1Statues = ReceiveDoneStatues;
 		U1AckTimer = U1AckDelayTime;
 		U1Busy_OUT = 1;
-	}
+	}  
 }
 
 void OprationFrame(void)
 {
-	unsigned char i;
-	for (i = 0; i < 4; i++)
-		Databits_t.Data[i] = UART_DATA_buffer[3 + i];
-	if (Databits_t.ID_No == 0x92)
+//	unsigned char i;
+//	for (i = 0; i < 4; i++)
+//		Databits_t.Data[i] = UART_DATA_buffer[3 + i];
+//	if (Databits_t.ID_No == 0x92)
+//	{
+//		ACKBack[2] = 0;
+//		switch (Databits_t.Mode)
+//		{
+//		case 0:
+//			break;
+//		case 4:
+//			break;
+//		case 5:
+//			break;
+//		case 6:
+//			break;
+//		case 7:
+//			break;
+//		case 8:
+//			break;
+//		default:
+//			ACKBack[2] = 1;
+//			return;
+//			break;
+//		}
+//		switch (Databits_t.Statues)
+//		{
+//		case 0:
+//			break;
+//		case 1:
+//			break;
+//		case 2:
+//			break;
+//		case 3:
+//			break;
+//		case 4:
+//			break;
+//		case 5:
+//			break;
+//		case 6:
+//			break;
+//		default:
+//			ACKBack[2] = 1;
+//			return;
+//			break;
+//		}
+//		switch (Databits_t.Abnormal)
+//		{
+//		case 0x00:
+//			break;
+//		case 0x04:
+//			break;
+//		case 0x06:
+//			break;
+//		case 0x45:
+//			break;
+//		case 0x46:
+//			break;
+//		case 0x47:
+//			break;
+//		case 0x48:
+//			break;
+//		default:
+//			ACKBack[2] = 1;
+//			return;
+//			break;
+//		}
+//	}
+//	else if (Databits_t.ID_No == 0x98)
+//	{
+//	}
+//	else
+//	{
+//		ACKBack[2] = 1;
+//		return;
+//	}
+  
+  
+	if ((Uart_Type == 0x01)||(Uart_Type == 0x02))
 	{
-		ACKBack[2] = 0;
-		switch (Databits_t.Mode)
-		{
-		case 0:
-			break;
-		case 4:
-			break;
-		case 5:
-			break;
-		case 6:
-			break;
-		case 7:
-			break;
-		case 8:
-			break;
-		default:
-			ACKBack[2] = 1;
-			return;
-			break;
-		}
-		switch (Databits_t.Statues)
-		{
-		case 0:
-			break;
-		case 1:
-			break;
-		case 2:
-			break;
-		case 3:
-			break;
-		case 4:
-			break;
-		case 5:
-			break;
-		case 6:
-			break;
-		default:
-			ACKBack[2] = 1;
-			return;
-			break;
-		}
-		switch (Databits_t.Abnormal)
-		{
-		case 0x00:
-			break;
-		case 0x04:
-			break;
-		case 0x06:
-			break;
-		case 0x45:
-			break;
-		case 0x46:
-			break;
-		case 0x47:
-			break;
-		case 0x48:
-			break;
-		default:
-			ACKBack[2] = 1;
-			return;
-			break;
-		}
+		ACKBack[0] = FrameHead;
+                ACKBack[1] = Uart_Fremo_NO;
+                ACKBack[2] = 0x80;
+                ACKBack[3] = 5;
+                ACKBack[4] = UART_DATA_buffer[4];
+                ACKBack[5] = UART_DATA_buffer[5];
+                ACKBack[6] = UART_DATA_buffer[6];
+                ACKBack[7] = 0x00;
+                ACKBack[8] = 0x00;
+                ACKBack_LEN=9;
 	}
-	else if (Databits_t.ID_No == 0x98)
+	else if (Uart_Type == 0x60)
 	{
+		ACKBack[0] = FrameHead;
+                ACKBack[1] = Uart_Fremo_NO;
+                ACKBack[2] = 0xE0;
+                ACKBack[3] = 0x00;    
+                ACKBack_LEN=4;
 	}
-	else
+	else if (Uart_Type == 0x61)
 	{
-		ACKBack[2] = 1;
-		return;
-	}
+		ACKBack[0] = FrameHead;
+                ACKBack[1] = Uart_Fremo_NO;
+                ACKBack[2] = 0xE1;
+                ACKBack[3] = 6;  
+                ACKBack[4] = 'V';
+                ACKBack[5] = 'e';
+                ACKBack[6] = 'r';
+                ACKBack[7] = '0';
+                ACKBack[8] = '.';
+                ACKBack[9] = '1';
+                ACKBack_LEN=10;
+	}        
 }
 void TranmissionACK(void)
 {
@@ -399,7 +489,7 @@ void TranmissionACK(void)
 	{
 		U1Busy_OUT = 1;
 		U1Statues = ACKingStatues;
-		Send_Data(ACKBack, 3);
+		Send_Data(ACKBack, ACKBack_LEN);
 		U1Statues = IdelStatues;
 		U1Busy_OUT = 1;
 	}

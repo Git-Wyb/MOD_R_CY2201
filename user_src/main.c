@@ -50,6 +50,7 @@
 void main(void)
 {
     _DI();             // 关全局中断
+    OTA_bootloader_enable(); //使用IAP功能做OTA      
     RAM_clean();       // 清除RAM
     WDT_init();        //看门狗
     VHF_GPIO_INIT();   //IO初始化
@@ -72,7 +73,7 @@ void main(void)
         ClearWDT(); // Service the WDT
         if (time_Login_exit_256 == 0)
             ID_Decode_OUT();
-        //Freq_Scanning();
+        Freq_Scanning();
         ID_learn();
         //LEDCtr();
         SCAN_RECEIVE_PACKET(); //扫描接收数据
