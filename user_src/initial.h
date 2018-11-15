@@ -8,7 +8,7 @@
 /*  CPU TYPE    :STM8L151G6     Crystal: 16M HSI                       */
 /*  Mark        :ver 1.0                                               */
 /***********************************************************************/
-/***********************ç³»ç»Ÿé¢„å®šä¹‰**********************/
+/***********************ÏµÍ³Ô¤¶¨Òå**********************/
 
 #define UINT8 unsigned char
 #define INT8 char
@@ -25,7 +25,7 @@
 #define _EI() asm(" rim ")
 #define _DI() asm(" sim ")
 
-// æ–¹å‘æ§åˆ¶å¯„å­˜å™¨1ï¼ˆ1=è¾“å‡ºï¼0=è¾“å…¥ï¼‰
+// ·½Ïò¿ØÖÆ¼Ä´æÆ÷1£¨1=Êä³ö£¯0=ÊäÈë£©
 #define Input 0
 #define Output 1
 //1: Input
@@ -35,21 +35,21 @@
 #define Floating 0
 #define InterruptDisable 0
 #define InterruptEnable 1
-/*******************ç³»ç»Ÿé¢„å®šä¹‰  end**********************/
+/*******************ÏµÍ³Ô¤¶¨Òå  end**********************/
 
 typedef union { // ID No.
     UINT32 IDL;
     UINT8 IDB[4];
 } uni_rom_id;
 
-void LED_GPIO_Init(void); //åˆå§‹åŒ–LED
+void LED_GPIO_Init(void);     //³õÊ¼»¯LED
 void CG2214M6_GPIO_Init(void);
 void ADF7030_GPIO_INIT(void); //ADF7030 IO(REST & GPIO3)
 void Receiver_OUT_GPIO_Init(void);
 void KEY_GPIO_Init(void);
-void RAM_clean(void);     // æ¸…é™¤RAM
-void VHF_GPIO_INIT(void); // CPUç«¯å£è®¾ç½®
-void SysClock_Init(void); // ç³»ç»Ÿæ—¶é’Ÿï¼ˆå¤–éƒ¨æ—¶é’Ÿï¼‰
+void RAM_clean(void);     // Çå³ıRAM
+void VHF_GPIO_INIT(void); // CPU¶Ë¿ÚÉèÖÃ
+void SysClock_Init(void); // ÏµÍ³Ê±ÖÓ£¨Íâ²¿Ê±ÖÓ£©
 void beep_init(void);
 void Delayus(unsigned char timer);
 void RF_test_mode(void);

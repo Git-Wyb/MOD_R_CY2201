@@ -527,7 +527,7 @@ void ADF7030_RECEIVING_FROM_POWEROFF(void)
     DELAY_30U();
     ADF7030_WRITE_REGISTER_NOPOINTER_LONGADDR_OFFSET_MSB(ADF7030Cfg, CFG_SIZE(), ADDR_GENERIC_FIELDS, 8, 24);
     ADF7030_WRITE_REGISTER_NOPOINTER_LONGADDR_MSB(ADDR_GENERIC_PKT_FRAME_CFG1, GENERIC_PKT_FRAME_CFG1); //
-    PROFILE_CH_FREQ_32bit_200002EC = 426075000;
+    //PROFILE_CH_FREQ_32bit_200002EC = 426075000;
     ADF7030_WRITE_REGISTER_NOPOINTER_LONGADDR_MSB(ADDR_CHANNEL_FERQUENCY, PROFILE_CH_FREQ_32bit_200002EC); //
     WaitForADF7030_FIXED_DATA();                                                                           //等待芯片空闲/可接受CMD状态
     DELAY_30U();
@@ -649,8 +649,7 @@ void WaitForADF7030_FIXED_DATA(void)
         DELAY_30U();
         ADF7030_FIXED_DATA();
         ClearWDT();
-        count++;
-    } while ((((ADF7030_Read_OneByte & 0x20) != 0x20) || ((ADF7030_Read_OneByte & 0x06) != 0x04)) && (count < 200));
+    } while ((((ADF7030_Read_OneByte & 0x20) != 0x20) || ((ADF7030_Read_OneByte & 0x06) != 0x04))&&(count < 200));
 }
 /**
 ****************************************************************************
