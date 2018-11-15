@@ -27,7 +27,8 @@ u8 TIMER250ms_STOP = 0;
 u16 TIME_auto_out = 0;
 u16 TIME_auto_close = 0;
 u16 time_3sec = 0;
-u32 ID_Receiver_DATA[256] = {0}; //–¥»ÎEEPROM IDª∫¥Ê
+//u32 ID_Receiver_DATA[256] = {0}; //–¥»ÎEEPROM IDª∫¥Ê
+u32 ID_Receiver_DATA[32] = {0};
 u16 ID_DATA_PCS = 0;
 u32 DATA_Packet_ID = 0;
 u8 DATA_Packet_Control = 0;
@@ -35,6 +36,7 @@ u8 DATA_Packet_Contro_buf = 0; //2015.3.24–ﬁ’˝
 u32 ID_Receiver_Login = 0;
 u8 TIME_EMC = 0; //æ≤µÁ≤‚ ‘
 u8 LED_Cache = 0;
+u8 flag_ID_Receiver_sendUART=0;
 
 u16 INquiry = 0;
 u16 TIME_Receiver_Login_restrict = 0;

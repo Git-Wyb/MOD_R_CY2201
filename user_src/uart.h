@@ -24,10 +24,12 @@ extern UINT8 UartLen;
 extern UINT8 Uart_Fremo_NO ;
 extern UINT8 Uart_Type ;
 extern UINT8 UartCount;
-extern UINT8 UART_DATA_buffer[50];
+//extern UINT8 UART_DATA_buffer[50];
+extern UINT8 UART_DATA_buffer[110];
 void ReceiveFrame(UINT8 Cache);
 void OprationFrame(void);
 void TranmissionACK(void);
+void wireless_Receive_SendUart(void);
 typedef union {
     unsigned char Data[4];
     struct

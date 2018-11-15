@@ -165,6 +165,7 @@ void ID_Decode_IDCheck(void)
         if (FLAG_Signal_DATA_OK == 1)
         {
             eeprom_IDcheck();
+            flag_ID_Receiver_sendUART=1;
             if ((FLAG_ID_Erase_Login == 1) || (FLAG_ID_Login == 1))
             {
                 if ((FLAG_ID_Login_OK == 0) && (DATA_Packet_Contro_buf != 0x40) && (DATA_Packet_ID != 0)) //2015.4.1修正 在登录模式下 不允许自动送信登录，只允许手动送信登录
@@ -173,7 +174,8 @@ void ID_Decode_IDCheck(void)
                     ID_Receiver_Login = DATA_Packet_ID;
                 }
             }
-            else if ((FLAG_IDCheck_OK == 1) || (DATA_Packet_ID == 0xFFFFFE))
+            //else if ((FLAG_IDCheck_OK == 1) || (DATA_Packet_ID == 0xFFFFFE))
+            else 
             {
                 FLAG_IDCheck_OK = 0;
                 if (DATA_Packet_ID == 0xFFFFFE)
@@ -313,23 +315,25 @@ void Signal_DATA_Decode(UINT8 NUM_Type)
 
 void eeprom_IDcheck(void)
 {
-    UINT16 i;
-    for (i = 0; i < ID_DATA_PCS; i++)
-    {
-        if (ID_Receiver_DATA[i] == DATA_Packet_ID)
-        {
-            INquiry = i;
-            i = ID_DATA_PCS;
-            FLAG_IDCheck_OK = 1;
-            DATA_Packet_Control = DATA_Packet_Contro_buf;
-        } //2015.3.24修正 Control缓存起 ID判断是否学习过后才能使用
-        if ((FLAG_ID_Erase_Login == 1) && (FLAG_ID_Erase_Login_PCS == 1))
-        {
-            i = ID_DATA_PCS;
-            FLAG_IDCheck_OK = 0;
-            DATA_Packet_Control = DATA_Packet_Contro_buf;
-        } //追加多次ID登录
-    }
+//    UINT16 i;
+//    for (i = 0; i < ID_DATA_PCS; i++)
+//    {
+//        if (ID_Receiver_DATA[i] == DATA_Packet_ID)
+//        {
+//            INquiry = i;
+//            i = ID_DATA_PCS;
+//            FLAG_IDCheck_OK = 1;
+//            DATA_Packet_Control = DATA_Packet_Contro_buf;
+//        } //2015.3.24修正 Control缓存起 ID判断是否学习过后才能使用
+//        if ((FLAG_ID_Erase_Login == 1) && (FLAG_ID_Erase_Login_PCS == 1))
+//        {
+//            i = ID_DATA_PCS;
+//            FLAG_IDCheck_OK = 0;
+//            DATA_Packet_Control = DATA_Packet_Contro_buf;
+//        } //追加多次ID登录
+//    }
+  
+  DATA_Packet_Control = DATA_Packet_Contro_buf;
 }
 
 void BEEP_and_LED(void)

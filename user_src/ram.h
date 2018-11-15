@@ -74,13 +74,15 @@ extern u8 TIMER250ms_STOP;
 extern u16 TIME_auto_out;
 extern u16 TIME_auto_close;
 extern u16 time_3sec;
-extern u32 ID_Receiver_DATA[256]; //–¥»ÎEEPROM IDª∫¥Ê
+//extern u32 ID_Receiver_DATA[256]; //–¥»ÎEEPROM IDª∫¥Ê
+extern u32 ID_Receiver_DATA[32]; //–¥»ÎEEPROM IDª∫¥Ê
 extern u16 ID_DATA_PCS;
 extern u32 DATA_Packet_ID;
 extern u8 DATA_Packet_Control;
 extern u8 DATA_Packet_Contro_buf; //2015.3.24‰ø?Ê≠?
 extern u32 ID_Receiver_Login;
 extern u8 TIME_EMC;
+extern u8 flag_ID_Receiver_sendUART;
 
 extern u16 INquiry;
 extern u16 TIME_Receiver_Login_restrict;

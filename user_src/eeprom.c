@@ -207,41 +207,42 @@ void eeprom_sys_load(void)
     //	eeprom_sys_buff[i] = ReadByteEEPROM( addr_eeprom_sys+i );
     //--------------------------------------
 
-    UINT16 i, j, q, p;
-    UINT8 xm[3] = {0};
-    uni_rom_id xn;
-
-    for (i = 0; i < 256; i++)
-        ID_Receiver_DATA[i] = 0; //ID_Receiver_DATA[ID_DATA_PCS]=0;
-    xm[0] = ReadByteEEPROM(addr_eeprom_sys + 0x3FE);
-    xm[1] = ReadByteEEPROM(addr_eeprom_sys + 0x3FF);
-    ID_DATA_PCS = xm[0] * 256 + xm[1];
-    if (ID_DATA_PCS == 0xFFFF)
-        ID_DATA_PCS = 0;
-    else if (ID_DATA_PCS > 256)
-        ID_DATA_PCS = 256;
-    q = ID_DATA_PCS;
-    p = 0;
-    for (i = 0; i < q; i++)
-    {
-        j = 3 * i;
-        xm[0] = ReadByteEEPROM(addr_eeprom_sys + j);
-        j++;
-        xm[1] = ReadByteEEPROM(addr_eeprom_sys + j);
-        j++;
-        xm[2] = ReadByteEEPROM(addr_eeprom_sys + j);
-        xn.IDB[0] = 0;
-        xn.IDB[1] = xm[0];
-        xn.IDB[2] = xm[1];
-        xn.IDB[3] = xm[2];
-        if ((xn.IDL == 0) || (xn.IDL == 0xFFFFFF))
-            q++;
-        else
-            ID_Receiver_DATA[p++] = xn.IDL;
-        if (q > 260)
-            break;
-        ClearWDT(); // Service the WDT
-    }
+    UINT16 i, j;
+//    UINT16 q, p;
+//    UINT8 xm[3] = {0};
+//    uni_rom_id xn;
+//
+//    for (i = 0; i < 256; i++)
+//        ID_Receiver_DATA[i] = 0; //ID_Receiver_DATA[ID_DATA_PCS]=0;
+//    xm[0] = ReadByteEEPROM(addr_eeprom_sys + 0x3FE);
+//    xm[1] = ReadByteEEPROM(addr_eeprom_sys + 0x3FF);
+//    ID_DATA_PCS = xm[0] * 256 + xm[1];
+//    if (ID_DATA_PCS == 0xFFFF)
+//        ID_DATA_PCS = 0;
+//    else if (ID_DATA_PCS > 256)
+//        ID_DATA_PCS = 256;
+//    q = ID_DATA_PCS;
+//    p = 0;
+//    for (i = 0; i < q; i++)
+//    {
+//        j = 3 * i;
+//        xm[0] = ReadByteEEPROM(addr_eeprom_sys + j);
+//        j++;
+//        xm[1] = ReadByteEEPROM(addr_eeprom_sys + j);
+//        j++;
+//        xm[2] = ReadByteEEPROM(addr_eeprom_sys + j);
+//        xn.IDB[0] = 0;
+//        xn.IDB[1] = xm[0];
+//        xn.IDB[2] = xm[1];
+//        xn.IDB[3] = xm[2];
+//        if ((xn.IDL == 0) || (xn.IDL == 0xFFFFFF))
+//            q++;
+//        else
+//            ID_Receiver_DATA[p++] = xn.IDL;
+//        if (q > 260)
+//            break;
+//        ClearWDT(); // Service the WDT
+//    }
 
     for (i = 1; i < 2; i++)
     {

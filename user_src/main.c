@@ -78,6 +78,7 @@ void main(void)
         //LEDCtr();
         SCAN_RECEIVE_PACKET(); //扫描接收数据
         TranmissionACK();
+        wireless_Receive_SendUart();
         //        READ_RSSI_avg();
 
         if (FG_Receiver_LED_RX == 1)
