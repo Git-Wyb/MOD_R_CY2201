@@ -359,7 +359,7 @@ void RF_test_mode(void)
 {
     UINT8 Boot_i;
     Receiver_LED_OUT = 1;
-    for (Boot_i = 0; Boot_i < 6; Boot_i++)
+    for (Boot_i = 0; Boot_i < 4; Boot_i++)
     {
         for (time_3sec = 0; time_3sec < 6000; time_3sec++)
         {
@@ -371,7 +371,7 @@ void RF_test_mode(void)
     }
     Receiver_LED_OUT = 0;
 
-    /*while (Receiver_test == 0)
+    while (Receiver_test == 0)
     {
         ClearWDT();   // Service the WDT
         if (TP4 == 0) //test ADF7030 TX
@@ -474,5 +474,5 @@ void RF_test_mode(void)
     FLAG_APP_RX = 1;
     TIME_Fine_Calibration = 900;
     TIME_EMC = 10;
-    PROFILE_CH_FREQ_32bit_200002EC = 426075000;*/
+    PROFILE_CH_FREQ_32bit_200002EC = 426075000;
 }

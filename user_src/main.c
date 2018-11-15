@@ -52,46 +52,46 @@ void main(void)
 {
     _DI();             // 关全局中断
     OTA_bootloader_enable(); //使用IAP功能做OTA   
-//    RAM_clean();       // 清除RAM
-//    //WDT_init();        //看门狗
+    RAM_clean();       // 清除RAM
+    //WDT_init();        //看门狗
     VHF_GPIO_INIT();   //IO初始化
     SysClock_Init();   //系统时钟初始化
-//    InitialFlashReg(); //flash EEPROM
-//    eeprom_sys_load(); //ID载入
-//    TIM4_Init();       // 定时器
-//    beep_init();       // 蜂鸣器
-//    ClearWDT();        // Service the WDT
-//    ADF7030Init();     //射频初始化
-//    UART1_INIT();      // UART1 for PC Software
-//    _EI();             // 允许中断
-//    ClearWDT();        // Service the WDT
+    InitialFlashReg(); //flash EEPROM
+    eeprom_sys_load(); //ID载入
+    TIM4_Init();       // 定时器
+    beep_init();       // 蜂鸣器
+    ClearWDT();        // Service the WDT
+    ADF7030Init();     //射频初始化
+    UART1_INIT();      // UART1 for PC Software
+    _EI();             // 允许中断
+    ClearWDT();        // Service the WDT
     RF_test_mode();
-//	  FLAG_ID_Login_FromUART=0;
-//    FLAG_APP_RX = 1;
-//    FLAG_APP_TX_fromUART=0;
-//    FLAG_APP_TX=0;
-//    FG_Receiver_LED_RX = 0;
-//    TIME_EMC = 10;
-//    Power_ON_sendVer();
+	  FLAG_ID_Login_FromUART=0;
+    FLAG_APP_RX = 1;
+    FLAG_APP_TX_fromUART=0;
+    FLAG_APP_TX=0;
+    FG_Receiver_LED_RX = 0;
+    TIME_EMC = 10;
+    Power_ON_sendVer();
     while (1)
     {
-//        ClearWDT(); // Service the WDT
-//        if (time_Login_exit_256 == 0)
-//            ID_Decode_OUT();
-//        ID_learn();
-//        APP_TX_PACKET();
-//        if(FLAG_APP_RX==1)
-//        {
-//    		  Freq_Scanning();
-//    		  SCAN_RECEIVE_PACKET(); //扫描接收数据
-//        }
-//        TranmissionACK();
-//        wireless_Receive_SendUart();
-//
-//        if (FG_Receiver_LED_RX == 1)
-//            Receiver_LED_RX = 1;
-//        else if (FG_Receiver_LED_RX == 0)
-//            Receiver_LED_RX = 0;
+        ClearWDT(); // Service the WDT
+        if (time_Login_exit_256 == 0)
+            ID_Decode_OUT();
+        ID_learn();
+        APP_TX_PACKET();
+        if(FLAG_APP_RX==1)
+        {
+    		  Freq_Scanning();
+    		  SCAN_RECEIVE_PACKET(); //扫描接收数据
+        }
+        TranmissionACK();
+        wireless_Receive_SendUart();
+
+        if (FG_Receiver_LED_RX == 1)
+            Receiver_LED_RX = 1;
+        else if (FG_Receiver_LED_RX == 0)
+            Receiver_LED_RX = 0;
     }
 }
 
