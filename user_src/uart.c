@@ -15,15 +15,18 @@
 #define TXD1_enable (USART1_CR2 = 0x08) // 允许发送
 #define RXD1_enable (USART1_CR2 = 0x24) // 允许接收及其中断
 
-u8 u1busyCache = 0;
 
 UINT8 UartStatus = 0;
 UINT8 UartLen = 0;
+UINT8 Uart_Fremo_NO = 0;
+UINT8 Uart_Type = 0;
 UINT8 UartCount = 0;
-UINT8 UART_DATA_buffer[9] = {0};
+//UINT8 UART_DATA_buffer[9] = {0};
+UINT8 UART_DATA_buffer[110] = {0};
 __Databits_t Databits_t;
 __U1Statues U1Statues;
-UINT8 ACKBack[3] = {0x02, 0x03, 0x00};
+UINT8 ACKBack[50] = {0x00};
+UINT8 ACKBack_LEN=0;
 unsigned int U1AckTimer = 0;
 
 //********************************************
@@ -31,9 +34,9 @@ void UART1_INIT(void)
 {
 	unsigned int baud_div = 0;
 	SYSCFG_RMPCR1_USART1TR_REMAP = 0;
-	USART1_CR1_bit.M = 1;
-	USART1_CR1_bit.PCEN = 1;
-	USART1_CR1_bit.PS = 1;
+	USART1_CR1_bit.M = 0;   //1
+	USART1_CR1_bit.PCEN = 0;  //1
+	USART1_CR1_bit.PS = 0;  //1
 	USART1_CR2_bit.TIEN = 0;
 	USART1_CR2_bit.TCIEN = 0;
 	USART1_CR2_bit.RIEN = 1;
@@ -45,7 +48,7 @@ void UART1_INIT(void)
 	//	USART1_CR4 = 0;
 	//	USART1_CR5 = 0x00;  //0x08;						// 半双工模式
 	/*设置波特率*/
-	baud_div = 16000000 / 9600; /*求出分频因子*/
+	baud_div = 16000000 / 115200; /*求出分频因子*/   //9600
 	USART1_BRR2 = baud_div & 0x0f;
 	USART1_BRR2 |= ((baud_div & 0xf000) >> 8);
 	USART1_BRR1 = ((baud_div & 0x0ff0) >> 4); /*先给BRR2赋值 最后再设置BRR1*/
@@ -55,7 +58,7 @@ void UART1_INIT(void)
 	//16.00M/9600 = 0x683
 	//USART1_CR2 = 0x08;	// 允许发送
 	//USART1_CR2 = 0x24;
-	Send_char(0xa5);
+	//Send_char(0xa5);
 }
 void UART1_end(void)
 { //
@@ -270,28 +273,35 @@ void PC_PRG(void) // 串口命令
 	}
 }
 void ReceiveFrame(UINT8 Cache)
-{
+{  
 	switch (UartStatus)
 	{
 	case FrameHeadSataus:
 	{
 		UART_DATA_buffer[0] = UART_DATA_buffer[1];
 		UART_DATA_buffer[1] = UART_DATA_buffer[2];
-		UART_DATA_buffer[2] = Cache;
+                UART_DATA_buffer[2] = UART_DATA_buffer[3];
+		UART_DATA_buffer[3] = Cache;
 		if ((UART_DATA_buffer[0] == FrameHead) &&
-			(UART_DATA_buffer[2] == FrameSingnalID))
+			(UART_DATA_buffer[1] != FrameHead)
+                          &&(UART_DATA_buffer[2] != FrameHead)
+                            &&(UART_DATA_buffer[3] != FrameHead))
 		{
 			U1Statues = ReceivingStatues;
 			UartStatus++;
-			UartLen = UART_DATA_buffer[1];
+                        UartCount=0;
+                        Uart_Fremo_NO = UART_DATA_buffer[1];
+                        Uart_Type = UART_DATA_buffer[2];
+			UartLen = UART_DATA_buffer[3];
+                        if(UartLen==0)UartStatus++;
 		}
 	}
 	break;
 	case DataStatus:
 	{
-		UART_DATA_buffer[UartCount + 3] = Cache;
+		UART_DATA_buffer[UartCount + 4] = Cache;
 		UartCount++;
-		if (UartCount >= (UartLen - 3))
+		if (UartCount >= UartLen)
 			UartStatus++;
 	}
 	break;
@@ -302,105 +312,159 @@ void ReceiveFrame(UINT8 Cache)
 	}
 	if (UartStatus == FrameEndStatus) //接收完一帧处理数据
 	{
-		//add Opration function
-		OprationFrame();
 		UartStatus = 0;
 		UartCount = 0;
 		//        Receiver_LED_OUT_INV = !Receiver_LED_OUT_INV;
 		U1Statues = ReceiveDoneStatues;
 		U1AckTimer = U1AckDelayTime;
-		U1Busy_OUT = 1;
-	}
+	}  
 }
 
 void OprationFrame(void)
-{
-	unsigned char i;
-	for (i = 0; i < 4; i++)
-		Databits_t.Data[i] = UART_DATA_buffer[3 + i];
-	if (Databits_t.ID_No == 0x92)
-	{
-		ACKBack[2] = 0;
-		switch (Databits_t.Mode)
-		{
-		case 0:
-			break;
-		case 4:
-			break;
-		case 5:
-			break;
-		case 6:
-			break;
-		case 7:
-			break;
-		case 8:
-			break;
-		default:
-			ACKBack[2] = 1;
-			return;
-			break;
-		}
-		switch (Databits_t.Statues)
-		{
-		case 0:
-			break;
-		case 1:
-			break;
-		case 2:
-			break;
-		case 3:
-			break;
-		case 4:
-			break;
-		case 5:
-			break;
-		case 6:
-			break;
-		default:
-			ACKBack[2] = 1;
-			return;
-			break;
-		}
-		switch (Databits_t.Abnormal)
-		{
-		case 0x00:
-			break;
-		case 0x04:
-			break;
-		case 0x06:
-			break;
-		case 0x45:
-			break;
-		case 0x46:
-			break;
-		case 0x47:
-			break;
-		case 0x48:
-			break;
-		default:
-			ACKBack[2] = 1;
-			return;
-			break;
-		}
-	}
-	else if (Databits_t.ID_No == 0x98)
-	{
-	}
-	else
-	{
-		ACKBack[2] = 1;
-		return;
-	}
+{ 
+  u16 check_sum=0,n;
+  u8 i=0;
+  uni_rom_id xn;
+
+  switch (Uart_Type)
+	  {
+	  case 0x01:
+	  case 0x02:
+		   for(i=0;i<UART_DATA_buffer[3]-2;i++)  check_sum+=UART_DATA_buffer[i+4];
+           n=UART_DATA_buffer[i+4]+UART_DATA_buffer[i+5]*256;
+           if(check_sum==n)
+           {
+                xn.IDB[0]=0;
+                xn.IDB[1]=UART_DATA_buffer[6];
+                xn.IDB[2]=UART_DATA_buffer[5];
+                xn.IDB[3]=UART_DATA_buffer[4];
+                TX_ID_data=xn.IDL;
+                if(Uart_Type== 0x01)
+                {
+                  TX_Control_code_TYPE01=UART_DATA_buffer[7];
+                }
+                else if(Uart_Type== 0x02)
+                {
+                  TX_Control_code_TYPE02[0]=UART_DATA_buffer[7];
+                  for(i=0;i<UART_DATA_buffer[7];i++)TX_Control_code_TYPE02[i+1]=UART_DATA_buffer[i+8];
+                }
+                FLAG_APP_TX_fromUART=1;
+                
+		        ACKBack[0] = FrameHead;
+                ACKBack[1] = Uart_Fremo_NO;
+                ACKBack[2] = 0x80;
+                ACKBack[3] = 5;
+                ACKBack[4] = UART_DATA_buffer[4];
+                ACKBack[5] = UART_DATA_buffer[5];
+                ACKBack[6] = UART_DATA_buffer[6];
+                ACKBack[7] = 0x00;
+                ACKBack[8] = 0x00;
+                ACKBack_LEN=9;
+           }
+		  break;
+	  case 0x10:
+	  	  if(UART_DATA_buffer[4]<=32)
+		  	ID_DATA_PCS=UART_DATA_buffer[4];
+		  else ID_DATA_PCS=0;
+		  for (i = 0; i < UART_DATA_buffer[4]; i++)
+			  {
+			    xn.IDB[0]=0;
+                xn.IDB[1]=UART_DATA_buffer[i*3+7];
+                xn.IDB[2]=UART_DATA_buffer[i*3+6];
+                xn.IDB[3]=UART_DATA_buffer[i*3+5];
+				ID_Receiver_DATA[i]=xn.IDL;
+			  }
+		  U1Statues = IdelStatues;   //不返回ACK
+		  break;	
+	  case 0x11:
+	  	  if(UART_DATA_buffer[3]==1)
+	  	  	{
+	  	      if(UART_DATA_buffer[4]==0)
+                 FLAG_ID_Login_FromUART=0;
+			  else if(UART_DATA_buffer[4]==1)
+			  	FLAG_ID_Login_FromUART=1;
+	  	  	}
+		  U1Statues = IdelStatues;   //不返回ACK
+		  break;			  
+	  case 0x60:
+		  		ACKBack[0] = FrameHead;
+                ACKBack[1] = Uart_Fremo_NO;
+                ACKBack[2] = 0xE0;
+                ACKBack[3] = 0x00;    
+                ACKBack_LEN=4;
+		  break;	
+	  case 0x61:
+		  Power_ON_sendVer();
+		  break;		  
+	  }
+       
 }
+
+void Power_ON_sendVer(void)
+{
+   u8 i;
+     		ACKBack[0] = FrameHead;
+                ACKBack[1] = Uart_Fremo_NO;
+                ACKBack[2] = 0xE1;
+                ACKBack[3] = 7;  
+                for(i=0;i<7;i++)
+                   ACKBack[i+4]=Soft_Version[i];
+                ACKBack_LEN=11;
+                U1Statues=ACKingStatues;
+}
+
 void TranmissionACK(void)
 {
+        if(U1Statues == ReceiveDoneStatues)
+        {
+           U1Statues=ACKingStatues;
+           OprationFrame();
+        }
 
-	if ((U1Statues == ReceiveDoneStatues) && (U1AckTimer == 0))
+	if ((U1Statues == ACKingStatues) && (U1AckTimer == 0)&&(FLAG_APP_TX_fromUART==0)&&(FLAG_APP_TX==0))
 	{
-		U1Busy_OUT = 1;
-		U1Statues = ACKingStatues;
-		Send_Data(ACKBack, 3);
+                U1Statues = ACKDoneStatues;
+		Send_Data(ACKBack, ACKBack_LEN);
 		U1Statues = IdelStatues;
-		U1Busy_OUT = 1;
 	}
+}
+
+void wireless_Receive_SendUart(void)
+{
+    u8 data[10];
+    uni_rom_id xn;
+    u16 check_sum=0;
+    static u32 Last_DATA_Packet_ID=0;
+    static u8 Last_DATA_Packet_Control=0;
+    
+    
+    if((U1Statues!= ACKingStatues)&&(flag_ID_Receiver_sendUART==1))
+    {
+      flag_ID_Receiver_sendUART=0;
+      
+      if((DATA_Packet_ID!=Last_DATA_Packet_ID)||(DATA_Packet_Control!=Last_DATA_Packet_Control)||
+          (DATA_Packet_ID==Last_DATA_Packet_ID)&&(DATA_Packet_Control==Last_DATA_Packet_Control)&&(Time_Receive_gap==0))
+      {
+	    data[0] = FrameHead;
+        data[1] = 0;//Uart_Fremo_NO;  //受信时Fremo为0
+        data[2] = 0x81;
+        data[3] = 6;
+        xn.IDL=DATA_Packet_ID;
+        data[4]=xn.IDB[3];
+        check_sum+=data[4];
+        data[5]=xn.IDB[2];
+        check_sum+=data[5];
+        data[6]=xn.IDB[1];
+        check_sum+=data[6];
+        data[7]=DATA_Packet_Control;
+        check_sum+=data[7];
+        data[8]=check_sum%256;
+        data[9]=check_sum/256;
+        Send_Data(data, 10);
+        
+        Last_DATA_Packet_ID=DATA_Packet_ID;
+        Last_DATA_Packet_Control=DATA_Packet_Control;
+        Time_Receive_gap=720;
+      }
+    }
 }

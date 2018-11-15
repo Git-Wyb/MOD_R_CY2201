@@ -42,6 +42,9 @@ typedef union { // ID No.
     UINT8 IDB[4];
 } uni_rom_id;
 
+
+
+
 void LED_GPIO_Init(void);     //≥ı ºªØLED
 void CG2214M6_GPIO_Init(void);
 void ADF7030_GPIO_INIT(void); //ADF7030 IO(REST & GPIO3)

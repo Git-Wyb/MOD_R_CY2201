@@ -165,6 +165,7 @@ void ID_Decode_IDCheck(void)
         if (FLAG_Signal_DATA_OK == 1)
         {
             eeprom_IDcheck();
+            //flag_ID_Receiver_sendUART=1;
             if ((FLAG_ID_Erase_Login == 1) || (FLAG_ID_Login == 1))
             {
                 if ((FLAG_ID_Login_OK == 0) && (DATA_Packet_Contro_buf != 0x40) && (DATA_Packet_ID != 0)) //2015.4.1修正 在登录模式下 不允许自动送信登录，只允许手动送信登录
@@ -173,30 +174,28 @@ void ID_Decode_IDCheck(void)
                     ID_Receiver_Login = DATA_Packet_ID;
                 }
             }
+			else if(FLAG_ID_Login_FromUART==1)
+			{
+                if ((DATA_Packet_Contro_buf != 0x40) && (DATA_Packet_ID != 0)) //2015.4.1修正 在登录模式下 不允许自动送信登录，只允许手动送信登录
+                {
+                    flag_ID_Receiver_sendUART=1;
+                    //DATA_Packet_Control = 0x02;
+                    DATA_Packet_Control=DATA_Packet_Contro_buf;
+					if(FLAG_IDCheck_OK == 0)
+					{
+					   ID_DATA_PCS++;
+					   ID_Receiver_DATA[ID_DATA_PCS-1]=DATA_Packet_ID;
+					}
+                }
+				FLAG_IDCheck_OK=0;
+			}
             else if ((FLAG_IDCheck_OK == 1) || (DATA_Packet_ID == 0xFFFFFE))
+            //else 
             {
                 FLAG_IDCheck_OK = 0;
                 if (DATA_Packet_ID == 0xFFFFFE)
-                    DATA_Packet_Control = DATA_Packet_Contro_buf; //2015.3.24修正 Control缓存起 ID判断是否学习过后才能使用
-                                                                  //                 if (Freq_Scanning_CH_bak == 0)
-                                                                  //                 {
-                                                                  //                     Freq_Scanning_CH_save = 1;
-                                                                  //                     Freq_Scanning_CH_save_HA = 0;
-                                                                  //                 } //当前收到426M控制   但保存记录下收到信号的频率信道,0代表426M
-                                                                  //                 else
-                                                                  //                     Freq_Scanning_CH_save_HA = 1; //                       1代表429M
-                                                                  //                 DATA_Packet_Control_0 = DATA_Packet_Control;
-                                                                  // #if defined(__Product_PIC32MX2_Receiver__)
-                                                                  //                 if (DATA_Packet_Control == 0x08)
-                                                                  //                     DATA_Packet_Control_err = 0x08;
-                                                                  //                 if (DATA_Packet_Control == 0x02)
-                                                                  //                 {
-                                                                  //                     DATA_Packet_Control_err = 0x02;
-                                                                  //                     FLAG_HA_ERR_bit = 0;
-                                                                  //                 }
-                                                                  // #endif
-                                                                  //                 if (((DATA_Packet_Code[1] & 0x0000FFFF) == 0x5556) && (Freq_Scanning_CH_bak == 0))
-                                                                  //                 {
+                    DATA_Packet_Control = DATA_Packet_Contro_buf;
+
                 if ((SPI_Receive_DataForC[1] & 0x0000FFFF) == 0x5556)
                 {
                     PAYLOAD_SIZE = RX_PayLoadSizeLogin;
@@ -228,6 +227,8 @@ void ID_Decode_IDCheck(void)
                 }
                 else
                 {
+                    flag_ID_Receiver_sendUART=1;
+					
                     PAYLOAD_SIZE = RX_PayLoadSizeNOLogin;
                     //#if defined(__Product_PIC32MX2_WIFI__)
                     //                    TIMER1s=500;//1000
@@ -330,6 +331,8 @@ void eeprom_IDcheck(void)
             DATA_Packet_Control = DATA_Packet_Contro_buf;
         } //追加多次ID登录
     }
+  
+ // DATA_Packet_Control = DATA_Packet_Contro_buf;
 }
 
 void BEEP_and_LED(void)
@@ -614,7 +617,10 @@ void Freq_Scanning(void)
 {
     if (TIMER18ms == 0)
     {
-        if (Flag_FREQ_Scan == 0)
+        //if (Flag_FREQ_Scan == 0)
+        if ((Flag_FREQ_Scan == 0)&&((FLAG_ID_Login_FromUART==1)||
+                                      ((FLAG_ID_Login_FromUART==0)&&(PROFILE_CH_FREQ_32bit_200002EC != 426075000)))
+           )  //工作模式时不接受426.075MHz的信号，只有在登录模式时才接受。
         {
             if (ADF7030_Read_RESIGER(0x4000380C, 1, 0) != 0)
             {
@@ -624,7 +630,7 @@ void Freq_Scanning(void)
             }
         }
         while (GET_STATUE_BYTE().CMD_READY == 0)
-            ;
+            ;  
         DELAY_30U();
         ADF7030_CHANGE_STATE(STATE_PHY_ON);
         ADF7030_Change_Channel();
@@ -642,28 +648,13 @@ void Freq_Scanning(void)
         WaitForADF7030_FIXED_DATA(); //等待芯片空闲/可接受CMD状态
         DELAY_30U();
         ADF7030_CHANGE_STATE(STATE_PHY_RX);
-        while (GET_STATUE_BYTE().FW_STATUS == 0)
-            ;
+        while (GET_STATUE_BYTE().FW_STATUS == 0);
         DELAY_30U();
         //ADF7030_RECEIVING_FROM_POWEROFF();
-        while (GET_STATUE_BYTE().FW_STATUS != 1)
-            ;
-        while (ADF7030_GPIO3 == 1)
-            ;
+        while (GET_STATUE_BYTE().FW_STATUS != 1);
+        while (ADF7030_GPIO3 == 1); 
         TIMER18ms = 15;
         Flag_FREQ_Scan = 0;
     }
 
-    if (((FLAG_Receiver_Scanning == 1) || (TIME_EMC == 0) || (TIME_Fine_Calibration == 0)) && (FLAG_APP_RX == 1))
-    {
-        FLAG_Receiver_Scanning = 0;
-        if (TIME_Fine_Calibration == 0)
-        {
-            TIME_Fine_Calibration = 900;
-
-            //ttset dd_set_ADF7021_Power_on();
-            //ttset dd_set_RX_mode();
-        }
-        //ttset dd_set_ADF7021_Freq();
-    }
 }

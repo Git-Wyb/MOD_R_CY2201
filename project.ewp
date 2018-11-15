@@ -17,7 +17,7 @@
         <debug>1</debug>
         <option>
           <name>GenDeviceSelectMenu</name>
-          <state>STM8L151G4	STM8L151G4</state>
+          <state>STM8L151G6	STM8L151G6</state>
         </option>
         <option>
           <name>GenCodeModel</name>
@@ -66,20 +66,20 @@
         <option>
           <name>GenLibInFormatter</name>
           <version>0</version>
-          <state>5</state>
+          <state>0</state>
         </option>
         <option>
           <name>GenLibInFormatterDescription</name>
-          <state>No specifier n, no float, no scan set, no assignment suppressing.</state>
+          <state>Automatic choice of formatter.</state>
         </option>
         <option>
           <name>GenLibOutFormatter</name>
           <version>0</version>
-          <state>5</state>
+          <state>0</state>
         </option>
         <option>
           <name>GenLibOutFormatterDescription</name>
-          <state>No specifier a or A, no specifier n, no float.</state>
+          <state>Automatic choice of formatter.</state>
         </option>
         <option>
           <name>GenStackSize</name>
@@ -481,7 +481,7 @@
         <option>
           <name>OOCOutputFormat</name>
           <version>2</version>
-          <state>1</state>
+          <state>2</state>
         </option>
         <option>
           <name>OCOutputOverride</name>
@@ -489,7 +489,7 @@
         </option>
         <option>
           <name>OOCOutputFile</name>
-          <state>Bunka STM8L151 RX Ver.hex</state>
+          <state>project.bin</state>
         </option>
         <option>
           <name>OOCCommandLineProducer</name>

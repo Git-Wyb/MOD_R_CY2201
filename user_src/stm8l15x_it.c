@@ -211,7 +211,7 @@ INTERRUPT_HANDLER(EXTI4_IRQHandler, 12)
     /* In order to detect unexpected events during development,
        it is recommended to set a breakpoint on the following instruction.
     */
-    DataReceive();
+//    DataReceive();
 }
 
 /**
@@ -363,7 +363,7 @@ INTERRUPT_HANDLER(TIM4_UPD_OVF_TRG_IRQHandler, 25)
     /* In order to detect unexpected events during development,
        it is recommended to set a breakpoint on the following instruction.
     */
-    TIM4_UPD_OVF();
+//    TIM4_UPD_OVF();
 }
 /**
   * @brief SPI1 Interrupt routine.
@@ -399,7 +399,7 @@ INTERRUPT_HANDLER(USART1_RX_TIM5_CC_IRQHandler, 28)
     /* In order to detect unexpected events during development,
        it is recommended to set a breakpoint on the following instruction.
     */
-    UART1_RX_RXNE();
+//    UART1_RX_RXNE();
 }
 
 /**

@@ -9,6 +9,7 @@ uFLAG FLAG_test1;
 volatile uFLAG FLAG0;
 volatile uFLAG FLAG1;
 volatile uFLAG FLAG_test;
+volatile uFLAG FLAG2;
 
 u16 X_COUNT = 0;
 u16 X_ERR = 0; //记录错误的个数
@@ -27,7 +28,8 @@ u8 TIMER250ms_STOP = 0;
 u16 TIME_auto_out = 0;
 u16 TIME_auto_close = 0;
 u16 time_3sec = 0;
-u32 ID_Receiver_DATA[256] = {0}; //写入EEPROM ID缓存
+//u32 ID_Receiver_DATA[256] = {0}; //写入EEPROM ID缓存
+u32 ID_Receiver_DATA[32] = {0};
 u16 ID_DATA_PCS = 0;
 u32 DATA_Packet_ID = 0;
 u8 DATA_Packet_Control = 0;
@@ -35,6 +37,7 @@ u8 DATA_Packet_Contro_buf = 0; //2015.3.24修正
 u32 ID_Receiver_Login = 0;
 u8 TIME_EMC = 0; //静电测试
 u8 LED_Cache = 0;
+u8 flag_ID_Receiver_sendUART=0;
 
 u16 INquiry = 0;
 u16 TIME_Receiver_Login_restrict = 0;
@@ -109,3 +112,15 @@ const ADF70XX_REG_T Default_adf7030_value[16] = {
 };
 u32 PROFILE_CH_FREQ_32bit_200002EC = 426075000ul;
 u32 PROFILE_RADIO_AFC_CFG1_32bit_2000031C = 0x0005005A;
+
+
+
+
+u32 TX_ID_data=0;
+u8 TX_Control_code_TYPE01=0;
+u8 TX_Control_code_TYPE02[20]={0};
+u16 Time_Receive_gap=0;
+u16 Time_APP_RXstart=0;
+u8 Time_APP_blank_TX=0;
+u8 Time_acc=0;
+

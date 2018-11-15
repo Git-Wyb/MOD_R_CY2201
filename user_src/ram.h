@@ -56,6 +56,17 @@ extern volatile uFLAG FLAG1;
 #define FG_NOT_allow_out FLAG1.BIT.Bit6
 #define FG_10ms FLAG1.BIT.Bit7
 //************************************************
+extern volatile uFLAG FLAG2;
+#define FLAG2_BYTE FLAG2.BYTE
+//------------------------------------------------
+#define FLAG_APP_TX FLAG2.BIT.Bit0
+#define FLAG_APP_TX_fromUART FLAG2.BIT.Bit1
+#define FLAG_APP_RXstart FLAG2.BIT.Bit2
+#define FLAG_ID_Login_FromUART FLAG2.BIT.Bit3
+
+//************************************************
+
+
 
 extern u16 X_COUNT;
 extern u16 X_ERR; //¼ÇÂ¼´íÎóµÄ¸öÊý
@@ -74,13 +85,15 @@ extern u8 TIMER250ms_STOP;
 extern u16 TIME_auto_out;
 extern u16 TIME_auto_close;
 extern u16 time_3sec;
-extern u32 ID_Receiver_DATA[256]; //Ð´ÈëEEPROM ID»º´æ
+//extern u32 ID_Receiver_DATA[256]; //Ð´ÈëEEPROM ID»º´æ
+extern u32 ID_Receiver_DATA[32]; //Ð´ÈëEEPROM ID»º´æ
 extern u16 ID_DATA_PCS;
 extern u32 DATA_Packet_ID;
 extern u8 DATA_Packet_Control;
 extern u8 DATA_Packet_Contro_buf; //2015.3.24ä¿?æ­?
 extern u32 ID_Receiver_Login;
 extern u8 TIME_EMC;
+extern u8 flag_ID_Receiver_sendUART;
 
 extern u16 INquiry;
 extern u16 TIME_Receiver_Login_restrict;
@@ -136,5 +149,18 @@ void ADF7030_TRANSMITTING_FROM_POWEROFF(void);
 void ADF7030_RECEIVING_FROM_POWEROFF(void);
 void SCAN_RECEIVE_PACKET(void);
 u32 ConfigurationLen(void);
+
+
+
+
+extern u32 TX_ID_data;
+extern u8 TX_Control_code_TYPE01;
+extern u8 TX_Control_code_TYPE02[20];
+extern u16 Time_Receive_gap;
+extern u16 Time_APP_RXstart;
+extern u8 Time_APP_blank_TX;
+extern unsigned char Soft_Version[7];
+extern u8 Time_acc;
+
 
 #endif
