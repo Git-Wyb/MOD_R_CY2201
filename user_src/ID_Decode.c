@@ -208,7 +208,8 @@ void Signal_DATA_Decode(UINT8 NUM_Type)
     }
 	if((NUM_Type==0)||(NUM_Type==1))
 	{
-	    if (data_NRZ[2] == ((data_NRZ[0] + data_NRZ[1]) & 0xFFFF))
+	    //if (data_NRZ[2] == ((data_NRZ[0] + data_NRZ[1]) & 0xFFFF))
+	    if ((data_NRZ[2] & 0x3FFF) == ((data_NRZ[0] + data_NRZ[1]) & 0x3FFF))
 	    {
 	        FLAG_Signal_DATA_OK = 1;
 	        LCDUpdateIDFlag = 1;
