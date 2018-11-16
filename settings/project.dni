@@ -1,6 +1,6 @@
 [DebugChecksum]
 <<<<<<< HEAD
-Checksum=87603125
+Checksum=-1909218355
 =======
 Checksum=773928336
 >>>>>>> f03119bb9d9418453f7da9e2e3549a267f3e0d0b
@@ -108,7 +108,10 @@ A3=_ "F:\Source Code\bunka-s\Bunka STM8L151G6 RX Source\Bunka STM8L151G6 RX Sour
 A4=_ "F:\Source Code\bunka-s\Bunka STM8L151G6 RX Source\Bunka STM8L151G6 RX Source Ver1.17_  RSSI test G4U6\user_src\ID_Decode.c" ""
 A5=_ "F:\Source Code\bunka-s\Bunka STM8L151G6 RX Source\Bunka STM8L151G6 RX Source Ver1.17_  RSSI test G4U6\user_src\adf7021.c" ""
 A6=_ "F:\Source Code\bunka-s\Bunka STM8L151G6 RX Source\Bunka STM8L151G6 RX Source Ver1.17_  RSSI test G4U6\user_src\main.c" ""
-Count=7
+A7=_ "F:\Source Code\bunka-s\SCX1701\SCX1701 for ADF7030 scan Ver1.5.x (Source Insight)\user_src\ADF7030_1.c" ""
+A8=_ "F:\Source Code\bunka-s\SCX1701\SCX1701 for ADF7030 scan Ver1.5.x (Source Insight)\user_src\ID_Decode.c" ""
+A9=_ "F:\Source Code\bunka-s\SCX1701\SCX1701 for ADF7030 scan Ver1.5.x (Source Insight)\user_src\Timer.c" "F:\Source Code\bunka-s\SCX1701\SCX1701 for ADF7030 scan Ver0.21 (Source Insight)\user_src\Timer.c"
+Count=10
 SuppressDialog=0
 [DebuggerSettings]
 DisableInterruptsWhenStepping=0

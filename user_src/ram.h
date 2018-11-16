@@ -159,5 +159,8 @@ extern u8 TX_Control_code_TYPE02[20];
 extern u16 Time_Receive_gap;
 extern u16 Time_APP_RXstart;
 extern u16 Time_APP_RXseting;
+extern u8 FLAG_Breakpoint_test;
+extern u8 Time_APP_blank_TX;
+extern unsigned char Soft_Version[7];
 
 #endif

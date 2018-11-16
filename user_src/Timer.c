@@ -53,6 +53,8 @@ void TIM4_UPD_OVF(void)
       --Time_APP_RXstart;   
     if (Time_APP_RXseting)
       --Time_APP_RXseting;  
+     if(Time_APP_blank_TX)
+       --Time_APP_blank_TX;
     
     
     TIM4_SR1_bit.UIF = 0; // 清除中断标记

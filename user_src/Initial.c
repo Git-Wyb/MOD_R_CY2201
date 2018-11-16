@@ -357,7 +357,7 @@ void RF_BRE_Check(void)
 }
 void RF_test_mode(void)
 {
-    UINT8 Boot_i;
+   /* UINT8 Boot_i;
     Receiver_LED_OUT = 1;
     for (Boot_i = 0; Boot_i < 4; Boot_i++)
     {
@@ -368,7 +368,7 @@ void RF_test_mode(void)
                           // Send_char(0x05);
         }
         Receiver_LED_OUT = !Receiver_LED_OUT;
-    }
+    }*/
     Receiver_LED_OUT = 0;
 
     while (Receiver_test == 0)

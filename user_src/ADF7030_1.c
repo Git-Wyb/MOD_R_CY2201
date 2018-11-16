@@ -33,6 +33,9 @@ u16 PAYLOAD_SIZE = 0x0C;
 /***************************************************/
 u8 Flag_FREQ_Scan = 0;
 u8 BREState = 0;
+u8 APP_TX_freq=0;
+  short ADF7030_RSSI;
+
 void DELAY_30U(void)
 {
     u8 Tp_i = 0;
@@ -430,10 +433,10 @@ u32 ADF7030_GET_MISC_FW(void) //??MISC_FW?????
 
 void ADF7030_WRITING_PROFILE_FROM_POWERON(void)
 {
-//    ADF7030_REST = 0; //ADF7030芯片初始化
-//    Delayus(50);
-//    ClearWDT();
-//    ADF7030_REST = 1; //ADF7030芯片初始化完成
+    /*ADF7030_REST = 0; //ADF7030芯片初始化
+    Delayus(50);
+    ClearWDT();
+    ADF7030_REST = 1;*/ //ADF7030芯片初始化完成
     ADF7030_CHANGE_STATE(STATE_PHY_ON);
     WaitForADF7030_FIXED_DATA(); //等待芯片空闲/可接受CMD状态
     DELAY_30U();
@@ -597,6 +600,7 @@ void SCAN_RECEIVE_PACKET(void)
     short Cache;
     if (ADF7030_GPIO3 == 1)
     {
+        FLAG_Breakpoint_test  =5;  
         WaitForADF7030_FIXED_DATA(); //等待芯片空闲/可接受CMD状态
         DELAY_30U();
         ADF7030_Clear_IRQ();
@@ -1022,37 +1026,75 @@ void ADF7030_Change_Channel(void)
 **/
 void APP_TX_PACKET(void)
 {
+  short Cache;
+  
   if((FLAG_APP_TX_fromUART==1)&&(Flag_FREQ_Scan==0))
   {
-    FLAG_APP_TX_fromUART=0;
-    FLAG_APP_TX=1;
-    FLAG_APP_RX=0;
+    if((PROFILE_CH_FREQ_32bit_200002EC == 429175000)||(PROFILE_CH_FREQ_32bit_200002EC == 429200000))
+    {
+            /*ADF7030_READ_REGISTER_NOPOINTER_LONGADDR(ADDR_GENERIC_PKT_LIVE_LINK_QUAL, 6);
+            Cache = (short)((ADF7030_RESIGER_VALUE_READ & 0x07ff0000) >> 11);    
+            ADF7030_RSSI=Cache;*/
+          FLAG_APP_TX_fromUART=0;
+          FLAG_APP_TX=1;
+          FLAG_APP_RX=0;
+          APP_TX_freq=0;
+     }
   }
   if(FLAG_APP_TX==1)
   {
-    TX_DataLoad(TX_ID_data,TX_Control_code_TYPE01, &CONST_TXPACKET_DATA_20000AF0[0]);
-    ADF7030_WRITING_PROFILE_FROM_POWERON();
-    //ADF7030_ACC_FROM_POWEROFF();
-    ADF7030_TRANSMITTING_FROM_POWEROFF();
-    FLAG_APP_RXstart=1;
-    FLAG_APP_TX=0;
-    Time_APP_RXstart=1;
+    if(APP_TX_freq==0)
+    {
+        TX_DataLoad(TX_ID_data,TX_Control_code_TYPE01, &CONST_TXPACKET_DATA_20000AF0[0]);
+        //ADF7030_ACC_FROM_POWEROFF();
+        ADF7030_TRANSMITTING_FROM_POWEROFF();
+        Time_APP_blank_TX=10;
+        APP_TX_freq=1;
+    }
+    else if((APP_TX_freq==1)&&(ADF7030_GPIO3 == 0)&&(Time_APP_blank_TX==0))
+    {
+         //TX_DataLoad(TX_ID_data,TX_Control_code_TYPE01, &CONST_TXPACKET_DATA_20000AF0[0]);
+         ADF7030_TRANSMITTING_FROM_POWEROFF();
+         Time_APP_blank_TX=10;
+        Delayus(50);
+        ClearWDT();         
+        APP_TX_freq=2;
+    }
+    else if((APP_TX_freq==2)&&(ADF7030_GPIO3 == 0)&&(Time_APP_blank_TX==0))
+    {
+        //TX_DataLoad(TX_ID_data,TX_Control_code_TYPE01, &CONST_TXPACKET_DATA_20000AF0[0]);
+        ADF7030_TRANSMITTING_FROM_POWEROFF();
+        Time_APP_blank_TX=10;
+        Delayus(50);
+        ClearWDT();        
+        APP_TX_freq=3;
+       FLAG_APP_RXstart=1;
+       FLAG_APP_TX=0;
+       Time_APP_RXstart=1;        
+    }    
   }
   if((FLAG_APP_RXstart==1)&&(Time_APP_RXstart==0))
   {
     FLAG_APP_RXstart=0;
-    //FLAG_APP_RX=1;
-    PROFILE_CH_FREQ_32bit_200002EC = 426075000;
-    PROFILE_RADIO_AFC_CFG1_32bit_2000031C = 0x0005005A;
-    ADF7030_WRITING_PROFILE_FROM_POWERON();
+    //PROFILE_CH_FREQ_32bit_200002EC = 426075000;
+    //PROFILE_RADIO_AFC_CFG1_32bit_2000031C = 0x0005005A;
     ADF7030_RECEIVING_FROM_POWEROFF(); 
     
     FLAG_APP_RX_seting=1;
-    Time_APP_RXseting=1;  
+    Time_APP_RXseting=10;  
   }
   if((FLAG_APP_RX_seting==1)&&(Time_APP_RXseting==0))
   {
     FLAG_APP_RX_seting=0;
-    FLAG_APP_RX=1;     
+    TIMER18ms=0;
+    FLAG_APP_RX=1;  
+    
+    ADF7030_REST = 0;       //ADF7030芯片初始化
+    Delayus(50);
+    ClearWDT();
+    ADF7030_REST = 1; //ADF7030芯片初始化完成 
+    ADF7030Init();     //��Ƶ��ʼ��
+    
+    FLAG_Breakpoint_test=0;
   }
 }

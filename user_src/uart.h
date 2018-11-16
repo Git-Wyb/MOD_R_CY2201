@@ -59,6 +59,7 @@ extern unsigned int U1AckTimer;
 
 void UART1_INIT(void);
 void UART1_RX_RXNE(void);
+void Power_ON_sendVer(void);
 void Send_char(unsigned char ch);
 void Send_String(unsigned char *string);
 void Send_Data(unsigned char *P_data, unsigned int length);

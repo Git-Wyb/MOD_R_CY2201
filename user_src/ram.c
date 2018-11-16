@@ -122,4 +122,6 @@ u8 TX_Control_code_TYPE02[20]={0};
 u16 Time_Receive_gap=0;
 u16 Time_APP_RXstart=0;
 u16 Time_APP_RXseting=0;
+u8 FLAG_Breakpoint_test=0;
+u8 Time_APP_blank_TX=0;
 

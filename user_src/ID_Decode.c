@@ -628,7 +628,8 @@ void Freq_Scanning(void)
             }
         }
         while (GET_STATUE_BYTE().CMD_READY == 0)
-            ;
+            ; 
+        FLAG_Breakpoint_test  =1;  
         DELAY_30U();
         ADF7030_CHANGE_STATE(STATE_PHY_ON);
         ADF7030_Change_Channel();
@@ -646,14 +647,14 @@ void Freq_Scanning(void)
         WaitForADF7030_FIXED_DATA(); //µÈ´ýÐ¾Æ¬¿ÕÏÐ/¿É½ÓÊÜCMD×´Ì¬
         DELAY_30U();
         ADF7030_CHANGE_STATE(STATE_PHY_RX);
-        while (GET_STATUE_BYTE().FW_STATUS == 0)
-            ;
+        while (GET_STATUE_BYTE().FW_STATUS == 0);
+        FLAG_Breakpoint_test  =2;  
         DELAY_30U();
         //ADF7030_RECEIVING_FROM_POWEROFF();
-        while (GET_STATUE_BYTE().FW_STATUS != 1)
-            ;
-        while (ADF7030_GPIO3 == 1)
-            ;
+        while (GET_STATUE_BYTE().FW_STATUS != 1);
+        FLAG_Breakpoint_test  =3;  
+        while (ADF7030_GPIO3 == 1);
+        FLAG_Breakpoint_test  =4;  
         TIMER18ms = 15;
         Flag_FREQ_Scan = 0;
     }
@@ -663,7 +664,7 @@ void Freq_Scanning(void)
         FLAG_Receiver_Scanning = 0;
         if (TIME_Fine_Calibration == 0)
         {
-            TIME_Fine_Calibration = 900;
+            //TIME_Fine_Calibration = 900;
 
             //ttset dd_set_ADF7021_Power_on();
             //ttset dd_set_RX_mode();

@@ -369,19 +369,23 @@ void OprationFrame(void)
 	}
 	else if (Uart_Type == 0x61)
 	{
-		ACKBack[0] = FrameHead;
-                ACKBack[1] = Uart_Fremo_NO;
-                ACKBack[2] = 0xE1;
-                ACKBack[3] = 6;  
-                ACKBack[4] = 'V';
-                ACKBack[5] = 'e';
-                ACKBack[6] = 'r';
-                ACKBack[7] = '0';
-                ACKBack[8] = '.';
-                ACKBack[9] = '1';
-                ACKBack_LEN=10;
+          Power_ON_sendVer();
 	}        
 }
+
+void Power_ON_sendVer(void)
+{
+   u8 i;
+     		ACKBack[0] = FrameHead;
+                ACKBack[1] = Uart_Fremo_NO;
+                ACKBack[2] = 0xE1;
+                ACKBack[3] = 7;  
+                for(i=0;i<7;i++)
+                   ACKBack[i+4]=Soft_Version[i];
+                ACKBack_LEN=11;
+                U1Statues=ACKingStatues;
+}
+
 void TranmissionACK(void)
 {
         if(U1Statues == ReceiveDoneStatues)
@@ -414,7 +418,7 @@ void wireless_Receive_SendUart(void)
       if((DATA_Packet_ID!=Last_DATA_Packet_ID)||(DATA_Packet_Control!=Last_DATA_Packet_Control)||
           (DATA_Packet_ID==Last_DATA_Packet_ID)&&(DATA_Packet_Control==Last_DATA_Packet_Control)&&(Time_Receive_gap==0))
       {
-	data[0] = FrameHead;
+	    data[0] = FrameHead;
         data[1] = 0;//Uart_Fremo_NO;  //受信时Fremo为0
         data[2] = 0x81;
         data[3] = 6;
