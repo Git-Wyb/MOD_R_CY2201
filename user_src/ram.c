@@ -154,6 +154,7 @@ short RSSI_Scan_val=-150;
 Wireless_Body Struct_DATA_Packet_Contro,Struct_DATA_Packet_Contro_buf,Last_Struct_DATA_Packet_Contro;
 Wireless_Body Uart_Struct_DATA_Packet_Contro;
 
+u8 TIME_TX_RSSI_Scan=0;
 
 
 

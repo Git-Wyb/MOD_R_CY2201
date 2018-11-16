@@ -183,6 +183,7 @@ extern short RSSI_Scan_val;
 extern Wireless_Body Struct_DATA_Packet_Contro,Struct_DATA_Packet_Contro_buf,Last_Struct_DATA_Packet_Contro;
 extern Wireless_Body Uart_Struct_DATA_Packet_Contro;
 
+extern u8 TIME_TX_RSSI_Scan;
 
 
 #endif
