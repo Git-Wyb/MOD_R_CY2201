@@ -129,10 +129,15 @@ extern u8 Flag_RSSI_Read_Timer;
 #define SPI_REV_BUFF_LONG 40
 
 extern const u8 ADF7030Cfg[];
+extern const u8 ADF7030Cfg_4dot8k[];
+extern const u8 *ADF7030Cfg_pointer;
+
 u32 CFG_SIZE(void);
 
 #define OPEN_LONG 12
-extern u8 CONST_TXPACKET_DATA_20000AF0[OPEN_LONG];
+//extern u8 CONST_TXPACKET_DATA_20000AF0[OPEN_LONG];
+extern u8 CONST_TXPACKET_DATA_20000AF0[28];
+
 
 extern u32 GENERIC_PKT_TEST_MODES0_32bit_20000548;
 extern const u8 TEST_MODES0_para[5];
@@ -158,7 +163,6 @@ u32 ConfigurationLen(void);
 
 extern u32 TX_ID_data;
 extern u8 TX_Control_code_TYPE01;
-extern u8 TX_Control_code_TYPE02[20];
 extern u16 Time_Receive_gap;
 extern u16 Time_APP_RXstart;
 extern u8 Time_APP_blank_TX;
@@ -169,6 +173,10 @@ extern u8 Time_acc;
 extern u16 TIME_RSSI_Scan;
 extern u8 Scan_step;
 extern short RSSI_Scan_val;
+
+
+extern Wireless_Body Struct_DATA_Packet_Contro,Struct_DATA_Packet_Contro_buf,Last_Struct_DATA_Packet_Contro;
+extern Wireless_Body Uart_Struct_DATA_Packet_Contro;
 
 
 

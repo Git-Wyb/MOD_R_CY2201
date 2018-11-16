@@ -12,6 +12,8 @@
 #include "ram.h"		  // RAM定义
 #include "eeprom.h"		  // eeprom
 #include "uart.h"
+#include "ADF7030_1.h"
+
 #define TXD1_enable (USART1_CR2 = 0x08) // 允许发送
 #define RXD1_enable (USART1_CR2 = 0x24) // 允许接收及其中断
 
@@ -346,8 +348,9 @@ void OprationFrame(void)
                 }
                 else if(Uart_Type== 0x02)
                 {
-                  TX_Control_code_TYPE02[0]=UART_DATA_buffer[7];
-                  for(i=0;i<UART_DATA_buffer[7];i++)TX_Control_code_TYPE02[i+1]=UART_DATA_buffer[i+8];
+                  Uart_Struct_DATA_Packet_Contro.Fno_Type.byte=UART_DATA_buffer[7];
+                  for(i=0;i<UART_DATA_buffer[3]-6;i++)Uart_Struct_DATA_Packet_Contro.data[i/2].uc[i%2]=UART_DATA_buffer[i+8];
+				  for(i=UART_DATA_buffer[3]-6;i<8;i++)Uart_Struct_DATA_Packet_Contro.data[i/2].uc[i%2]=0x00;
                 }
                 FLAG_APP_TX_fromUART=1;
                 
@@ -362,6 +365,8 @@ void OprationFrame(void)
                 ACKBack[8] = 0x00;
                 ACKBack_LEN=9;
            }
+		   else 
+		   	U1Statues = IdelStatues;   //不返回ACK
 		  break;
 	  case 0x10:
 	  	  if(UART_DATA_buffer[4]<=32)
@@ -442,7 +447,7 @@ void TranmissionACK(void)
 
 void wireless_Receive_SendUart(void)
 {
-    u8 data[10];
+    u8 i,data[18],length;
     uni_rom_id xn;
     u16 check_sum=0;
     static u32 Last_DATA_Packet_ID=0;
@@ -452,30 +457,86 @@ void wireless_Receive_SendUart(void)
     if((U1Statues!= ACKingStatues)&&(flag_ID_Receiver_sendUART==1))
     {
       flag_ID_Receiver_sendUART=0;
-      
-      if((DATA_Packet_ID!=Last_DATA_Packet_ID)||(DATA_Packet_Control!=Last_DATA_Packet_Control)||
-          (DATA_Packet_ID==Last_DATA_Packet_ID)&&(DATA_Packet_Control==Last_DATA_Packet_Control)&&(Time_Receive_gap==0))
-      {
-	    data[0] = FrameHead;
-        data[1] = 0;//Uart_Fremo_NO;  //受信时Fremo为0
-        data[2] = 0x81;
-        data[3] = 6;
-        xn.IDL=DATA_Packet_ID;
-        data[4]=xn.IDB[3];
-        check_sum+=data[4];
-        data[5]=xn.IDB[2];
-        check_sum+=data[5];
-        data[6]=xn.IDB[1];
-        check_sum+=data[6];
-        data[7]=DATA_Packet_Control;
-        check_sum+=data[7];
-        data[8]=check_sum%256;
-        data[9]=check_sum/256;
-        Send_Data(data, 10);
-        
-        Last_DATA_Packet_ID=DATA_Packet_ID;
-        Last_DATA_Packet_Control=DATA_Packet_Control;
-        Time_Receive_gap=720;
-      }
+
+	  if(Radio_Date_Type==1)
+	  {
+	      if((DATA_Packet_ID!=Last_DATA_Packet_ID)||(DATA_Packet_Control!=Last_DATA_Packet_Control)||
+	          ((DATA_Packet_ID==Last_DATA_Packet_ID)&&(DATA_Packet_Control==Last_DATA_Packet_Control)&&(Time_Receive_gap==0))
+	          )
+	      {
+		    data[0] = FrameHead;
+	        data[1] = 0;//Uart_Fremo_NO;  //受信时Fremo为0
+	        data[2] = 0x81;
+	        data[3] = 6;
+	        xn.IDL=DATA_Packet_ID;
+	        data[4]=xn.IDB[3];
+	        check_sum+=data[4];
+	        data[5]=xn.IDB[2];
+	        check_sum+=data[5];
+	        data[6]=xn.IDB[1];
+	        check_sum+=data[6];
+	        data[7]=DATA_Packet_Control;
+	        check_sum+=data[7];
+	        data[8]=check_sum%256;
+	        data[9]=check_sum/256;
+	        Send_Data(data, 10);
+	        
+	        Last_DATA_Packet_ID=DATA_Packet_ID;
+	        Last_DATA_Packet_Control=DATA_Packet_Control;
+	        Time_Receive_gap=720;
+	      }
+	  }
+	  else if(Radio_Date_Type==2)
+	  {
+	      if((DATA_Packet_ID!=Last_DATA_Packet_ID)||(Struct_DATA_Packet_Contro.Fno_Type.byte!=Last_Struct_DATA_Packet_Contro.Fno_Type.byte)||
+		  	 (Struct_DATA_Packet_Contro.data[0].ui!=Last_Struct_DATA_Packet_Contro.data[0].ui)||
+		  	 (Struct_DATA_Packet_Contro.data[1].ui!=Last_Struct_DATA_Packet_Contro.data[1].ui)||
+		  	 (Struct_DATA_Packet_Contro.data[2].ui!=Last_Struct_DATA_Packet_Contro.data[2].ui)||
+		  	 (Struct_DATA_Packet_Contro.data[3].ui!=Last_Struct_DATA_Packet_Contro.data[3].ui)||
+	          ((DATA_Packet_ID==Last_DATA_Packet_ID)&&(Struct_DATA_Packet_Contro.Fno_Type.byte==Last_Struct_DATA_Packet_Contro.Fno_Type.byte)&&
+	          (Struct_DATA_Packet_Contro.data[0].ui==Last_Struct_DATA_Packet_Contro.data[0].ui)&&
+              (Struct_DATA_Packet_Contro.data[1].ui==Last_Struct_DATA_Packet_Contro.data[1].ui)&&
+              (Struct_DATA_Packet_Contro.data[2].ui==Last_Struct_DATA_Packet_Contro.data[2].ui)&&
+              (Struct_DATA_Packet_Contro.data[3].ui==Last_Struct_DATA_Packet_Contro.data[3].ui)&&
+		       (Time_Receive_gap==0))
+		       )
+	      {
+		    data[0] = FrameHead;
+	        data[1] = 0;//Uart_Fremo_NO;  //受信时Fremo为0
+	        data[2] = 0x81;
+			
+			if(Struct_DATA_Packet_Contro.Fno_Type.UN.type==1)
+				length=3;
+			else length=8;
+	        data[3] = length+6;
+			
+	        xn.IDL=DATA_Packet_ID;
+	        data[4]=xn.IDB[3];
+	        check_sum+=data[4];
+	        data[5]=xn.IDB[2];
+	        check_sum+=data[5];
+	        data[6]=xn.IDB[1];
+	        check_sum+=data[6];
+
+			data[7]=Struct_DATA_Packet_Contro.Fno_Type.byte;
+	            check_sum+=data[7];	
+
+			for (i = 0; i < length; i++)
+			{
+				data[8+i]=Struct_DATA_Packet_Contro.data[i/2].uc[i%2];
+				check_sum+=data[8+i];
+			}				
+	        data[8+i]=check_sum%256;
+	        data[9+i]=check_sum/256;				
+
+			//if(Struct_DATA_Packet_Contro.Fno_Type.UN.type==1)
+	          Send_Data(data, length+10);
+	        
+	        Last_DATA_Packet_ID=DATA_Packet_ID;
+	        Last_Struct_DATA_Packet_Contro=Struct_DATA_Packet_Contro;
+	        Time_Receive_gap=130;
+	      }	  
+	  }
+	  
     }
 }

@@ -67,6 +67,12 @@ u8 Flag_RSSI_Read_Timer = 10;
 const u8 ADF7030Cfg[] = {
 #include "Settings_ADF7030-1.cfg"
 };
+const u8 ADF7030Cfg_4dot8k[] = {
+#include "Settings_ADF7030-1_4dot8k.cfg"
+};
+const u8 *ADF7030Cfg_pointer=ADF7030Cfg;
+
+
 /**
 ****************************************************************************
 * @Function : u32 CFG_SIZE(void)
@@ -80,10 +86,21 @@ u32 CFG_SIZE(void)
 {
 	return sizeof(ADF7030Cfg);
 }
+/*
 u8 CONST_TXPACKET_DATA_20000AF0[12] = {
 	0X95, 0X55, 0X55, 0X55,
 	0X55, 0X55, 0X56, 0X55,
 	0X95, 0X55, 0X56, 0X55};
+*/
+	u8 CONST_TXPACKET_DATA_20000AF0[28] = {
+		0X95, 0X55, 0X55, 0X55,
+		0X55, 0X55, 0X56, 0X55,
+		0X95, 0X55, 0X56, 0X55,
+		0X95, 0X55, 0X55, 0X55,
+		0X95, 0X55, 0X55, 0X55,
+		0X95, 0X55, 0X55, 0X55,
+		0X95, 0X55, 0X55, 0X55};
+
 u32 GENERIC_PKT_TEST_MODES0_32bit_20000548 = 0x00000000;
 const u8 TEST_MODES0_para[5] = {0, 1, 2, 4, 6};
 u32 RADIO_DIG_TX_CFG0_32bit_20000304 = 0xC838287E;
@@ -120,7 +137,6 @@ u32 PROFILE_GENERIC_PKT_FRAME_CFG1_32bit_20000500 = 0x0000100C;
 
 u32 TX_ID_data=0;
 u8 TX_Control_code_TYPE01=0;
-u8 TX_Control_code_TYPE02[20]={0};
 u16 Time_Receive_gap=0;
 u16 Time_APP_RXstart=0;
 u8 Time_APP_blank_TX=0;
@@ -131,6 +147,11 @@ u8 Time_acc=0;
 u16 TIME_RSSI_Scan=0;
 u8 Scan_step=1;
 short RSSI_Scan_val=-150;
+
+Wireless_Body Struct_DATA_Packet_Contro,Struct_DATA_Packet_Contro_buf,Last_Struct_DATA_Packet_Contro;
+Wireless_Body Uart_Struct_DATA_Packet_Contro;
+
+
 
 
 

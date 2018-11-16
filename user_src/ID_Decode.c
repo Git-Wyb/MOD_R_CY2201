@@ -69,99 +69,15 @@ void DataReceive(void)
     }
     EXTI_SR1_P4F = 1;
 }
-/*
-void ID_Decode_function(void)
-{
-    UINT16 DATA_Packet_Syn_bak = 0;
-    if (FLAG_APP_RX == 1)
-    {
-        TIME_EMC = 10;
-        switch (rxphase)
-        {
-        case 0:
-            DATA_Packet_Syn = DATA_Packet_Syn << 1;
-            if (ADF7021_DATA_rx)
-                DATA_Packet_Syn += 1;
-            if (TIMER18ms == 0)
-            {
-                DATA_Packet_Syn_bak = DATA_Packet_Syn & 0x0000FFFF;
-                if ((DATA_Packet_Syn_bak == 0x5555) || (DATA_Packet_Syn_bak == 0xAAAA))
-                    ;
-                else
-                    FLAG_Receiver_Scanning = 1;
-            }
-            //if(DATA_Packet_Syn==0x55555555){rxphase=1;TIMER18ms=65;DATA_Packet_Syn=0;DATA_Packet_Head=0;}
-            if ((DATA_Packet_Syn & 0xFFFFFFFF) == 0x55555555)
-            {
-                rxphase = 1;
-                TIMER18ms = 2000;
-                DATA_Packet_Syn = 0;
-                DATA_Packet_Head = 0;
-                //Receiver_LED_RX=1;
-                FG_Receiver_LED_RX = 1;
-                TIMER300ms = 500;
-            }
-            break;
-        case 1:
-            DATA_Packet_Head = DATA_Packet_Head << 1;
-            if (ADF7021_DATA_rx)
-                DATA_Packet_Head += 1;
-            //DATA_Packet_Head=DATA_Packet_Head&0x0000FFFF;
-            if (TIMER18ms == 0)
-                rxphase = 0;
-            if (DATA_Packet_Head == 0x5515)
-            {
-                rxphase = 2;
-                DATA_Packet_Syn = 0;
-                DATA_Packet_Head = 0;
-                DATA_Packet_Code_i = 0;
-            }
-            break;
-        case 2:
-            DATA_Packet_Code_g = DATA_Packet_Code_i / 32;
-            DATA_Packet_Code[DATA_Packet_Code_g] = DATA_Packet_Code[DATA_Packet_Code_g] << 1;
-            if (ADF7021_DATA_rx)
-                DATA_Packet_Code[DATA_Packet_Code_g] += 1;
-            DATA_Packet_Code_i++;
-            if (DATA_Packet_Code_i == 96)
-            {
-                if ((DATA_Packet_Code[1] & 0x0000FFFF) == 0x5556)
-                    ;
-                else
-                    rxphase = 3;
-            }
-            else if (DATA_Packet_Code_i >= 192)
-                rxphase = 3;
-            break;
-        case 3:
-            FLAG_Receiver_IDCheck = 1;
-            //                if((Freq_Scanning_CH==1)||(Freq_Scanning_CH==3)||(Freq_Scanning_CH==5))Freq_Scanning_CH_bak=0;   //暂时记录下收到信号的频率信道,0代表426M
-            //                else Freq_Scanning_CH_bak=1;                                                                                 //                       1代表429M
-            rxphase = 0;
-            DATA_Packet_Syn = 0;
-            TIMER18ms = 0; //0ms，接受可靠稳定
-            break;
-        default:
-            break;
-        }
-    }
-    else if (FG_test_rx == 1)
-    {
-        X_COUNT++;
-        if ((ADF7021_DATA_rx == X_HIS) && (X_COUNT != 1))
-            X_ERR++;
-        X_HIS = ADF7021_DATA_rx;
-    }
-    EXTI_SR1_bit.P2F = 1;
-}
-*/
+
 void ID_Decode_IDCheck(void)
 {
 
     if (FLAG_Receiver_IDCheck)
     {
         FLAG_Receiver_IDCheck = 0;
-        Signal_DATA_Decode(0);
+		if(Radio_Date_Type==1) Signal_DATA_Decode(0);
+		else if(Radio_Date_Type==2) Signal_DATA_Decode(2);
         if (FLAG_Signal_DATA_OK == 1)
         {
             eeprom_IDcheck();
@@ -174,7 +90,7 @@ void ID_Decode_IDCheck(void)
                     ID_Receiver_Login = DATA_Packet_ID;
                 }
             }
-			else if(FLAG_ID_Login_FromUART==1)
+			else if((FLAG_ID_Login_FromUART==1)&&(Radio_Date_Type==1))
 			{
                 if ((DATA_Packet_Contro_buf != 0x40) && (DATA_Packet_ID != 0)) //2015.4.1修正 在登录模式下 不允许自动送信登录，只允许手动送信登录
                 {
@@ -196,7 +112,7 @@ void ID_Decode_IDCheck(void)
                 if (DATA_Packet_ID == 0xFFFFFE)
                     DATA_Packet_Control = DATA_Packet_Contro_buf;
 
-                if ((SPI_Receive_DataForC[1] & 0x0000FFFF) == 0x5556)
+                if (((SPI_Receive_DataForC[1] & 0x0000FFFF) == 0x5556)&&(Radio_Date_Type==1))
                 {
                     PAYLOAD_SIZE = RX_PayLoadSizeLogin;
                     Signal_DATA_Decode(1);
@@ -227,14 +143,10 @@ void ID_Decode_IDCheck(void)
                 }
                 else
                 {
-                    flag_ID_Receiver_sendUART=1;
+                    flag_ID_Receiver_sendUART=1;					
+                    if(Radio_Date_Type==1)PAYLOAD_SIZE = RX_PayLoadSizeNOLogin;
 					
-                    PAYLOAD_SIZE = RX_PayLoadSizeNOLogin;
-                    //#if defined(__Product_PIC32MX2_WIFI__)
-                    //                    TIMER1s=500;//1000
-                    //#endif
-                    //#if defined(__Product_PIC32MX2_Receiver__)
-                    //                    if(Freq_Scanning_CH_bak==0){
+/*
                     if ((DATA_Packet_Control == 0x40) && (Manual_override_TIMER == 0))
                     {
                         FG_auto_manual_mode = 1;
@@ -249,21 +161,15 @@ void ID_Decode_IDCheck(void)
                         ;
                     else
                     {
+*/
                         FG_auto_out = 0;
                         TIME_auto_close = 0;
                         FG_auto_open_time = 0;
                         if (FG_auto_manual_mode == 1)      //Manual_override_TIMER=13500;   //2分30秒自动无效
                             Manual_override_TIMER = 24480; //4分30秒自动无效
-//                        if ((DATA_Packet_Control & 0x14) == 0x14)
-//                        {
-//                            if (TIMER1s == 0)
-//                                TIMER1s = 3800 - 30;
-//                        }
-//                        else
                             TIMER1s = 1000;
-                    }
-                    //                    }
-                    //                    else TIMER1s=1000;
+//                    }
+					
                     TIMER300ms = 500;
                     //Receiver_LED_RX=1;
                     FG_Receiver_LED_RX = 1;
@@ -278,11 +184,14 @@ void Signal_DATA_Decode(UINT8 NUM_Type)
 {
     UINT32 data_in;
     UINT16 data_out;
-    UINT16 data_NRZ[3];
-    UINT8 i, j;
-    for (i = 0; i < 3; i++)
+    UINT16 data_NRZ[7];
+    UINT8 i, j,i_value;
+
+	if((NUM_Type==0)||(NUM_Type==1))i_value=3;
+	else if(NUM_Type==2)i_value=7;
+    for (i = 0; i < i_value; i++)
     {
-        if (NUM_Type == 0)
+        if ((NUM_Type == 0)||(NUM_Type == 2))
             data_in = SPI_Receive_DataForC[i];
         else
             data_in = SPI_Receive_DataForC[i + 3];
@@ -297,19 +206,36 @@ void Signal_DATA_Decode(UINT8 NUM_Type)
         }
         data_NRZ[i] = data_out;
     }
-    if (data_NRZ[2] == ((data_NRZ[0] + data_NRZ[1]) & 0xFFFF))
-    {
-        FLAG_Signal_DATA_OK = 1;
-        LCDUpdateIDFlag = 1;
-        DATA_Packet_ID = (data_NRZ[1] & 0x00FF) * 65536 + data_NRZ[0];
-        if (DATA_Packet_ID == 0)
-            FLAG_Signal_DATA_OK = 0;                          //2014.3.21追加  不允许使用ID=0
-        DATA_Packet_Contro_buf = (data_NRZ[1] & 0xFF00) >> 8; //2015.3.24修正 Control缓存起 ID判断是否学习过后才能使用
-                                                              //          if(Freq_Scanning_CH_bak==1)
-                                                              //              Control_bak=DATA_Packet_Control;
-    }
-    else
-        FLAG_Signal_DATA_OK = 0;
+	if((NUM_Type==0)||(NUM_Type==1))
+	{
+	    if (data_NRZ[2] == ((data_NRZ[0] + data_NRZ[1]) & 0xFFFF))
+	    {
+	        FLAG_Signal_DATA_OK = 1;
+	        LCDUpdateIDFlag = 1;
+	        DATA_Packet_ID = (data_NRZ[1] & 0x00FF) * 65536 + data_NRZ[0];
+	        if (DATA_Packet_ID == 0)
+	            FLAG_Signal_DATA_OK = 0;                          //2014.3.21追加  不允许使用ID=0
+	        DATA_Packet_Contro_buf = (data_NRZ[1] & 0xFF00) >> 8; //2015.3.24修正 Control缓存起 ID判断是否学习过后才能使用
+	    }
+	    else
+	        FLAG_Signal_DATA_OK = 0;
+	}
+	else if(NUM_Type==2)
+	{
+	    if (data_NRZ[6] == ((data_NRZ[0] + data_NRZ[1] + data_NRZ[2] + data_NRZ[3] + data_NRZ[4] + data_NRZ[5]) & 0xFFFF))
+	    {
+	        FLAG_Signal_DATA_OK = 1;
+	        LCDUpdateIDFlag = 1;
+	        DATA_Packet_ID = (data_NRZ[1] & 0x00FF) * 65536 + data_NRZ[0];
+	        if (DATA_Packet_ID == 0)
+	            FLAG_Signal_DATA_OK = 0;                          //2014.3.21追加  不允许使用ID=0
+	        Struct_DATA_Packet_Contro_buf.Fno_Type.byte = (data_NRZ[1] & 0xFF00) >> 8; //2015.3.24修正 Control缓存起 ID判断是否学习过后才能使用
+            for (i = 0; i < 4; i++)
+				Struct_DATA_Packet_Contro_buf.data[i].ui=data_NRZ[i+2];
+	    }
+	    else
+	        FLAG_Signal_DATA_OK = 0;	
+	}
 }
 
 void eeprom_IDcheck(void)
@@ -322,7 +248,8 @@ void eeprom_IDcheck(void)
             INquiry = i;
             i = ID_DATA_PCS;
             FLAG_IDCheck_OK = 1;
-            DATA_Packet_Control = DATA_Packet_Contro_buf;
+            if(Radio_Date_Type==1)DATA_Packet_Control = DATA_Packet_Contro_buf;
+			else if(Radio_Date_Type==2)Struct_DATA_Packet_Contro=Struct_DATA_Packet_Contro_buf;
         } //2015.3.24修正 Control缓存起 ID判断是否学习过后才能使用
         if ((FLAG_ID_Erase_Login == 1) && (FLAG_ID_Erase_Login_PCS == 1))
         {
@@ -648,10 +575,13 @@ void Freq_Scanning(void)
         ADF7030_READ_REGISTER_NOPOINTER_LONGADDR(ADDR_PROFILE_CCA_READBACK,6);
         RSSI_Scan_val = (short)((ADF7030_RESIGER_VALUE_READ & 0x07ff)<<5);//>>16;    
         RSSI_Scan_val=RSSI_Scan_val/128;
-		if((RSSI_Scan_val!=0)&&(RSSI_Scan_val>-100))
+		if((RSSI_Scan_val!=0)&&(RSSI_Scan_val>-116))
 		{
 		    ADF7030Init();	   //射频初始化
-			TIMER18ms = 18;
+		    if(Radio_Date_Type==1)
+			  TIMER18ms = 18;
+			else if(Radio_Date_Type==2)
+			  TIMER18ms = 18;//7;
 			Flag_FREQ_Scan = 0;
 			Scan_step=2;
 		}
@@ -673,7 +603,11 @@ void Freq_Scanning(void)
 			if (ADF7030_Read_RESIGER(0x4000380C, 1, 0) != 0)
 			{
 				Flag_FREQ_Scan = 1;
-				TIMER18ms = 82;
+				if(Radio_Date_Type==1)
+				  TIMER18ms = 82;
+				else if(Radio_Date_Type==2)
+				  TIMER18ms = 82;//50;
+
 				return;
 			}
 		}

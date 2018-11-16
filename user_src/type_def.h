@@ -54,6 +54,29 @@ typedef union {
 
 } ADF70XX_REG_T;
 
+typedef union {
+	  u16  ui ;
+  u8   uc[2] ;
+}uni_i;
+
+
+typedef struct body    //定义结构体  
+{  
+	union  
+	{  
+		u8 byte;  
+		struct	
+		{  
+			unsigned char type :5;  
+			unsigned char fno :3;   		 
+		} UN;  
+	}Fno_Type; 
+	
+    uni_i data[4];  //无线data      
+}Wireless_Body;  //结构体
+
+
+
 #define TRANSITION_STATUS_TRANSITION 0
 #define TRANSITION_STATUS_EXECUTING 1
 #define TRANSITION_STATUS_IDLE 2
