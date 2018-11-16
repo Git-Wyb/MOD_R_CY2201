@@ -32,10 +32,15 @@ extern u8 LED_Cache;
 
 /******************以下是ADF7030-1寄存器************************************/
 /* ADF7030-1 register interface */
-#define ADF7030_REST ADF7030_REST_Cache
-#define ADF7030_REST_DDR ADF7030_REST_Cache
-#define ADF7030_REST_CR1 ADF7030_REST_Cache
-#define ADF7030_REST_CR2 ADF7030_REST_Cache
+//#define ADF7030_REST ADF7030_REST_Cache  //PD_ODR_ODR0
+//#define ADF7030_REST_DDR ADF7030_REST_Cache  //PD_DDR_DDR0
+//#define ADF7030_REST_CR1 ADF7030_REST_Cache  //PD_CR1_C10
+//#define ADF7030_REST_CR2 ADF7030_REST_Cache  //PD_CR2_C20
+
+#define ADF7030_REST PD_ODR_ODR0
+#define ADF7030_REST_DDR PD_DDR_DDR0
+#define ADF7030_REST_CR1 PD_CR1_C10
+#define ADF7030_REST_CR2 PD_CR2_C20
 
 #define ADF7030_GPIO2 PC_IDR_IDR5
 #define ADF7030_GPIO2_DDR PC_DDR_DDR5

@@ -430,10 +430,10 @@ u32 ADF7030_GET_MISC_FW(void) //??MISC_FW?????
 
 void ADF7030_WRITING_PROFILE_FROM_POWERON(void)
 {
-    ADF7030_REST = 0; //ADF7030芯片初始化
-    Delayus(50);
-    ClearWDT();
-    ADF7030_REST = 1; //ADF7030芯片初始化完成
+//    ADF7030_REST = 0; //ADF7030芯片初始化
+//    Delayus(50);
+//    ClearWDT();
+//    ADF7030_REST = 1; //ADF7030芯片初始化完成
     ADF7030_CHANGE_STATE(STATE_PHY_ON);
     WaitForADF7030_FIXED_DATA(); //等待芯片空闲/可接受CMD状态
     DELAY_30U();
@@ -1036,15 +1036,23 @@ void APP_TX_PACKET(void)
     ADF7030_TRANSMITTING_FROM_POWEROFF();
     FLAG_APP_RXstart=1;
     FLAG_APP_TX=0;
-    TIMER18ms=500;
+    Time_APP_RXstart=1;
   }
-  if((FLAG_APP_RXstart==1)&&(TIMER18ms==0))
+  if((FLAG_APP_RXstart==1)&&(Time_APP_RXstart==0))
   {
     FLAG_APP_RXstart=0;
-    FLAG_APP_RX=1;
+    //FLAG_APP_RX=1;
     PROFILE_CH_FREQ_32bit_200002EC = 426075000;
     PROFILE_RADIO_AFC_CFG1_32bit_2000031C = 0x0005005A;
     ADF7030_WRITING_PROFILE_FROM_POWERON();
-    ADF7030_RECEIVING_FROM_POWEROFF();   
+    ADF7030_RECEIVING_FROM_POWEROFF(); 
+    
+    FLAG_APP_RX_seting=1;
+    Time_APP_RXseting=1;  
+  }
+  if((FLAG_APP_RX_seting==1)&&(Time_APP_RXseting==0))
+  {
+    FLAG_APP_RX_seting=0;
+    FLAG_APP_RX=1;     
   }
 }
