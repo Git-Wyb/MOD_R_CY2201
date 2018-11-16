@@ -375,7 +375,14 @@ void OprationFrame(void)
                 xn.IDB[3]=UART_DATA_buffer[i*3+5];
 				ID_Receiver_DATA[i]=xn.IDL;
 			  }
-		  U1Statues = IdelStatues;   //不返回ACK
+		  //U1Statues = IdelStatues;   //不返回ACK
+		  ACKBack[0] = FrameHead;
+		  ACKBack[1] = Uart_Fremo_NO;
+		  ACKBack[2] = 0x90;
+		  ACKBack[3] = 2;
+		  ACKBack[4] = 0x00;
+		  ACKBack[5] = 0x00;
+		  ACKBack_LEN=6;		  
 		  break;	
 	  case 0x11:
 	  	  if(UART_DATA_buffer[3]==1)
