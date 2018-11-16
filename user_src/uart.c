@@ -282,10 +282,11 @@ void ReceiveFrame(UINT8 Cache)
 		UART_DATA_buffer[1] = UART_DATA_buffer[2];
                 UART_DATA_buffer[2] = UART_DATA_buffer[3];
 		UART_DATA_buffer[3] = Cache;
-		if ((UART_DATA_buffer[0] == FrameHead) &&
+		/*if ((UART_DATA_buffer[0] == FrameHead) &&
 			(UART_DATA_buffer[1] != FrameHead)
                           &&(UART_DATA_buffer[2] != FrameHead)
-                            &&(UART_DATA_buffer[3] != FrameHead))
+                            &&(UART_DATA_buffer[3] != FrameHead)) */
+    if (UART_DATA_buffer[0] == FrameHead)                        
 		{
 			U1Statues = ReceivingStatues;
 			UartStatus++;
@@ -397,7 +398,10 @@ void OprationFrame(void)
 		  Power_ON_sendVer();
 		  break;		  
 	  }
-       
+   UART_DATA_buffer[0] = 0x00;
+	 UART_DATA_buffer[1] = 0x00;
+   UART_DATA_buffer[2] = 0x00;
+	 UART_DATA_buffer[3] = 0x00;    
 }
 
 void Power_ON_sendVer(void)
