@@ -46,7 +46,7 @@
   * @param  None
   * @retval None
   */
-unsigned char Soft_Version[7]="Ver0.23";
+unsigned char Soft_Version[7]="Ver0.24";
 
 void main(void)
 {
@@ -61,6 +61,13 @@ void main(void)
     TIM4_Init();       // 定时器
     beep_init();       // 蜂鸣器
     ClearWDT();        // Service the WDT
+
+    PROFILE_CH_FREQ_32bit_200002EC = 426075000;
+    PROFILE_RADIO_AFC_CFG1_32bit_2000031C = 0x0005005A;
+//               PROFILE_CH_FREQ_32bit_200002EC = 429175000;
+//               PROFILE_RADIO_AFC_CFG1_32bit_2000031C = 0x0005005B; 
+
+    
     ADF7030Init();     //射频初始化
     UART1_INIT();      // UART1 for PC Software
     _EI();             // 允许中断
