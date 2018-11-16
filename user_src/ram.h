@@ -6,7 +6,7 @@
 #include "initial.h" // 锟斤拷始锟斤拷  预锟斤拷锟斤拷
 
 
-#define DEF_APP_TX_freq 4
+#define DEF_APP_TX_freq 4    //通信机确定发送4次
 
 
 

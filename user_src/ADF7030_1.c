@@ -625,7 +625,7 @@ void RX_ANALYSIS(void)
 {
     u8 i;
     TIMER300ms = 500;
-//    FG_Receiver_LED_RX = 1;
+    FG_Receiver_LED_RX = 1;
     // if (WORK_TEST == 0)
     //     Send_Data(&SPI_RECEIVE_BUFF[3], PAYLOAD_SIZE);
     for (i = 0; i < 7; i++)
@@ -1278,7 +1278,6 @@ void APP_TX_PACKET(void)
 				{
 				    if(APP_TX_freq==0)
 				    {
-				        Uart_Struct_DATA_Packet_Contro.Fno_Type.UN.fno=1;
 				        TX_DataLoad_HighSpeed(TX_ID_data,Uart_Struct_DATA_Packet_Contro, &CONST_TXPACKET_DATA_20000AF0[0]);
 				        ADF7030_TRANSMITTING_FROM_POWEROFF();
 				        Time_APP_blank_TX=2;
@@ -1286,8 +1285,6 @@ void APP_TX_PACKET(void)
 				    }
 				    else if((APP_TX_freq< DEF_APP_TX_freq)&&(ADF7030_GPIO3 == 0)&&(Time_APP_blank_TX==0))
 				    {
-				        Uart_Struct_DATA_Packet_Contro.Fno_Type.UN.fno=APP_TX_freq+1;
-				        TX_DataLoad_HighSpeed(TX_ID_data,Uart_Struct_DATA_Packet_Contro, &CONST_TXPACKET_DATA_20000AF0[0]);				    
 				         ADF7030_TRANSMITTING_FROM_POWEROFF();
 				         Time_APP_blank_TX=2;        
 				        APP_TX_freq++;

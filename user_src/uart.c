@@ -8,13 +8,13 @@
 /***********************************************************************/
 #include <iostm8l151g4.h> // CPU型号
 #include "Pin_define.h"   // 管脚定义
-#include "initial.h"	  // 初始�?  预定�?
+#include "initial.h"	  // 初始化  预定义
 #include "ram.h"		  // RAM定义
 #include "eeprom.h"		  // eeprom
 #include "uart.h"
 #include "ADF7030_1.h"
 
-#define TXD1_enable (USART1_CR2 = 0x08) // 允许发�??
+#define TXD1_enable (USART1_CR2 = 0x08) // 允许发送
 #define RXD1_enable (USART1_CR2 = 0x24) // 允许接收及其中断
 
 
@@ -48,17 +48,17 @@ void UART1_INIT(void)
 
 	//	USART1_CR3 = 0; // 1个停止位
 	//	USART1_CR4 = 0;
-	//	USART1_CR5 = 0x00;  //0x08;						// 半双工模�?
-	/*设置波特�?*/
+	//	USART1_CR5 = 0x00;  //0x08;						// 半双工模式
+	/*设置波特率*/
 	baud_div = 16000000 / 115200; /*求出分频因子*/   //9600
 	USART1_BRR2 = baud_div & 0x0f;
 	USART1_BRR2 |= ((baud_div & 0xf000) >> 8);
-	USART1_BRR1 = ((baud_div & 0x0ff0) >> 4); /*先给BRR2赋�?? �?后再设置BRR1*/
+	USART1_BRR1 = ((baud_div & 0x0ff0) >> 4); /*先给BRR2赋值 最后再设置BRR1*/
 
-	//	USART1_BRR2 = 0x03; // 设置波特�?9600
+	//	USART1_BRR2 = 0x03; // 设置波特率9600
 	//	USART1_BRR1 = 0x68; // 3.6864M/9600 = 0x180
 	//16.00M/9600 = 0x683
-	//USART1_CR2 = 0x08;	// 允许发�??
+	//USART1_CR2 = 0x08;	// 允许发送
 	//USART1_CR2 = 0x24;
 	//Send_char(0xa5);
 }
@@ -69,8 +69,8 @@ void UART1_end(void)
 	USART1_CR1 = 0; // 1个起始位,8个数据位
 	USART1_CR3 = 0; // 1个停止位
 	USART1_CR4 = 0;
-	USART1_CR5 = 0x00;  // 半双工模�?
-	USART1_BRR2 = 0x00; // 设置波特�?9600
+	USART1_CR5 = 0x00;  // 半双工模式
+	USART1_BRR2 = 0x00; // 设置波特率9600
 	USART1_BRR1 = 0x00; // 3.6864M/9600 = 0x180
 						//16.00M/9600 = 0x683
 	USART1_CR2 = 0x00;  //禁止串口
@@ -99,44 +99,44 @@ void UART1_RX_RXNE(void)
 
 //--------------------------------------------
 void Send_char(unsigned char ch)
-{				 // 发�?�字�?
-	TXD1_enable; // 允许发�??
+{				 // 发送字符
+	TXD1_enable; // 允许发送
 	while (!USART1_SR_TXE)
 		;
-	USART1_DR = ch; // 发�??
+	USART1_DR = ch; // 发送
 	while (!USART1_SR_TC)
-		;		 // 等待完成发�??
+		;		 // 等待完成发送
 	RXD1_enable; // 允许接收及其中断
 }
 //--------------------------------------------
 void Send_String(unsigned char *string)
-{ // 发�?�字符串
+{ // 发送字符串
 	unsigned char i = 0;
-	TXD1_enable; // 允许发�??
+	TXD1_enable; // 允许发送
 	while (string[i])
 	{
 		while (!USART1_SR_TXE)
-			;				   // �?查发送OK
-		USART1_DR = string[i]; // 发�??
+			;				   // 检查发送OK
+		USART1_DR = string[i]; // 发送
 		i++;
 	}
 	while (!USART1_SR_TC)
-		;		 // 等待完成发�??
+		;		 // 等待完成发送
 	RXD1_enable; // 允许接收及其中断
 				 //	BIT_SIO = 0;							// 标志
 }
 void Send_Data(unsigned char *P_data, unsigned int length)
-{ // 发�?�字符串
+{ // 发送字符串
 	unsigned int i = 0;
-	TXD1_enable; // 允许发�??
+	TXD1_enable; // 允许发送
 	for (i = 0; i < length; i++)
 	{
 		while (!USART1_SR_TXE)
-			;					   // �?查发送OK
-		USART1_DR = *(P_data + i); // 发�??
+			;					   // 检查发送OK
+		USART1_DR = *(P_data + i); // 发送
 	}
 	while (!USART1_SR_TC)
-		;		 // 等待完成发�??
+		;		 // 等待完成发送
 	RXD1_enable; // 允许接收及其中断
 				 //	BIT_SIO = 0;							// 标志
 }
@@ -183,7 +183,7 @@ void PC_PRG(void) // 串口命令
 		switch (SIO_DATA[1])
 		{
 		//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-		//%                 写操�?               %
+		//%                 写操作               %
 		//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 		case 'W':
 			//==================================== ADF7012
@@ -245,7 +245,7 @@ void PC_PRG(void) // 串口命令
 			}
 			break;
 		//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-		//%                 读操�?               %
+		//%                 读操作               %
 		//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 		case 'R':
 			//==================================== ADF7012   //(RIx)
@@ -313,7 +313,7 @@ void ReceiveFrame(UINT8 Cache)
 		U1Statues = IdelStatues;
 		break;
 	}
-	if (UartStatus == FrameEndStatus) //接收完一帧处理数�?
+	if (UartStatus == FrameEndStatus) //接收完一帧处理数据
 	{
 		UartStatus = 0;
 		UartCount = 0;
@@ -465,7 +465,7 @@ void wireless_Receive_SendUart(void)
 	          )
 	      {
 		    data[0] = FrameHead;
-	        data[1] = 0;//Uart_Fremo_NO;  //受信时Fremo�?0
+	        data[1] = 0;//Uart_Fremo_NO;  //受信时Fremo为0
 	        data[2] = 0x81;
 	        data[3] = 6;
 	        xn.IDL=DATA_Packet_ID;
@@ -488,9 +488,7 @@ void wireless_Receive_SendUart(void)
 	  }
 	  else if(Radio_Date_Type==2)
 	  {
-	      //if((DATA_Packet_ID!=Last_DATA_Packet_ID)||(Struct_DATA_Packet_Contro.Fno_Type.byte!=Last_Struct_DATA_Packet_Contro.Fno_Type.byte)||
-/*
-	      if((DATA_Packet_ID!=Last_DATA_Packet_ID)||
+	      if((DATA_Packet_ID!=Last_DATA_Packet_ID)||(Struct_DATA_Packet_Contro.Fno_Type.byte!=Last_Struct_DATA_Packet_Contro.Fno_Type.byte)||
 		  	 (Struct_DATA_Packet_Contro.data[0].ui!=Last_Struct_DATA_Packet_Contro.data[0].ui)||
 		  	 (Struct_DATA_Packet_Contro.data[1].ui!=Last_Struct_DATA_Packet_Contro.data[1].ui)||
 		  	 (Struct_DATA_Packet_Contro.data[2].ui!=Last_Struct_DATA_Packet_Contro.data[2].ui)||
@@ -502,21 +500,15 @@ void wireless_Receive_SendUart(void)
               (Struct_DATA_Packet_Contro.data[3].ui==Last_Struct_DATA_Packet_Contro.data[3].ui)&&
 		       (Time_Receive_gap==0))
 		       )
-*/
- if(Time_Receive_gap==0 )
 	      {
 		    data[0] = FrameHead;
-	        data[1] = 0;//Uart_Fremo_NO;  //受信时Fremo�?0
+	        data[1] = 0;//Uart_Fremo_NO;  //受信时Fremo为0
 	        data[2] = 0x81;
 			
-/*
 			if(Struct_DATA_Packet_Contro.Fno_Type.UN.type==1)
 				length=3;
 			else length=8;
-*/			
-            length=3;
 	        data[3] = length+6;
-            
 			
 	        xn.IDL=DATA_Packet_ID;
 	        data[4]=xn.IDB[3];
