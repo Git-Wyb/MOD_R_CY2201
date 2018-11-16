@@ -567,6 +567,7 @@ void Freq_Scanning(void)
 //    }
 
 
+/*
     if((TIME_RSSI_Scan==0)&&(Scan_step==1))
     {
         DELAY_30U();
@@ -575,7 +576,7 @@ void Freq_Scanning(void)
         ADF7030_READ_REGISTER_NOPOINTER_LONGADDR(ADDR_PROFILE_CCA_READBACK,6);
         RSSI_Scan_val = (short)((ADF7030_RESIGER_VALUE_READ & 0x07ff)<<5);//>>16;    
         RSSI_Scan_val=RSSI_Scan_val/128;
-		if((RSSI_Scan_val!=0)&&(RSSI_Scan_val>-116))
+		if((RSSI_Scan_val!=0)&&(RSSI_Scan_val>-80))
 		{
 		    ADF7030Init();	   //射频初始化
 		    if(Radio_Date_Type==1)
@@ -614,5 +615,34 @@ void Freq_Scanning(void)
 
 		Scan_step=1;
 	}
+*/
+
+
+if (TIMER18ms == 0)
+	{
+		//if (Flag_FREQ_Scan == 0)
+		if ((Flag_FREQ_Scan == 0)&&((FLAG_ID_Login_FromUART==1)||
+									  ((FLAG_ID_Login_FromUART==0)&&(PROFILE_CH_FREQ_32bit_200002EC != 426075000)))
+		   )  //工作模式时不接受426.075MHz的信号，只有在登录模式时才接受。
+		{
+			if (ADF7030_Read_RESIGER(0x4000380C, 1, 0) != 0)
+			{
+				Flag_FREQ_Scan = 1;
+				if(Radio_Date_Type==1)
+				  TIMER18ms = 82;
+				else if(Radio_Date_Type==2)
+				  TIMER18ms = 48;//50;
+
+				return;
+			}
+		}
+
+		ADF7030_Change_Channel();
+		ADF7030Init();	   //射频初始化	
+
+		TIMER18ms = 18;
+		Flag_FREQ_Scan = 0;
+	}
+
 
 }

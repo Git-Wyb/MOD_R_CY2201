@@ -90,7 +90,8 @@ void main(void)
         if(FLAG_APP_RX==1)
         {
     		  Freq_Scanning();
-    		  if(Scan_step==2)SCAN_RECEIVE_PACKET(); //扫描接收数据
+    		  //if(Scan_step==2)
+			  	SCAN_RECEIVE_PACKET(); //扫描接收数据
         }
         TranmissionACK();
         wireless_Receive_SendUart();

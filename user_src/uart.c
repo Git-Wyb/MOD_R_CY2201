@@ -534,7 +534,7 @@ void wireless_Receive_SendUart(void)
 	        
 	        Last_DATA_Packet_ID=DATA_Packet_ID;
 	        Last_Struct_DATA_Packet_Contro=Struct_DATA_Packet_Contro;
-	        Time_Receive_gap=130;
+	        Time_Receive_gap=300;
 	      }	  
 	  }
 	  
