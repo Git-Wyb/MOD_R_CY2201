@@ -1168,7 +1168,8 @@ void Select_TX_frequency(void)
    		{
    			if(First_TX_Scan==0)
    			{
-   			    Channels=3;
+   			    if(Uart_Type==2)Channels=3;
+				else if(Uart_Type==1)Channels=1;
 				ADF7030_Change_Channel();
 				ADF7030Init();	   				
 				ADF7030_ACC_FROM_POWEROFF();
@@ -1187,7 +1188,14 @@ void Select_TX_frequency(void)
 				if((rssi_value<-90)||(TX_Scan_count>=3)) 
 					TX_Scan_step	=2;
 				else 
-					{   if(Channels==5)Channels=3;
+					{   if(Uart_Type==2)
+					    {
+					      if(Channels==5)Channels=3;
+						}
+					    else if(Uart_Type==1)
+					    {
+					      if(Channels==3)Channels=1;
+					    }
 						ADF7030_Change_Channel();
 						ADF7030Init();	   				
 						ADF7030_ACC_FROM_POWEROFF();
