@@ -5,6 +5,10 @@
 //#define TX_TEST_CARRIER_MODE 0
 #include "initial.h" // ��ʼ��  Ԥ����
 
+
+#define Type03_TestAdd_426d075_TXRF_10dBm
+
+
 extern uFLAG FLAG_test1;
 //************************************************
 #define FLAG_test1_BYTE FLAG_test1.BYTE

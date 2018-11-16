@@ -508,7 +508,11 @@ void ADF7030_TRANSMITTING_FROM_POWEROFF(void)
     ADF7030_WRITE_REGISTER_NOPOINTER_LONGADDR_OFFSET_MSB(ADF7030Cfg_pointer, CFG_SIZE(), ADDR_CHANNEL_FERQUENCY, 8, 4);
     WaitForADF7030_FIXED_DATA(); //等待芯片空闲/可接受CMD状�??
     DELAY_30U();
-	if(Uart_Type==1)
+#ifndef Type03_TestAdd_426d075_TXRF_10dBm
+					if(Uart_Type== 0x01)
+#else
+					if((Uart_Type== 0x01)||(Uart_Type== 0x03))
+#endif
        Memory_Write_Block_Pointer_Short_Address(CONST_TXPACKET_DATA_20000AF0, PNTR_CUSTOM1_ADDR, 12);
     else if(Uart_Type==2)
 	   Memory_Write_Block_Pointer_Short_Address(CONST_TXPACKET_DATA_20000AF0, PNTR_CUSTOM1_ADDR, 28);
@@ -1164,6 +1168,9 @@ void APP_TX_PACKET(void)
   if((FLAG_APP_TX_fromUART==1)&&(Flag_FREQ_Scan==0))
   {
     if(
+#ifdef Type03_TestAdd_426d075_TXRF_10dBm
+      ((Uart_Type==3)&&(PROFILE_CH_FREQ_32bit_200002EC == 426075000))||
+#endif
 	  ((Uart_Type==1)&&((PROFILE_CH_FREQ_32bit_200002EC == 429175000)||(PROFILE_CH_FREQ_32bit_200002EC == 429200000)))||
 	  ((Uart_Type==2)&&((PROFILE_CH_FREQ_32bit_200002EC == PROFILE_CH1_FREQ_32bit_429HighSpeed)||(PROFILE_CH_FREQ_32bit_200002EC == PROFILE_CH2_FREQ_32bit_429HighSpeed)))
 	  )
@@ -1176,7 +1183,11 @@ void APP_TX_PACKET(void)
   }
   if(FLAG_APP_TX==1)
   {
-	    if(Uart_Type==1)
+#ifndef Type03_TestAdd_426d075_TXRF_10dBm
+					  if(Uart_Type== 0x01)
+#else
+					  if((Uart_Type== 0x01)||(Uart_Type== 0x03))
+#endif
 	    {
 		    if(APP_TX_freq==0)
 		    {
