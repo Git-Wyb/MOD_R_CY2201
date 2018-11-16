@@ -164,7 +164,7 @@ void ID_Decode_IDCheck(void)
         Signal_DATA_Decode(0);
         if (FLAG_Signal_DATA_OK == 1)
         {
-            //eeprom_IDcheck();
+            eeprom_IDcheck();
             //flag_ID_Receiver_sendUART=1;
             if ((FLAG_ID_Erase_Login == 1) || (FLAG_ID_Login == 1))
             {
@@ -189,8 +189,8 @@ void ID_Decode_IDCheck(void)
                 }
 				FLAG_IDCheck_OK=0;
 			}
-            //else if ((FLAG_IDCheck_OK == 1) || (DATA_Packet_ID == 0xFFFFFE))
-            else 
+            else if ((FLAG_IDCheck_OK == 1) || (DATA_Packet_ID == 0xFFFFFE))
+            //else 
             {
                 FLAG_IDCheck_OK = 0;
                 if (DATA_Packet_ID == 0xFFFFFE)
@@ -411,7 +411,8 @@ void ID_Decode_OUT(void)
 
     Control_i = DATA_Packet_Control & 0xFF;
     if (TIMER1s)
-    {   Receiver_LED_OUT = 1;
+    {
+        Receiver_LED_OUT = 1;
         switch (Control_i)
         {
         case 0x14: //stop+login
@@ -617,10 +618,10 @@ void Freq_Scanning(void)
 {
     if (TIMER18ms == 0)
     {
-        if (Flag_FREQ_Scan == 0)
-//        if ((Flag_FREQ_Scan == 0)&&((FLAG_ID_Login_FromUART==1)||
-//                                      ((FLAG_ID_Login_FromUART==0)&&(PROFILE_CH_FREQ_32bit_200002EC != 426075000)))
-//           )  //工作模式时不接受426.075MHz的信号，只有在登录模式时才接受。
+        //if (Flag_FREQ_Scan == 0)
+        if ((Flag_FREQ_Scan == 0)&&((FLAG_ID_Login_FromUART==1)||
+                                      ((FLAG_ID_Login_FromUART==0)&&(PROFILE_CH_FREQ_32bit_200002EC != 426075000)))
+           )  //工作模式时不接受426.075MHz的信号，只有在登录模式时才接受。
         {
             if (ADF7030_Read_RESIGER(0x4000380C, 1, 0) != 0)
             {
@@ -629,36 +630,11 @@ void Freq_Scanning(void)
                 return;
             }
         }
-//        while (GET_STATUE_BYTE().CMD_READY == 0)
-//            ;  
-//        DELAY_30U();
-//        ADF7030_CHANGE_STATE(STATE_PHY_ON);
-        ADF7030_Change_Channel();
 
+        ADF7030_Change_Channel();
         ADF7030Init();     //射频初始化
         
-//        WaitForADF7030_FIXED_DATA(); //等待芯片空闲/可接受CMD状态
-//        DELAY_30U();
-//        GET_STATUE_BYTE();
-//        WaitForADF7030_FIXED_DATA(); //等待芯片空闲/可接受CMD状态
-//        DELAY_30U();
-//        ADF7030_CHANGE_STATE(STATE_PHY_ON);
-//        WaitForADF7030_FIXED_DATA(); //等待芯片空闲/可接受CMD状态
-//        DELAY_30U();
-//        ADF7030_WRITE_REGISTER_NOPOINTER_LONGADDR_MSB(ADDR_GENERIC_PKT_FRAME_CFG1, GENERIC_PKT_FRAME_CFG1);    //
-//        ADF7030_WRITE_REGISTER_NOPOINTER_LONGADDR_MSB(ADDR_CHANNEL_FERQUENCY, PROFILE_CH_FREQ_32bit_200002EC); //
-//        WaitForADF7030_FIXED_DATA();                                                                           //等待芯片空闲/可接受CMD状态
-//        DELAY_30U();
-//        ADF7030_Clear_IRQ();
-//        WaitForADF7030_FIXED_DATA(); //等待芯片空闲/可接受CMD状态
-//        DELAY_30U();
-//        ADF7030_CHANGE_STATE(STATE_PHY_RX);
-//        while (GET_STATUE_BYTE().FW_STATUS == 0);
-//        DELAY_30U();
-        //ADF7030_RECEIVING_FROM_POWEROFF();
-//        while (GET_STATUE_BYTE().FW_STATUS != 1);
-//        while (ADF7030_GPIO3 == 1); 
-        TIMER18ms = 16;  //15  25
+        TIMER18ms = 18;
         Flag_FREQ_Scan = 0;
     }
 
