@@ -143,6 +143,9 @@ extern UINT8 DATA_Packet_Contro_buf; //2015.3.24����
 extern u8 Flag_FREQ_Scan;
 extern u8 Radio_Date_Type;
 
+extern u8 Flag_RXtypeScan_formTX;
+extern u16 TimeOUT_RXtypeScan_formTX;
+
 
 void DELAY_30U(void);
 

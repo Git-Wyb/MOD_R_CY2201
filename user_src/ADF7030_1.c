@@ -41,6 +41,8 @@ u8 TX_Scan_step=0;
 u8 First_TX_Scan=0;
 u8 TX_Scan_count=0;
 
+u8 Flag_RXtypeScan_formTX=0;
+u16 TimeOUT_RXtypeScan_formTX=0;
 
 void DELAY_30U(void)
 {
@@ -1126,6 +1128,15 @@ void ADF7030_Change_Channel(void)
 		}
 		else {
 			
+			if(Flag_RXtypeScan_formTX==1)
+			{
+			   if((Channels==3)||(Channels==4))Channels=5;
+			}
+			else if(Flag_RXtypeScan_formTX==2)
+			{
+			   if((Channels==1)||(Channels==2))Channels=3;
+			}
+			
 			switch (Channels)
 			{
 			  case 1:
@@ -1143,8 +1154,7 @@ void ADF7030_Change_Channel(void)
 					PROFILE_RADIO_DATA_RATE_32bit_200002FC = 0x6400000C;
 					PROFILE_GENERIC_PKT_FRAME_CFG1_32bit_20000500 = 0x0000100C; 
 					Radio_Date_Type=1;
-					//Channels=3;
-					Channels=5;
+					Channels=3;
 					ADF7030Cfg_pointer=ADF7030Cfg;
 				   break;
 			  case 3:
@@ -1252,7 +1262,9 @@ void APP_TX_PACKET(void)
  // short Cache;
  // static u8 FLag_ACC=0;
  // u8 i=0;
-  
+ 
+  if(TimeOUT_RXtypeScan_formTX==0) Flag_RXtypeScan_formTX=0;
+ 
   if((FLAG_APP_TX_fromUART==1)&&(Flag_FREQ_Scan==0))
   {
     if(
@@ -1290,6 +1302,7 @@ void APP_TX_PACKET(void)
 				        ClearWDT();         
 				        APP_TX_freq=2;
 				    }
+
 				    else if((APP_TX_freq==2)&&(ADF7030_GPIO3 == 0)&&(Time_APP_blank_TX==0))
 				    {
 				        ADF7030_TRANSMITTING_FROM_POWEROFF();
@@ -1299,7 +1312,9 @@ void APP_TX_PACKET(void)
 				        APP_TX_freq=3;
 				       FLAG_APP_RXstart=1;
 				       FLAG_APP_TX=0;
-				       Time_APP_RXstart=1;        
+				       Time_APP_RXstart=1;  
+					   Flag_RXtypeScan_formTX=1;
+					   TimeOUT_RXtypeScan_formTX=3310;
 				    } 
 			    }
 				else if(Uart_Type==2)
@@ -1322,7 +1337,9 @@ void APP_TX_PACKET(void)
 				        APP_TX_freq++;
 				       FLAG_APP_RXstart=1;
 				       FLAG_APP_TX=0;
-				       Time_APP_RXstart=1;        
+				       Time_APP_RXstart=1;   
+					   Flag_RXtypeScan_formTX=2;
+					   TimeOUT_RXtypeScan_formTX=1120;
 				    }	
 				}
 		}

@@ -11,6 +11,8 @@
 #include "initial.h"      // 初始化  预定义
 #include "ram.h"          // RAM定义
 #include "uart.h"
+#include "ADF7030_1.h"
+
 u16 ErrStateTimeer = 1;
 u16 StateReadTimer = 500;
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Timer 4 start   1ms
@@ -59,6 +61,8 @@ void TIM4_UPD_OVF(void)
        --Time_APP_blank_TX;
     if(Time_acc)
        --Time_acc;
-    
+    if(TimeOUT_RXtypeScan_formTX)
+		--TimeOUT_RXtypeScan_formTX;
+	
     TIM4_SR1_bit.UIF = 0; // 清除中断标记
 }

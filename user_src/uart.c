@@ -395,7 +395,11 @@ void OprationFrame(void)
 	  	      if(UART_DATA_buffer[4]==0)
                  FLAG_ID_Login_FromUART=0;
 			  else if(UART_DATA_buffer[4]==1)
-			  	FLAG_ID_Login_FromUART=1;
+			  	{
+			  	  FLAG_ID_Login_FromUART=1;
+				  Flag_RXtypeScan_formTX=0;
+				  TimeOUT_RXtypeScan_formTX=0;
+			  	}
 	  	  	}
 		  U1Statues = IdelStatues;   //不返回ACK
 		  break;			  

@@ -143,7 +143,9 @@ void ID_Decode_IDCheck(void)
                 }
                 else
                 {
-                    flag_ID_Receiver_sendUART=1;					
+                    flag_ID_Receiver_sendUART=1;
+					Flag_RXtypeScan_formTX=0;
+					TimeOUT_RXtypeScan_formTX=0;
                     if(Radio_Date_Type==1)PAYLOAD_SIZE = RX_PayLoadSizeNOLogin;
 					
 /*
@@ -544,7 +546,8 @@ void ID_Decode_OUT(void)
 
 void Freq_Scanning(void)
 {
-	  
+	
+
 if (TIMER18ms == 0)
 	{
 		//if (Flag_FREQ_Scan == 0)
