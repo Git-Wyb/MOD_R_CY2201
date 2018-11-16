@@ -155,6 +155,6 @@ u32 ConfigurationLen(void);
 extern u32 TX_ID_data;
 extern u8 TX_Control_code_TYPE01;
 extern u8 TX_Control_code_TYPE02[20];
-
+extern u16 Time_Receive_gap;
 
 #endif

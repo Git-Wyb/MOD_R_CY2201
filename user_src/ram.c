@@ -119,5 +119,6 @@ u32 PROFILE_RADIO_AFC_CFG1_32bit_2000031C = 0x0005005A;
 u32 TX_ID_data=0;
 u8 TX_Control_code_TYPE01=0;
 u8 TX_Control_code_TYPE02[20]={0};
+u16 Time_Receive_gap=0;
 
 

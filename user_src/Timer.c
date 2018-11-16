@@ -46,6 +46,9 @@ void TIM4_UPD_OVF(void)
         Flag_RSSI_Read_Timer--;
     if (X_ERRTimer)
         X_ERRTimer--;
+    
+    if (Time_Receive_gap)
+      --Time_Receive_gap;
 
     TIM4_SR1_bit.UIF = 0; // 清除中断标记
 }

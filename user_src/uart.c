@@ -15,7 +15,6 @@
 #define TXD1_enable (USART1_CR2 = 0x08) // 允许发送
 #define RXD1_enable (USART1_CR2 = 0x24) // 允许接收及其中断
 
-u8 u1busyCache = 0;
 
 UINT8 UartStatus = 0;
 UINT8 UartLen = 0;
@@ -318,7 +317,6 @@ void ReceiveFrame(UINT8 Cache)
 		//        Receiver_LED_OUT_INV = !Receiver_LED_OUT_INV;
 		U1Statues = ReceiveDoneStatues;
 		U1AckTimer = U1AckDelayTime;
-		U1Busy_OUT = 1;
 	}  
 }
 
@@ -394,11 +392,9 @@ void TranmissionACK(void)
 
 	if ((U1Statues == ACKingStatues) && (U1AckTimer == 0)&&(FLAG_APP_TX_fromUART==0)&&(FLAG_APP_TX==0))
 	{
-		U1Busy_OUT = 1;
                 U1Statues = ACKDoneStatues;
 		Send_Data(ACKBack, ACKBack_LEN);
 		U1Statues = IdelStatues;
-		U1Busy_OUT = 1;
 	}
 }
 
@@ -407,12 +403,19 @@ void wireless_Receive_SendUart(void)
     u8 data[10];
     uni_rom_id xn;
     u16 check_sum=0;
+    static u32 Last_DATA_Packet_ID=0;
+    static u8 Last_DATA_Packet_Control=0;
+    
     
     if((U1Statues!= ACKingStatues)&&(flag_ID_Receiver_sendUART==1))
     {
-        flag_ID_Receiver_sendUART=0;
+      flag_ID_Receiver_sendUART=0;
+      
+      if((DATA_Packet_ID!=Last_DATA_Packet_ID)||(DATA_Packet_Control!=Last_DATA_Packet_Control)||
+          (DATA_Packet_ID==Last_DATA_Packet_ID)&&(DATA_Packet_Control==Last_DATA_Packet_Control)&&(Time_Receive_gap==0))
+      {
 	data[0] = FrameHead;
-        data[1] = Uart_Fremo_NO;
+        data[1] = 0;//Uart_Fremo_NO;  //受信时Fremo为0
         data[2] = 0x81;
         data[3] = 6;
         xn.IDL=DATA_Packet_ID;
@@ -427,5 +430,10 @@ void wireless_Receive_SendUart(void)
         data[8]=check_sum%256;
         data[9]=check_sum/256;
         Send_Data(data, 10);
+        
+        Last_DATA_Packet_ID=DATA_Packet_ID;
+        Last_DATA_Packet_Control=DATA_Packet_Control;
+        Time_Receive_gap=720;
+      }
     }
 }
