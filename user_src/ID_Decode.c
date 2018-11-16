@@ -179,7 +179,8 @@ void ID_Decode_IDCheck(void)
                 if ((DATA_Packet_Contro_buf != 0x40) && (DATA_Packet_ID != 0)) //2015.4.1修正 在登录模式下 不允许自动送信登录，只允许手动送信登录
                 {
                     flag_ID_Receiver_sendUART=1;
-                    DATA_Packet_Control = 0x02;
+                    //DATA_Packet_Control = 0x02;
+                    DATA_Packet_Control=DATA_Packet_Contro_buf;
 					if(FLAG_IDCheck_OK == 0)
 					{
 					   ID_DATA_PCS++;
@@ -616,7 +617,10 @@ void Freq_Scanning(void)
 {
     if (TIMER18ms == 0)
     {
-        if (Flag_FREQ_Scan == 0)
+        //if (Flag_FREQ_Scan == 0)
+        if ((Flag_FREQ_Scan == 0)&&((FLAG_ID_Login_FromUART==1)||
+                                      ((FLAG_ID_Login_FromUART==0)&&(PROFILE_CH_FREQ_32bit_200002EC != 426075000)))
+           )  //工作模式时不接受426.075MHz的信号，只有在登录模式时才接受。
         {
             if (ADF7030_Read_RESIGER(0x4000380C, 1, 0) != 0)
             {

@@ -481,15 +481,15 @@
         <option>
           <name>OOCOutputFormat</name>
           <version>2</version>
-          <state>1</state>
+          <state>2</state>
         </option>
         <option>
           <name>OCOutputOverride</name>
-          <state>1</state>
+          <state>0</state>
         </option>
         <option>
           <name>OOCOutputFile</name>
-          <state>Bunka STM8L151 RX Ver.hex</state>
+          <state>project.bin</state>
         </option>
         <option>
           <name>OOCCommandLineProducer</name>
