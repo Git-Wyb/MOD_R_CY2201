@@ -631,7 +631,7 @@ if (TIMER18ms == 0)
 				if(Radio_Date_Type==1)
 				  TIMER18ms = 82;
 				else if(Radio_Date_Type==2)
-				  TIMER18ms = 48;//50;
+				  TIMER18ms = 100;//48;
 
 				return;
 			}

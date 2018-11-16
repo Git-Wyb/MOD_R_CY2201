@@ -5,10 +5,6 @@
 //#define TX_TEST_CARRIER_MODE 0
 #include "initial.h" // ��ʼ��  Ԥ����
 
-
-#define Type03_TestAdd_426d075_TXRF_10dBm
-
-
 extern uFLAG FLAG_test1;
 //************************************************
 #define FLAG_test1_BYTE FLAG_test1.BYTE
@@ -67,9 +63,7 @@ extern volatile uFLAG FLAG2;
 #define FLAG_APP_TX_fromUART FLAG2.BIT.Bit1
 #define FLAG_APP_RXstart FLAG2.BIT.Bit2
 #define FLAG_ID_Login_FromUART FLAG2.BIT.Bit3
-#define FLAG_Key_TP25 FLAG2.BIT.Bit4
-#define FLAG_Key_TP26 FLAG2.BIT.Bit5
-#define FLAG_Key_TP27 FLAG2.BIT.Bit6
+
 //************************************************
 
 

@@ -25,7 +25,7 @@ if not "%~1" == "" goto debugFile
 
 @echo on 
 
-"D:\Program Files (x86)\IAR Systems\Embedded Workbench 7.3\common\bin\cspybat" -f "F:\Source Code\bunka-s\SCX1701\SCX1701 for ADF7030 scan Ver0.27_3 (Source Insight) -test add 426.075 TX RF 10dBm +key\settings\project.Debug.general.xcl" --backend -f "F:\Source Code\bunka-s\SCX1701\SCX1701 for ADF7030 scan Ver0.27_3 (Source Insight) -test add 426.075 TX RF 10dBm +key\settings\project.Debug.driver.xcl" 
+"D:\Program Files (x86)\IAR Systems\Embedded Workbench 7.3\common\bin\cspybat" -f "F:\Source Code\bunka-s\SCX1701\SCX1701 for ADF7030 scan Ver0.27_4 (Source Insight)\settings\project.Debug.general.xcl" --backend -f "F:\Source Code\bunka-s\SCX1701\SCX1701 for ADF7030 scan Ver0.27_4 (Source Insight)\settings\project.Debug.driver.xcl" 
 
 @echo off 
 goto end 
@@ -34,7 +34,7 @@ goto end
 
 @echo on 
 
-"D:\Program Files (x86)\IAR Systems\Embedded Workbench 7.3\common\bin\cspybat" -f "F:\Source Code\bunka-s\SCX1701\SCX1701 for ADF7030 scan Ver0.27_3 (Source Insight) -test add 426.075 TX RF 10dBm +key\settings\project.Debug.general.xcl" "--debug_file=%~1" --backend -f "F:\Source Code\bunka-s\SCX1701\SCX1701 for ADF7030 scan Ver0.27_3 (Source Insight) -test add 426.075 TX RF 10dBm +key\settings\project.Debug.driver.xcl" 
+"D:\Program Files (x86)\IAR Systems\Embedded Workbench 7.3\common\bin\cspybat" -f "F:\Source Code\bunka-s\SCX1701\SCX1701 for ADF7030 scan Ver0.27_4 (Source Insight)\settings\project.Debug.general.xcl" "--debug_file=%~1" --backend -f "F:\Source Code\bunka-s\SCX1701\SCX1701 for ADF7030 scan Ver0.27_4 (Source Insight)\settings\project.Debug.driver.xcl" 
 
 @echo off 
 :end
