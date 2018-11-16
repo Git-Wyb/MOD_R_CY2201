@@ -56,6 +56,23 @@ u16 TIME_Fine_Calibration = 0; //窄带下中频滤波器100KHz精校
 u8 Count_key_SW3 = 0;
 u8 Display_key_SW3 = 0xff;
 
+
+
+u8 FLAG_TELEC_mode=0;
+u8 FLAG_TELEC_CH=0;
+u8 TIME_TELEC_mode=0;
+u8 TIME_TELEC_CH=0;
+u8 FLAG_TELEC_CH_dec=0;
+u8 TIME_TELEC_CH_dec=0;
+u8 TELEC_Frequency_CH=2;
+u8 FLAG_TELEC_10ms=0;
+u32 xdata;
+u32 PROFILE_CH_FREQ_32bit_200002EC_TELEC = 426075000ul;
+
+
+
+
+
 /*******LCD**************/
 uFLAG FlagLCDUpdate = {0xff};
 ///**********RSSI*********************/
@@ -155,6 +172,8 @@ Wireless_Body Struct_DATA_Packet_Contro,Struct_DATA_Packet_Contro_buf,Last_Struc
 Wireless_Body Uart_Struct_DATA_Packet_Contro;
 
 u8 TIME_TX_RSSI_Scan=0;
+u8 FLAG_Key_TP3=0;
+u8 FLAG_Key_TP4=0;
 
 
 

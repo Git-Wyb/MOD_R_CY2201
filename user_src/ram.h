@@ -6,7 +6,7 @@
 #include "initial.h" // ï¿½ï¿½Ê¼ï¿½ï¿½  Ô¤ï¿½ï¿½ï¿½ï¿½
 
 
-#define DEF_APP_TX_freq 4    //Í¨ÐÅ»úÈ·¶¨·¢ËÍ4´Î
+#define DEF_APP_TX_freq 4
 
 
 
@@ -119,6 +119,24 @@ extern u8 Count_key_SW3;
 extern u8 Display_key_SW3;
 extern ADF70XX_REG_T ROM_adf7030_value[16];
 extern const ADF70XX_REG_T Default_adf7030_value[16];
+
+
+
+
+extern u8 FLAG_TELEC_mode;
+extern u8 FLAG_TELEC_CH;
+extern u8 TIME_TELEC_mode;
+extern u8 TIME_TELEC_CH;
+extern u8 FLAG_TELEC_CH_dec;
+extern u8 TIME_TELEC_CH_dec;
+extern u8 TELEC_Frequency_CH;
+extern u8 FLAG_TELEC_10ms;
+extern u32 xdata;
+extern u32 PROFILE_CH_FREQ_32bit_200002EC_TELEC ;
+
+
+
+
 /**********LCD******************/
 extern uFLAG FlagLCDUpdate;
 
@@ -190,6 +208,8 @@ extern Wireless_Body Struct_DATA_Packet_Contro,Struct_DATA_Packet_Contro_buf,Las
 extern Wireless_Body Uart_Struct_DATA_Packet_Contro;
 
 extern u8 TIME_TX_RSSI_Scan;
+extern u8 FLAG_Key_TP3;
+extern u8 FLAG_Key_TP4;
 
 
 #endif

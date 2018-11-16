@@ -10,20 +10,20 @@
 ** For descriptions of each parameter, please refer to ADF703x Calculator Library Help.
 **
 ** CHANNEL_FREQUENCY                                                     	426075000
-** DATA_RATE                                                             	4800.00
+** DATA_RATE                                                             	1200.00
 ** FREQUENCY_DEVIATION                                                   	2200.00
 ** MAX_FREQUENCY_ERROR_PPM                                               	5.00
 ** RX_EXCESS_BW                                                          	0.00
 ** PA_RAMP_RATE                                                          	0
 ** PA_SEL_PA1_NOT_PA2                                                    	1
-** PA_POWER_DBM                                                          	10.00     //13
+** PA_POWER_DBM                                                          	11.00   //13
 ** MODULATION_SCHEME_TRX_MOD_TYPE                                        	0
 ** MODULATION_SCHEME_TX_FILTER_ENABLE                                    	1
 ** MODULATION_SCHEME_TX_GAUSSIAN_BT                                      	3
 ** MODULATION_SCHEME_4FSK_MAPPING                                        	0
 ** CCA_DETECTION_TIME_US                                                 	128.00
 ** CCA_THRESHOLD_DBM                                                     	-110.00
-** PREAMBLE_LENGTH                                                       	12
+** PREAMBLE_LENGTH                                                       	11
 ** PREAMBLE_UNIT                                                         	1
 ** PREAMBLE_VAL                                                          	85
 ** SFD_SYNC1_LEN                                                         	0
@@ -36,7 +36,7 @@
 ** PAYLOAD_FEC_802D15D4_ENABLE                                           	0
 ** PAYLOAD_MANCHESTER_ENCODING                                           	0
 ** PAYLOAD_4FSK_MAPPING                                                  	0
-** PAYLOAD_SIZE_PAYLOAD_SIZE                                             	28
+** PAYLOAD_SIZE_PAYLOAD_SIZE                                             	12
 ** PAYLOAD_SIZE_RX_LENGTH                                                	0
 ** PAYLOAD_SIZE_LEN_SEL                                                  	0
 ** PAYLOAD_SIZE_RX_PACKET_LENGTH_MODE                                    	0
@@ -193,8 +193,8 @@
 0x00, 0x3C, 0x78, 0x6E, 0x11, 0x8C, 0xBA, 0x80,
 0x19, 0x65, 0x63, 0x78, 0x00, 0x01, 0x3D, 0x62,
 0x00, 0x00, 0x04, 0xF4, 0x12, 0x00, 0x00, 0x05,
-0x64, 0x00, 0x00, 0x30, 0x81, 0x2A, 0x28, 0x31,
-0xC8, 0x2A, 0x98, 0x7E, 0x00, 0x00, 0x00, 0x16,
+0x64, 0x00, 0x00, 0x0C, 0x81, 0x2A, 0x28, 0x31,
+0xC8, 0x2A, 0xA8, 0x7E, 0x00, 0x00, 0x00, 0x16,
 0x00, 0x00, 0x00, 0x00, 0x00, 0xF2, 0x04, 0x30,
 0x5E, 0x02, 0x24, 0x80, 0x0F, 0x02, 0x0F, 0x14,
 0x00, 0x05, 0x00, 0x5A, 0x31, 0xE8, 0x00, 0x02,
@@ -269,7 +269,7 @@
 /* 0x200004F4 */
 0x00, 0x00, 0x74, 0x38, 0x20, 0x00, 0x04, 0xF4,
 0x00, 0x15, 0xE3, 0x06, 0x00, 0x01, 0x00, 0x80,
-0xC0, 0x10, 0x00, 0x0C, 0x80, 0x04, 0x10, 0x1C,
+0xC0, 0x10, 0x00, 0x0B, 0x80, 0x04, 0x10, 0x0C,
 0x01, 0x55, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 0x00, 0x00, 0x00, 0x00, 0x07, 0xFC, 0x00, 0x00,
 0x00, 0x00, 0x55, 0x15, 0x00, 0x00, 0x00, 0x00,
