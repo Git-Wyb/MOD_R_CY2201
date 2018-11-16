@@ -1143,7 +1143,8 @@ void ADF7030_Change_Channel(void)
 					PROFILE_RADIO_DATA_RATE_32bit_200002FC = 0x6400000C;
 					PROFILE_GENERIC_PKT_FRAME_CFG1_32bit_20000500 = 0x0000100C; 
 					Radio_Date_Type=1;
-					Channels=3;
+					//Channels=3;
+					Channels=5;
 					ADF7030Cfg_pointer=ADF7030Cfg;
 				   break;
 			  case 3:
