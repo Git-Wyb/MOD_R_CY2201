@@ -62,7 +62,7 @@ extern volatile uFLAG FLAG2;
 #define FLAG_APP_TX FLAG2.BIT.Bit0
 #define FLAG_APP_TX_fromUART FLAG2.BIT.Bit1
 #define FLAG_APP_RXstart FLAG2.BIT.Bit2
-#define FLAG_APP_RX_seting FLAG2.BIT.Bit3
+#define FLAG_ID_Login_FromUART FLAG2.BIT.Bit3
 
 //************************************************
 
@@ -158,9 +158,9 @@ extern u8 TX_Control_code_TYPE01;
 extern u8 TX_Control_code_TYPE02[20];
 extern u16 Time_Receive_gap;
 extern u16 Time_APP_RXstart;
-extern u16 Time_APP_RXseting;
-extern u8 FLAG_Breakpoint_test;
 extern u8 Time_APP_blank_TX;
 extern unsigned char Soft_Version[7];
+extern u8 Time_acc;
+
 
 #endif

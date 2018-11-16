@@ -208,6 +208,7 @@ void eeprom_sys_load(void)
     //--------------------------------------
 
     UINT16 i, j;
+
 //    UINT16 q, p;
 //    UINT8 xm[3] = {0};
 //    uni_rom_id xn;

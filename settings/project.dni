@@ -1,6 +1,6 @@
 [DebugChecksum]
 <<<<<<< HEAD
-Checksum=-1909218355
+Checksum=-319305043
 =======
 Checksum=773928336
 >>>>>>> f03119bb9d9418453f7da9e2e3549a267f3e0d0b
@@ -85,8 +85,9 @@ Fmt10={W}42:ADF7030_RESIGER_VALUE_READ	4	0
 Fmt11={W}42:DATA_Packet_Control	4	0
 Fmt12={W}42:PROFILE_CH_FREQ_32bit_200002EC	3	0
 Fmt13={W}42:PROFILE_RADIO_AFC_CFG1_32bit_2000031C	4	0
-Fmt14={W}42:Tx_Rx_mode	4	0
-Fmt15={W}42:cache	4	0
+Fmt14={W}42:RAM_RSSI_AVG	4	0
+Fmt15={W}42:Tx_Rx_mode	4	0
+Fmt16={W}42:cache	4	0
 [DataSample]
 LogEnabled=0
 GraphEnabled=0
@@ -110,7 +111,7 @@ A5=_ "F:\Source Code\bunka-s\Bunka STM8L151G6 RX Source\Bunka STM8L151G6 RX Sour
 A6=_ "F:\Source Code\bunka-s\Bunka STM8L151G6 RX Source\Bunka STM8L151G6 RX Source Ver1.17_  RSSI test G4U6\user_src\main.c" ""
 A7=_ "F:\Source Code\bunka-s\SCX1701\SCX1701 for ADF7030 scan Ver1.5.x (Source Insight)\user_src\ADF7030_1.c" ""
 A8=_ "F:\Source Code\bunka-s\SCX1701\SCX1701 for ADF7030 scan Ver1.5.x (Source Insight)\user_src\ID_Decode.c" ""
-A9=_ "F:\Source Code\bunka-s\SCX1701\SCX1701 for ADF7030 scan Ver1.5.x (Source Insight)\user_src\Timer.c" "F:\Source Code\bunka-s\SCX1701\SCX1701 for ADF7030 scan Ver0.21 (Source Insight)\user_src\Timer.c"
+A9=_ "F:\Source Code\bunka-s\SCX1701\SCX1701 for ADF7030 scan Ver1.5.x (Source Insight)\user_src\Timer.c" ""
 Count=10
 SuppressDialog=0
 [DebuggerSettings]

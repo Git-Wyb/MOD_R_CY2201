@@ -46,14 +46,14 @@
   * @param  None
   * @retval None
   */
-unsigned char Soft_Version[7]="Ver0.21";
+unsigned char Soft_Version[7]="Ver0.22";
 
 void main(void)
 {
     _DI();             // 关全局中断
-    OTA_bootloader_enable(); //使用IAP功能做OTA      
+    OTA_bootloader_enable(); //使用IAP功能做OTA   
     RAM_clean();       // 清除RAM
-    WDT_init();        //看门狗
+    //WDT_init();        //看门狗
     VHF_GPIO_INIT();   //IO初始化
     SysClock_Init();   //系统时钟初始化
     InitialFlashReg(); //flash EEPROM
@@ -66,6 +66,7 @@ void main(void)
     _EI();             // 允许中断
     ClearWDT();        // Service the WDT
     RF_test_mode();
+	  FLAG_ID_Login_FromUART=0;
     FLAG_APP_RX = 1;
     FLAG_APP_TX_fromUART=0;
     FLAG_APP_TX=0;
@@ -81,12 +82,11 @@ void main(void)
         APP_TX_PACKET();
         if(FLAG_APP_RX==1)
         {
-		  Freq_Scanning();
-		  SCAN_RECEIVE_PACKET(); //扫描接收数据
+    		  Freq_Scanning();
+    		  SCAN_RECEIVE_PACKET(); //扫描接收数据
         }
         TranmissionACK();
         wireless_Receive_SendUart();
-        //        READ_RSSI_avg();
 
         if (FG_Receiver_LED_RX == 1)
             Receiver_LED_RX = 1;

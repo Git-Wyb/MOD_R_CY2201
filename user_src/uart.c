@@ -325,9 +325,12 @@ void OprationFrame(void)
   u16 check_sum=0,n;
   u8 i=0;
   uni_rom_id xn;
-	if ((Uart_Type == 0x01)||(Uart_Type == 0x02))
-	{
-           for(i=0;i<UART_DATA_buffer[3]-2;i++)  check_sum+=UART_DATA_buffer[i+4];
+
+  switch (Uart_Type)
+	  {
+	  case 0x01:
+	  case 0x02:
+		   for(i=0;i<UART_DATA_buffer[3]-2;i++)  check_sum+=UART_DATA_buffer[i+4];
            n=UART_DATA_buffer[i+4]+UART_DATA_buffer[i+5]*256;
            if(check_sum==n)
            {
@@ -347,7 +350,7 @@ void OprationFrame(void)
                 }
                 FLAG_APP_TX_fromUART=1;
                 
-		ACKBack[0] = FrameHead;
+		        ACKBack[0] = FrameHead;
                 ACKBack[1] = Uart_Fremo_NO;
                 ACKBack[2] = 0x80;
                 ACKBack[3] = 5;
@@ -358,19 +361,43 @@ void OprationFrame(void)
                 ACKBack[8] = 0x00;
                 ACKBack_LEN=9;
            }
-	}
-	else if (Uart_Type == 0x60)
-	{
-		ACKBack[0] = FrameHead;
+		  break;
+	  case 0x10:
+	  	  if(UART_DATA_buffer[4]<=32)
+		  	ID_DATA_PCS=UART_DATA_buffer[4];
+		  else ID_DATA_PCS=0;
+		  for (i = 0; i < UART_DATA_buffer[4]; i++)
+			  {
+			    xn.IDB[0]=0;
+                xn.IDB[1]=UART_DATA_buffer[i*3+7];
+                xn.IDB[2]=UART_DATA_buffer[i*3+6];
+                xn.IDB[3]=UART_DATA_buffer[i*3+5];
+				ID_Receiver_DATA[i]=xn.IDL;
+			  }
+		  U1Statues = IdelStatues;   //不返回ACK
+		  break;	
+	  case 0x11:
+	  	  if(UART_DATA_buffer[3]==1)
+	  	  	{
+	  	      if(UART_DATA_buffer[4]==0)
+                 FLAG_ID_Login_FromUART=0;
+			  else if(UART_DATA_buffer[4]==1)
+			  	FLAG_ID_Login_FromUART=1;
+	  	  	}
+		  U1Statues = IdelStatues;   //不返回ACK
+		  break;			  
+	  case 0x60:
+		  		ACKBack[0] = FrameHead;
                 ACKBack[1] = Uart_Fremo_NO;
                 ACKBack[2] = 0xE0;
                 ACKBack[3] = 0x00;    
                 ACKBack_LEN=4;
-	}
-	else if (Uart_Type == 0x61)
-	{
-          Power_ON_sendVer();
-	}        
+		  break;	
+	  case 0x61:
+		  Power_ON_sendVer();
+		  break;		  
+	  }
+       
 }
 
 void Power_ON_sendVer(void)
