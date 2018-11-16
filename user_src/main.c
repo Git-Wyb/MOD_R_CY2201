@@ -29,6 +29,8 @@
 #include "ID_Decode.h"    // ID_Decode处理
 #include "eeprom.h"       // eeprom
 #include "uart.h"         // uart
+#include "lcd.h"		// lcd
+
 /** @addtogroup STM8L15x_StdPeriph_Template
   * @{
   */
@@ -53,7 +55,7 @@ void main(void)
     _DI();             // 关全局中断
     OTA_bootloader_enable(); //使用IAP功能做OTA   
     RAM_clean();       // 清除RAM
-    //WDT_init();        //看门狗
+    WDT_init();        //看门狗
     VHF_GPIO_INIT();   //IO初始化
     SysClock_Init();   //系统时钟初始化
     InitialFlashReg(); //flash EEPROM
@@ -71,6 +73,7 @@ void main(void)
     UART1_INIT();      // UART1 for PC Software
     _EI();             // 允许中断
     ClearWDT();        // Service the WDT
+    lcd_init();
     RF_test_mode();
 	  FLAG_ID_Login_FromUART=0;
     FLAG_APP_RX = 1;
@@ -80,8 +83,13 @@ void main(void)
     TIME_EMC = 10;
     Power_ON_sendVer();
 
+	FLAG_Freq_Select_429or426MHz=Freq_Select_429or426MHz;
+	if(FLAG_Freq_Select_429or426MHz==0)FLAG_ID_Login_FromUART=1;
+	else FLAG_ID_Login_FromUART=0;
     while (1)
     {
+        if(FLAG_Freq_Select_429or426MHz!=Freq_Select_429or426MHz)while(1);
+		
         ClearWDT(); // Service the WDT
         if (time_Login_exit_256 == 0)
             ID_Decode_OUT();
@@ -90,16 +98,18 @@ void main(void)
         if(FLAG_APP_RX==1)
         {
     		  Freq_Scanning();
-    		  //if(Scan_step==2)
 			  	SCAN_RECEIVE_PACKET(); //扫描接收数据
         }
         TranmissionACK();
         wireless_Receive_SendUart();
 
+		lcd_desplay();
+
         if (FG_Receiver_LED_RX == 1)
             Receiver_LED_RX = 1;
         else if (FG_Receiver_LED_RX == 0)
             Receiver_LED_RX = 0;
+
     }
 }
 

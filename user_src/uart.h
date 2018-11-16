@@ -65,5 +65,7 @@ void Send_String(unsigned char *string);
 void Send_Data(unsigned char *P_data, unsigned int length);
 void UART1_end(void);
 void PC_PRG(void);
+unsigned char hex_asc(unsigned char hex);
+
 
 #endif

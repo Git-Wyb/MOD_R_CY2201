@@ -14,6 +14,10 @@
 #include "ADF7030_1.h"
 #include "uart.h" // uart
 #include "Timer.h"
+#include "lcd.h"		// lcd
+
+
+
 uFLAG YellowLedFlag, RedLedFalg;
 void RAM_clean(void)
 { // 清除RAM
@@ -68,6 +72,8 @@ void VHF_GPIO_INIT(void) // CPU端口设置
     ADF7030_GPIO_INIT();
     CG2214M6_GPIO_Init();
     Receiver_OUT_GPIO_Init(); // Output   受信机继电器
+
+	lcd_GPIO_init();
 }
 //============================================================================================
 void SysClock_Init(void)

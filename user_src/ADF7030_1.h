@@ -129,6 +129,7 @@ extern u16 PAYLOAD_SIZE;
 /***************************************************/
 /**ADF7030_REST**/ extern u8 ADF7030_REST_Cache;
 /**Receiver_vent**/ extern u8 Receiver_vent_Cache;
+/**not defined I/O**/ extern u8 Undefined_IO;						  
 extern u8 RX_COUNT;
 extern u8 SPI_RECEIVE_BUFF[SPI_REV_BUFF_LONG];
 extern u32 SPI_Receive_DataForC[7];

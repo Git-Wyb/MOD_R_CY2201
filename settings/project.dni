@@ -1,6 +1,6 @@
 [DebugChecksum]
 <<<<<<< HEAD
-Checksum=882669923
+Checksum=747486247
 =======
 Checksum=773928336
 >>>>>>> f03119bb9d9418453f7da9e2e3549a267f3e0d0b
@@ -101,8 +101,7 @@ Category=_ 0
 LoggingEnabled=_ 0
 LogFile=_ ""
 [Breakpoints]
-Bp0=_ "STD_CODE" "{$PROJ_DIR$\user_src\ID_Decode.c}.81.9" 0 0 0 0 "" 0 ""
-Count=1
+Count=0
 [Aliases]
 A0=_ "" ""
 A1=_ "F:\Source Code\bunka-s\Bunka STM8L151G6 RX Source\Bunka STM8L151G6 RX Source Ver1.10.1\user_src\ID_Decode.c" ""

@@ -104,6 +104,7 @@ void ID_Decode_IDCheck(void)
 					}
                 }
 				FLAG_IDCheck_OK=0;
+				TIMER1s = 1000;
 			}
             else if ((FLAG_IDCheck_OK == 1) || (DATA_Packet_ID == 0xFFFFFE))
             //else 
@@ -167,10 +168,11 @@ void ID_Decode_IDCheck(void)
                         FG_auto_open_time = 0;
                         if (FG_auto_manual_mode == 1)      //Manual_override_TIMER=13500;   //2分30秒自动无效
                             Manual_override_TIMER = 24480; //4分30秒自动无效
-                            TIMER1s = 1000;
+                        TIMER1s = 1000;
 //                    }
 					
-                    TIMER300ms = 500;
+                    if(Radio_Date_Type==1)TIMER300ms = 700;
+					else TIMER300ms = 500;
                     //Receiver_LED_RX=1;
                     FG_Receiver_LED_RX = 1;
                     //#endif
@@ -258,7 +260,13 @@ void eeprom_IDcheck(void)
             DATA_Packet_Control = DATA_Packet_Contro_buf;
         } //追加多次ID登录
     }
-  
+
+
+	FLAG_IDCheck_OK = 1;
+	if(Radio_Date_Type==1)DATA_Packet_Control = DATA_Packet_Contro_buf;
+	else if(Radio_Date_Type==2)Struct_DATA_Packet_Contro=Struct_DATA_Packet_Contro_buf;
+
+	
  // DATA_Packet_Control = DATA_Packet_Contro_buf;
 }
 
