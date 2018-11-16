@@ -616,26 +616,69 @@ void ID_Decode_OUT(void)
 
 void Freq_Scanning(void)
 {
-    if (TIMER18ms == 0)
-    {
-        //if (Flag_FREQ_Scan == 0)
-        if ((Flag_FREQ_Scan == 0)&&((FLAG_ID_Login_FromUART==1)||
-                                      ((FLAG_ID_Login_FromUART==0)&&(PROFILE_CH_FREQ_32bit_200002EC != 426075000)))
-           )  //工作模式时不接受426.075MHz的信号，只有在登录模式时才接受。
-        {
-            if (ADF7030_Read_RESIGER(0x4000380C, 1, 0) != 0)
-            {
-                Flag_FREQ_Scan = 1;
-                TIMER18ms = 82;
-                return;
-            }
-        }
+	  
+//    if (TIMER18ms == 0)
+//    {
+//        //if (Flag_FREQ_Scan == 0)
+//        if ((Flag_FREQ_Scan == 0)&&((FLAG_ID_Login_FromUART==1)||
+//                                      ((FLAG_ID_Login_FromUART==0)&&(PROFILE_CH_FREQ_32bit_200002EC != 426075000)))
+//           )  //工作模式时不接受426.075MHz的信号，只有在登录模式时才接受。
+//        {
+//            if (ADF7030_Read_RESIGER(0x4000380C, 1, 0) != 0)
+//            {
+//                Flag_FREQ_Scan = 1;
+//                TIMER18ms = 82;
+//                return;
+//            }
+//        }
 
-        ADF7030_Change_Channel();
-        ADF7030Init();     //射频初始化
-        
-        TIMER18ms = 18;
-        Flag_FREQ_Scan = 0;
+//        ADF7030_Change_Channel();
+//        ADF7030Init();     //射频初始化
+//        
+//        TIMER18ms = 18;
+//        Flag_FREQ_Scan = 0;
+//    }
+
+
+    if((TIME_RSSI_Scan==0)&&(Scan_step==1))
+    {
+        DELAY_30U();
+        while(GET_STATUE_BYTE().CMD_READY != 1);
+        DELAY_30U();
+        ADF7030_READ_REGISTER_NOPOINTER_LONGADDR(ADDR_PROFILE_CCA_READBACK,6);
+        RSSI_Scan_val = (short)((ADF7030_RESIGER_VALUE_READ & 0x07ff)<<5);//>>16;    
+        RSSI_Scan_val=RSSI_Scan_val/128;
+		if((RSSI_Scan_val!=0)&&(RSSI_Scan_val>-115))
+		{
+		    ADF7030Init();	   //射频初始化
+			TIMER18ms = 18;
+			Flag_FREQ_Scan = 0;
+			Scan_step=2;
+		}
+		else 
+		{
+			ADF7030_Change_Channel();
+			ADF7030Init();	   //射频初始化					
+			ADF7030_ACC_FROM_POWEROFF();
+			TIME_RSSI_Scan=6;
+		}
     }
+	else if ((TIMER18ms == 0)&&(Scan_step==2))
+	{
+		//if (Flag_FREQ_Scan == 0)
+		if ((Flag_FREQ_Scan == 0)&&((FLAG_ID_Login_FromUART==1)||
+									  ((FLAG_ID_Login_FromUART==0)&&(PROFILE_CH_FREQ_32bit_200002EC != 426075000)))
+		   )  //工作模式时不接受426.075MHz的信号，只有在登录模式时才接受。
+		{
+			if (ADF7030_Read_RESIGER(0x4000380C, 1, 0) != 0)
+			{
+				Flag_FREQ_Scan = 1;
+				TIMER18ms = 82;
+				return;
+			}
+		}
+
+		Scan_step=1;
+	}
 
 }

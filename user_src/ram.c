@@ -124,3 +124,11 @@ u16 Time_APP_RXstart=0;
 u8 Time_APP_blank_TX=0;
 u8 Time_acc=0;
 
+
+
+u16 TIME_RSSI_Scan=0;
+u8 Scan_step=1;
+short RSSI_Scan_val=-150;
+
+
+

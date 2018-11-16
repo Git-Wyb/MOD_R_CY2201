@@ -31,6 +31,8 @@ void TIM4_UPD_OVF(void)
         --TIMER300ms;
     if (TIMER18ms)
         --TIMER18ms;
+    if (TIME_RSSI_Scan)
+        --TIME_RSSI_Scan;	
     if (TIMER250ms_STOP)
         --TIMER250ms_STOP;
     if (TIME_10ms)

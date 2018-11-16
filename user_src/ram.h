@@ -163,4 +163,10 @@ extern unsigned char Soft_Version[7];
 extern u8 Time_acc;
 
 
+extern u16 TIME_RSSI_Scan;
+extern u8 Scan_step;
+extern short RSSI_Scan_val;
+
+
+
 #endif

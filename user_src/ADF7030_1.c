@@ -584,8 +584,29 @@ void ADF7030_ACC_FROM_POWEROFF(void)
     ADF7030_CHANGE_STATE(STATE_CMD_CCA);
     while (GET_STATUE_BYTE().FW_STATUS == 0)
         ;       
-    ClearWDT(); // Service the WDT
+    ClearWDT(); // Service the WDT   
+    
 }
+
+//void ADF7030_ACC_FROM_POWEROFF(void)
+//{
+//    WaitForADF7030_FIXED_DATA();  //等待芯片空闲/可接受CMD状态
+//    DELAY_30U();
+//    ADF7030_CHANGE_STATE(STATE_PHY_ON);
+//    WaitForADF7030_FIXED_DATA();  //等待芯片空闲/可接受CMD状态
+//    DELAY_30U();
+//    //ADF7030_WRITE_REGISTER_NOPOINTER_LONGADDR(ADDR_CHANNEL_FERQUENCY,CONST_DATA_PROFILE_200002E4+8,4);
+//    ADF7030_WRITE_REGISTER_NOPOINTER_LONGADDR_OFFSET_MSB(ADF7030Cfg, CFG_SIZE(), ADDR_CHANNEL_FERQUENCY, 8, 4);
+//    WaitForADF7030_FIXED_DATA();  //等待芯片空闲/可接受CMD状态
+//    DELAY_30U();
+//    ADF7030_CHANGE_STATE(STATE_CMD_CCA);
+//    while(GET_STATUE_BYTE().FW_STATUS == 0);
+//    ADF7030_CHANGE_STATE(STATE_CMD_CCA);
+//    while(GET_STATUE_BYTE().FW_STATUS == 0);
+//    ClearWDT(); // Service the WDT
+//    DELAY_30U();
+//}
+
 
 void RX_ANALYSIS(void)
 {
@@ -629,6 +650,7 @@ void SCAN_RECEIVE_PACKET(void)
         RAM_RSSI_SUM = 0;
         TIMER18ms = 28;
         Flag_FREQ_Scan = 0;
+		Scan_step=1;
     }
     else if ((ADF7030_GPIO3 == 0) && (ADF7030_GPIO2 == 1))
     {
@@ -1042,9 +1064,9 @@ void ADF7030_Change_Channel(void)
 **/
 void APP_TX_PACKET(void)
 {
-  short Cache;
-  static u8 FLag_ACC=0;
-  u8 i=0;
+ // short Cache;
+ // static u8 FLag_ACC=0;
+ // u8 i=0;
   
   if((FLAG_APP_TX_fromUART==1)&&(Flag_FREQ_Scan==0))
   {
@@ -1069,7 +1091,7 @@ void APP_TX_PACKET(void)
 //            ADF7030_RSSI=Cache;
 //            if(ADF7030_RSSI<=-90)
 //            {
-              FLag_ACC=0;
+              //FLag_ACC=0;
               FLAG_APP_TX_fromUART=0;
               FLAG_APP_TX=1;
               FLAG_APP_RX=0;
