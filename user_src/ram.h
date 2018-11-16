@@ -149,6 +149,11 @@ extern u32 PROFILE_CH_FREQ_32bit_200002EC;
 extern u32 PROFILE_RADIO_AFC_CFG1_32bit_2000031C;
 extern u32 PROFILE_RADIO_DATA_RATE_32bit_200002FC;
 extern u32 PROFILE_GENERIC_PKT_FRAME_CFG1_32bit_20000500;
+extern const u32 PROFILE_CH1_FREQ_32bit_429HighSpeed;
+extern const u32 PROFILE_CH2_FREQ_32bit_429HighSpeed;
+extern u8 Channels;
+
+
 
 void SPI_INIT(void);
 u32 ADF7030_GET_MISC_FW(void); //??MISC_FW?????
