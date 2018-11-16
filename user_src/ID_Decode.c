@@ -172,7 +172,7 @@ void ID_Decode_IDCheck(void)
 					
                     TIMER300ms = 500;
                     //Receiver_LED_RX=1;
-                    FG_Receiver_LED_RX = 1;
+              //      FG_Receiver_LED_RX = 1;
                     //#endif
                 }
             }

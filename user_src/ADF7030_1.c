@@ -625,7 +625,7 @@ void RX_ANALYSIS(void)
 {
     u8 i;
     TIMER300ms = 500;
-    FG_Receiver_LED_RX = 1;
+//    FG_Receiver_LED_RX = 1;
     // if (WORK_TEST == 0)
     //     Send_Data(&SPI_RECEIVE_BUFF[3], PAYLOAD_SIZE);
     for (i = 0; i < 7; i++)
@@ -1012,7 +1012,7 @@ void ADF7030_TX(u8 mode)
     ADF7030_WRITE_REGISTER_NOPOINTER_LONGADDR_OFFSET_MSB(ADF7030Cfg_pointer, CFG_SIZE(), ADDR_GENERIC_FIELDS, 8, 24);
     WaitForADF7030_FIXED_DATA(); //等待芯片空闲/可接受CMD状�??
     DELAY_30U();
-    PROFILE_CH_FREQ_32bit_200002EC = PROFILE_CH_FREQ_32bit_200002EC_TELEC; //429175000;
+    PROFILE_CH_FREQ_32bit_200002EC = 429175000;
     ADF7030_WRITE_REGISTER_NOPOINTER_LONGADDR_MSB(ADDR_CHANNEL_FERQUENCY, PROFILE_CH_FREQ_32bit_200002EC); //
     WaitForADF7030_FIXED_DATA();                                                                           //等待芯片空闲/可接受CMD状�??
     DELAY_30U();
@@ -1224,39 +1224,15 @@ void APP_TX_PACKET(void)
  // short Cache;
  // static u8 FLag_ACC=0;
  // u8 i=0;
-
- if((TP3==0)&&(FLAG_Key_TP3==0))
- 	{FLAG_Key_TP3=1;FLAG_APP_TX_fromUART=1;}
- else if(TP3==1)FLAG_Key_TP3=0;
- if((TP4==0)&&(FLAG_Key_TP4==0))
- 	{FLAG_Key_TP4=1;FLAG_APP_TX_fromUART=1;}
- else if(TP4==1)FLAG_Key_TP4=0;
-
- 
   
   if((FLAG_APP_TX_fromUART==1)&&(Flag_FREQ_Scan==0))
   {
     if(
-	    (((Uart_Type==1)||(FLAG_Key_TP4==1))&&((PROFILE_CH_FREQ_32bit_200002EC == 429175000)||(PROFILE_CH_FREQ_32bit_200002EC == 429200000)))||
-	    (((Uart_Type==2)||(FLAG_Key_TP3==1))&&((PROFILE_CH_FREQ_32bit_200002EC == PROFILE_CH1_FREQ_32bit_429HighSpeed)||(PROFILE_CH_FREQ_32bit_200002EC == PROFILE_CH2_FREQ_32bit_429HighSpeed)))
+	  ((Uart_Type==1)&&((PROFILE_CH_FREQ_32bit_200002EC == 429175000)||(PROFILE_CH_FREQ_32bit_200002EC == 429200000)))||
+	  ((Uart_Type==2)&&((PROFILE_CH_FREQ_32bit_200002EC == PROFILE_CH1_FREQ_32bit_429HighSpeed)||(PROFILE_CH_FREQ_32bit_200002EC == PROFILE_CH2_FREQ_32bit_429HighSpeed)))
 	  )
     {
               FLAG_APP_TX_fromUART=0;
-			  if(FLAG_Key_TP3==1)
-			  {
-			  	FLAG_Key_TP3=2;
-				Uart_Type=2;
-				TX_ID_data=13560338;
-				Uart_Struct_DATA_Packet_Contro.Fno_Type.UN.type=1;
-				Uart_Struct_DATA_Packet_Contro.data[0].uc[0]=0x33;
-			  }
-			  else if(FLAG_Key_TP4==1)
-			  {
-			  	FLAG_Key_TP4=2;
-				Uart_Type=1;
-				TX_ID_data=13560338;
-				TX_Control_code_TYPE01=0x33;
-			  }			  	
               FLAG_APP_TX=1;
               FLAG_APP_RX=0;
               APP_TX_freq=0;
@@ -1302,6 +1278,7 @@ void APP_TX_PACKET(void)
 				{
 				    if(APP_TX_freq==0)
 				    {
+				        Uart_Struct_DATA_Packet_Contro.Fno_Type.UN.fno=1;
 				        TX_DataLoad_HighSpeed(TX_ID_data,Uart_Struct_DATA_Packet_Contro, &CONST_TXPACKET_DATA_20000AF0[0]);
 				        ADF7030_TRANSMITTING_FROM_POWEROFF();
 				        Time_APP_blank_TX=2;
@@ -1309,6 +1286,8 @@ void APP_TX_PACKET(void)
 				    }
 				    else if((APP_TX_freq< DEF_APP_TX_freq)&&(ADF7030_GPIO3 == 0)&&(Time_APP_blank_TX==0))
 				    {
+				        Uart_Struct_DATA_Packet_Contro.Fno_Type.UN.fno=APP_TX_freq+1;
+				        TX_DataLoad_HighSpeed(TX_ID_data,Uart_Struct_DATA_Packet_Contro, &CONST_TXPACKET_DATA_20000AF0[0]);				    
 				         ADF7030_TRANSMITTING_FROM_POWEROFF();
 				         Time_APP_blank_TX=2;        
 				        APP_TX_freq++;

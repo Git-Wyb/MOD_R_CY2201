@@ -96,8 +96,8 @@ void main(void)
         TranmissionACK();
         wireless_Receive_SendUart();
 
-        if (FG_Receiver_LED_RX == 1)
-            Receiver_LED_RX = 1;
+        if (FG_Receiver_LED_RX == 1);
+            //Receiver_LED_RX = 1;
         else if (FG_Receiver_LED_RX == 0)
             Receiver_LED_RX = 0;
     }
