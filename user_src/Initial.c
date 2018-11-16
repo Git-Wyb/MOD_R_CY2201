@@ -439,7 +439,7 @@ void RF_test_mode(void)
             {
 		            PROFILE_CH_FREQ_32bit_200002EC = 426075000;
                 PROFILE_RADIO_AFC_CFG1_32bit_2000031C = 0x0005005A;            
-                ADF7030_RECEIVING_FROM_POWEROFF();
+                ADF7030_RECEIVING_FROM_POWEROFF_testMode();
                 FG_test_tx_off = 1;
             }
             if (Tx_Rx_mode == 2) //packet usart out put RSSI
