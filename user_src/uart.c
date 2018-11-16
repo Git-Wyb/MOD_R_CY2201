@@ -347,6 +347,8 @@ void OprationFrame(void)
                   TX_Control_code_TYPE02[0]=UART_DATA_buffer[7];
                   for(i=0;i<UART_DATA_buffer[7];i++)TX_Control_code_TYPE02[i+1]=UART_DATA_buffer[i+8];
                 }
+                FLAG_APP_TX_fromUART=1;
+                
 		ACKBack[0] = FrameHead;
                 ACKBack[1] = Uart_Fremo_NO;
                 ACKBack[2] = 0x80;
@@ -390,7 +392,7 @@ void TranmissionACK(void)
            OprationFrame();
         }
 
-	if ((U1Statues == ACKingStatues) && (U1AckTimer == 0))
+	if ((U1Statues == ACKingStatues) && (U1AckTimer == 0)&&(FLAG_APP_TX_fromUART==0)&&(FLAG_APP_TX==0))
 	{
 		U1Busy_OUT = 1;
                 U1Statues = ACKDoneStatues;

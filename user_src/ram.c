@@ -9,6 +9,7 @@ uFLAG FLAG_test1;
 volatile uFLAG FLAG0;
 volatile uFLAG FLAG1;
 volatile uFLAG FLAG_test;
+volatile uFLAG FLAG2;
 
 u16 X_COUNT = 0;
 u16 X_ERR = 0; //记录错误的个数

@@ -482,6 +482,7 @@ void ADF7030_WRITING_PROFILE_FROM_POWERON(void)
 
 void ADF7030_TRANSMITTING_FROM_POWEROFF(void)
 {
+    CG2214M6_USE_T;
     while (GET_STATUE_BYTE().CMD_READY == 0)
         ;
     ADF7030_CHANGE_STATE(STATE_PHY_OFF);
@@ -978,10 +979,10 @@ void ADF7030_Change_Channel(void)
         ClearWDT(); // Service the WDT
         break;
     case 429175000:
-        PROFILE_CH_FREQ_32bit_200002EC = 429200000;
+        PROFILE_CH_FREQ_32bit_200002EC = 429200000;      
         break;
     case 429200000:
-        PROFILE_CH_FREQ_32bit_200002EC = 429225000;
+        PROFILE_CH_FREQ_32bit_200002EC = 429225000;   
         break;
     case 429225000:
         PROFILE_CH_FREQ_32bit_200002EC = 426075000;
@@ -1008,4 +1009,42 @@ void ADF7030_Change_Channel(void)
         PROFILE_CH_FREQ_32bit_200002EC = 426075000;
         break;
     }
+}
+
+/**
+ ****************************************************************************
+ * @Function : void APP_TX_PACKET(void)
+ * @File     : ADF7030_1.c
+ * @Program  :
+ * @Created  : 
+ * @Brief    :
+ * @Version  : V1.0
+**/
+void APP_TX_PACKET(void)
+{
+  if((FLAG_APP_TX_fromUART==1)&&(Flag_FREQ_Scan==0))
+  {
+    FLAG_APP_TX_fromUART=0;
+    FLAG_APP_TX=1;
+    FLAG_APP_RX=0;
+  }
+  if(FLAG_APP_TX==1)
+  {
+    TX_DataLoad(TX_ID_data,TX_Control_code_TYPE01, &CONST_TXPACKET_DATA_20000AF0[0]);
+    ADF7030_WRITING_PROFILE_FROM_POWERON();
+    //ADF7030_ACC_FROM_POWEROFF();
+    ADF7030_TRANSMITTING_FROM_POWEROFF();
+    FLAG_APP_RXstart=1;
+    FLAG_APP_TX=0;
+    TIMER18ms=500;
+  }
+  if((FLAG_APP_RXstart==1)&&(TIMER18ms==0))
+  {
+    FLAG_APP_RXstart=0;
+    FLAG_APP_RX=1;
+    PROFILE_CH_FREQ_32bit_200002EC = 426075000;
+    PROFILE_RADIO_AFC_CFG1_32bit_2000031C = 0x0005005A;
+    ADF7030_WRITING_PROFILE_FROM_POWERON();
+    ADF7030_RECEIVING_FROM_POWEROFF();   
+  }
 }

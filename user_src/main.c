@@ -66,6 +66,8 @@ void main(void)
     ClearWDT();        // Service the WDT
     RF_test_mode();
     FLAG_APP_RX = 1;
+    FLAG_APP_TX_fromUART=0;
+    FLAG_APP_TX=0;
     FG_Receiver_LED_RX = 0;
     TIME_EMC = 10;
     while (1)
@@ -73,10 +75,13 @@ void main(void)
         ClearWDT(); // Service the WDT
         if (time_Login_exit_256 == 0)
             ID_Decode_OUT();
-        Freq_Scanning();
         ID_learn();
-        //LEDCtr();
-        SCAN_RECEIVE_PACKET(); //扫描接收数据
+        APP_TX_PACKET();
+        if(FLAG_APP_RX==1)
+        {
+          Freq_Scanning();
+          SCAN_RECEIVE_PACKET(); //扫描接收数据
+        }
         TranmissionACK();
         wireless_Receive_SendUart();
         //        READ_RSSI_avg();

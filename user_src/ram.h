@@ -56,6 +56,16 @@ extern volatile uFLAG FLAG1;
 #define FG_NOT_allow_out FLAG1.BIT.Bit6
 #define FG_10ms FLAG1.BIT.Bit7
 //************************************************
+extern volatile uFLAG FLAG2;
+#define FLAG2_BYTE FLAG2.BYTE
+//------------------------------------------------
+#define FLAG_APP_TX FLAG2.BIT.Bit0
+#define FLAG_APP_TX_fromUART FLAG2.BIT.Bit1
+#define FLAG_APP_RXstart FLAG2.BIT.Bit2
+
+//************************************************
+
+
 
 extern u16 X_COUNT;
 extern u16 X_ERR; //记录错误的个数
@@ -145,4 +155,6 @@ u32 ConfigurationLen(void);
 extern u32 TX_ID_data;
 extern u8 TX_Control_code_TYPE01;
 extern u8 TX_Control_code_TYPE02[20];
+
+
 #endif
