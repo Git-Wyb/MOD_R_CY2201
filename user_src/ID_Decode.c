@@ -648,7 +648,7 @@ void Freq_Scanning(void)
         ADF7030_READ_REGISTER_NOPOINTER_LONGADDR(ADDR_PROFILE_CCA_READBACK,6);
         RSSI_Scan_val = (short)((ADF7030_RESIGER_VALUE_READ & 0x07ff)<<5);//>>16;    
         RSSI_Scan_val=RSSI_Scan_val/128;
-		if((RSSI_Scan_val!=0)&&(RSSI_Scan_val>-115))
+		if((RSSI_Scan_val!=0)&&(RSSI_Scan_val>-100))
 		{
 		    ADF7030Init();	   //…‰∆µ≥ı ºªØ
 			TIMER18ms = 18;
