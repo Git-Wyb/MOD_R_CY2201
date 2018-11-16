@@ -5,6 +5,12 @@
 //#define TX_TEST_CARRIER_MODE 0
 #include "initial.h" // 锟斤拷始锟斤拷  预锟斤拷锟斤拷
 
+
+#define DEF_APP_TX_freq 4    //通信机确定发送4次
+
+
+
+
 extern uFLAG FLAG_test1;
 //************************************************
 #define FLAG_test1_BYTE FLAG_test1.BYTE
