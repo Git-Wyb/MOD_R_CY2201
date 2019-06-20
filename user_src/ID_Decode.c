@@ -140,8 +140,8 @@ void ID_Decode_IDCheck(void)
 		                    if ((DATA_Packet_Control == 0x40) && (Manual_override_TIMER == 0))
 		                    {
 		                        FG_auto_manual_mode = 1;
-		                        TIME_auto_out = 890; // 900
-		                        if (FG_First_auto == 0)
+                                TIME_auto_out = 2700; //890; 
+                                if (FG_First_auto == 0)
 		                        {
 		                            FG_First_auto = 1;
 		                            TIMER1s = 3000; //2500
