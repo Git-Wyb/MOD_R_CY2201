@@ -46,7 +46,7 @@
   * @param  None
   * @retval None
   */
-unsigned char Soft_Version[7]="Ver0.38";
+unsigned char Soft_Version[7]="Ver0.39";
 
 void main(void)
 {

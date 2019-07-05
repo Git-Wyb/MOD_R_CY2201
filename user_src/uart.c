@@ -353,9 +353,10 @@ void OprationFrame(void)
 				  for(i=UART_DATA_buffer[3]-6;i<8;i++)Uart_Struct_DATA_Packet_Contro.data[i/2].uc[i%2]=0x00;
                 }
                 FLAG_APP_TX_fromUART=1;
-                
-		        ACKBack[0] = FrameHead;
-                ACKBack[1] = Uart_Fremo_NO;
+				TimeOUT_RXtypeScan_formTX = 0;
+
+				ACKBack[0] = FrameHead;
+				ACKBack[1] = Uart_Fremo_NO;
                 ACKBack[2] = 0x80;
                 ACKBack[3] = 5;
                 ACKBack[4] = UART_DATA_buffer[4];
