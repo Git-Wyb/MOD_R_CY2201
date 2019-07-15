@@ -43,6 +43,8 @@ void TIM4_UPD_OVF(void)
     { // 10mS FLAG
         TIME_10ms = 10;
         FG_10ms = 1;
+        if (TIME_auto_useful)
+            --TIME_auto_useful;
     }
     if (U1AckTimer)
         U1AckTimer--;

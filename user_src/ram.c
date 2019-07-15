@@ -30,6 +30,9 @@ u8 SIO_DATA[16] = {0};
 u8 Tx_Rx_mode = 0;
 
 u8 TIME_10ms = 0;
+u16 TIME_auto_useful = 0;
+u8 FREQ_auto_useful = 0;
+u8 FREQ_auto_useful_count = 0;
 u16 TIMER1s = 0;
 u16 TIMER300ms = 0;
 u16 TIMER18ms = 0;

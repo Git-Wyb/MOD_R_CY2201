@@ -405,7 +405,9 @@ void ID_learn(void)
     if (FG_10ms)
     { //90==1ç§?
         FG_10ms = 0;
-		if(TIME_TestNo91)
+        if(FREQ_auto_useful_count)
+            --FREQ_auto_useful_count;
+        if(TIME_TestNo91)
 			--TIME_TestNo91;
 		else FLAG_testNo91=0;
 		if(TIME_ERROR_Read_once_again)

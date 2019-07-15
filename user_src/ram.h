@@ -78,8 +78,8 @@ extern volatile uFLAG FLAG2;
 extern volatile uFLAG FLAG3;
 #define FLAG3_BYTE FLAG3.BYTE
 //------------------------------------------------
-#define Flag_ERROR_Read FLAG3.BIT.Bit0   
-//#define  FLAG3.BIT.Bit1 
+#define Flag_ERROR_Read FLAG3.BIT.Bit0
+//#define  FLAG3.BIT.Bit1
 #define Flag_shutter_stopping FLAG3.BIT.Bit2 
 #define FLAG_APP_TX_fromUART_err_read FLAG3.BIT.Bit3
 //#define  FLAG3.BIT.Bit4
@@ -100,6 +100,9 @@ extern u8 SIO_DATA[16];
 extern u8 Tx_Rx_mode;
 
 extern u8 TIME_10ms;
+extern u16 TIME_auto_useful;
+extern u8 FREQ_auto_useful;
+extern u8 FREQ_auto_useful_count;
 extern u16 TIMER1s;
 extern u16 TIMER300ms;
 extern u16 TIMER18ms;

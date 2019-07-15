@@ -137,22 +137,47 @@ void ID_Decode_IDCheck(void)
 		                {
 		                    PAYLOAD_SIZE = RX_PayLoadSizeNOLogin;
 							Flag_TX_ID_load=0;
-		                    if ((DATA_Packet_Control == 0x40) && (Manual_override_TIMER == 0))
+                            static u32 DATA_Packet_ID_auto = 0;
+                            if ((DATA_Packet_Control == 0x40) && (Manual_override_TIMER == 0))
 		                    {
-		                        FG_auto_manual_mode = 1;
-                                TIME_auto_out = 3150; //890; 
-                                if (FG_First_auto == 0)
-		                        {
-		                            FG_First_auto = 1;
-		                            TIMER1s = 3000; //2500
-		                        }
+                                if ((TIME_auto_useful > 0) && (TIME_auto_useful < 27000)) //27000*10ms=5min*60*90
+                                {
+                                    if (FREQ_auto_useful_count==0)
+                                    {
+                                        if (DATA_Packet_ID_auto != DATA_Packet_ID)
+                                            FREQ_auto_useful = 0;
+                                        DATA_Packet_ID_auto = DATA_Packet_ID;
+                                        FREQ_auto_useful++;
+                                        FREQ_auto_useful_count = 90;//90=1s
+                                    }
+                                }
+                                else {
+                                    FREQ_auto_useful=0;
+                                    FREQ_auto_useful_count=0;
+                                }
+                                if ((TIME_auto_useful == 0) || (TIME_auto_useful >= 27000) || ((TIME_auto_useful < 27000) && (FREQ_auto_useful >= 2)))
+                                {
+                                    TIME_auto_useful = 0;
+                                    FREQ_auto_useful = 0;
+                                    FG_auto_manual_mode = 1;
+                                    if(TIME_auto_out==0)
+                                        TIME_auto_out = 3150; //time*90; time=35s
+                                    else if(TIME_auto_out<900)
+                                        TIME_auto_out = 900; //time*90; time=10s
+                                    if (FG_First_auto == 0)
+                                    {
+                                        FG_First_auto = 1;
+                                        TIMER1s = 3000; //2500
+                                    }
+                                }
 		                    }
 		                    else if (DATA_Packet_Control == 0x40)
 		                        ;
 		                    else
 		                    {
 		                        FG_auto_out = 0;
-		                        TIME_auto_close = 0;
+                                TIME_auto_useful = 0;
+                                TIME_auto_close = 0;
 		                        FG_auto_open_time = 0;
 		                        if (FG_auto_manual_mode == 1)      //Manual_override_TIMER=13500;   //2�?0秒自动无�?
 		                            Manual_override_TIMER = 24480; //4�?0秒自动无�?
@@ -642,6 +667,7 @@ void ID_Decode_OUT(void)
             FG_auto_out = 0;
             TIME_auto_close = 270;
             Receiver_LED_OUT = 1;
+            TIME_auto_useful = 35100; //35100*10ms=(5min*60+90s)*90
         } //300
         if (TIME_auto_close)
         {
@@ -659,11 +685,12 @@ void ID_Decode_OUT(void)
             {
                 Receiver_OUT_STOP = FG_NOT_allow_out;
                 Receiver_OUT_CLOSE = FG_allow_out;
+                if (TIME_auto_close <= 1)
+                    FG_auto_manual_mode = 0;
             }
         }
         else
-        {
-            FG_auto_manual_mode = 0;
+        {            
             Receiver_OUT_CLOSE = FG_NOT_allow_out;
         }
         FG_First_auto = 0;
@@ -699,6 +726,10 @@ void ID_Decode_OUT(void)
     }
     if (TIMER300ms == 0)
         FG_Receiver_LED_RX = 0; //Receiver_LED_RX=0;
+    if (FG_auto_manual_mode == 1)
+        AUTO_OR_MANUAL = 1;
+    else
+        AUTO_OR_MANUAL = 0;
 }
 
 void Freq_Scanning(void)
