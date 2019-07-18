@@ -103,6 +103,7 @@ extern u8 TIME_10ms;
 extern u16 TIME_auto_useful;
 extern u8 FREQ_auto_useful;
 extern u8 FREQ_auto_useful_count;
+extern u16 FREQ_auto_useful_continuous;
 extern u16 TIMER1s;
 extern u16 TIMER300ms;
 extern u16 TIMER18ms;
