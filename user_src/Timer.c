@@ -45,6 +45,8 @@ void TIM4_UPD_OVF(void)
         FG_10ms = 1;
         if (TIME_auto_useful)
             --TIME_auto_useful;
+        if (TIME_auto_out)
+            --TIME_auto_out;            
         if (FREQ_auto_useful_continuous)
             --FREQ_auto_useful_continuous;
     }

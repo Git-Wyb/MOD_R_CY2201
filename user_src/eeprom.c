@@ -420,8 +420,6 @@ void ID_learn(void)
 			--TIME_APP_TX_fromOUT;
         if (TIME_EMC)
             --TIME_EMC;
-        if (TIME_auto_out)
-            --TIME_auto_out;
         if (TIME_auto_close)
             --TIME_auto_close;
         if (TIME_OUT_OPEN_CLOSE)
