@@ -429,6 +429,95 @@ void TEST_beep(void)
 	FLAG_testBEEP=0;
 }
 
+u8 TIME_RSSI_valid;
+UINT8 TIME_BEEP_on;
+UINT8 TIME_BEEP_off;
+UINT8 BASE_TIME_BEEP_on;
+UINT8 BASE_TIME_BEEP_off;
+UINT8 TIME_BEEP_freq, FG_BEEP_ON, FG_BEEP_OFF;
+void TIME_BEEP_Module(void)
+{
+    if (TIME_RSSI_valid)
+        --TIME_RSSI_valid;
+
+    if (TIME_BEEP_on)
+    {
+        --TIME_BEEP_on;
+        if (FG_BEEP_ON == 0)
+        {
+            FG_BEEP_ON = 1;
+            FG_BEEP_OFF = 0;
+            TIM3_init(); 
+        }
+    }
+    else if (TIME_BEEP_off)
+    {
+        --TIME_BEEP_off;
+        if (FG_BEEP_OFF == 0)
+        {
+            FG_BEEP_OFF = 1;
+            FG_BEEP_ON = 0;
+            Tone_OFF(); 
+        }
+    }
+    else if (TIME_BEEP_freq)
+    {
+        --TIME_BEEP_freq;
+        TIME_BEEP_on = BASE_TIME_BEEP_on;
+        TIME_BEEP_off = BASE_TIME_BEEP_off;
+        if (FG_BEEP_ON == 0)
+        {
+            FG_BEEP_ON = 1;
+            FG_BEEP_OFF = 0;
+            TIM3_init(); 
+        }
+    }
+}
+void _ReqBuzzer(UINT16 BEEP_on_SET, UINT8 BEEP_off_SET, UINT8 BEEP_freq_SET)
+{
+        BASE_TIME_BEEP_on = BEEP_on_SET;
+        BASE_TIME_BEEP_off = BEEP_off_SET;
+        TIME_BEEP_on = BASE_TIME_BEEP_on;
+        TIME_BEEP_off = BASE_TIME_BEEP_off;
+        TIME_BEEP_freq = BEEP_freq_SET;
+}
+void RSSI_out_BEEP(void)
+{
+    char rssi;
+    UINT8 RSSI_level;
+
+    if(TIME_RSSI_valid!=0)
+        FLAG_RSSI_level = 0;
+    else 
+    {
+        if ((FLAG_ID_Erase_Login == 0) && (FLAG_ID_Login == 0) && (FLAG_ID_SCX1801_Login == 0) && (FLAG_RSSI_level == 1) && (FLAG_Signal_DATA_OK==1))
+        {
+                rssi = RAM_RSSI_AVG / 128;
+                rssi = -rssi;
+                if ((rssi >= 127)||(rssi==0))
+                    rssi = 127;
+
+
+                if (rssi > 115)
+                    RSSI_level = 1;
+                else if (rssi > 100)
+                    RSSI_level = 2;
+                else if (rssi > 80)
+                    RSSI_level = 3;
+                else
+                    RSSI_level = 4;
+
+                if ((RSSI_level > 0) && (TIME_RSSI_valid == 0))
+                {
+                    if (TIME_RSSI_valid == 0)
+                        TIME_RSSI_valid = 70;
+
+                    _ReqBuzzer(5, 15, RSSI_level-1);
+                }
+        }
+    }
+}
+
 void ID_Decode_OUT(void)
 {
     u8 Control_i;	

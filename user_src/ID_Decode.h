@@ -15,6 +15,8 @@ void ID_Decode_IDCheck(void);
 void Signal_DATA_Decode(UINT8 NUM_Type);
 void eeprom_IDcheck(void);
 void BEEP_and_LED(void);
+void TIME_BEEP_Module(void);
+void RSSI_out_BEEP(void);
 void ID_Decode_OUT(void);
 void Receiver_BEEP(void);
 void TEST_beep(void);

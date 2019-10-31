@@ -93,6 +93,7 @@ void main(void)
     		  Freq_Scanning();
     		  //if(Scan_step==2)
 			  	SCAN_RECEIVE_PACKET(); //É¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿?
+          RSSI_out_BEEP();
         }
         TranmissionACK();
         //        READ_RSSI_avg();

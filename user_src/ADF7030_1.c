@@ -689,6 +689,7 @@ void SCAN_RECEIVE_PACKET(void)
         RAM_RSSI_AVG = RAM_RSSI_SUM / RSSI_Read_Counter;
         RSSI_Read_Counter = 0;
         RAM_RSSI_SUM = 0;
+        FLAG_RSSI_level = 1;
         TIMER18ms = 28;
         Flag_FREQ_Scan = 0;
     }

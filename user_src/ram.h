@@ -82,7 +82,7 @@ extern volatile uFLAG FLAG3;
 //#define  FLAG3.BIT.Bit1
 #define Flag_shutter_stopping FLAG3.BIT.Bit2 
 #define FLAG_APP_TX_fromUART_err_read FLAG3.BIT.Bit3
-//#define  FLAG3.BIT.Bit4
+#define FLAG_RSSI_level FLAG3.BIT.Bit4
 //#define  FLAG3.BIT.Bit5
 //#define  FLAG3.BIT.Bit6
 //#define  FLAG3.BIT.Bit7
@@ -111,7 +111,7 @@ extern u16 TIMER250ms_STOP;
 extern u16 TIME_auto_out;
 extern u16 TIME_auto_close;
 extern u16 time_3sec;
-extern u32 ID_Receiver_DATA[256]; //写入EEPROM ID缓存
+extern u32 ID_Receiver_DATA[250]; //写入EEPROM ID缓存
 extern u32 ID_SCX1801_DATA;
 extern u16 ID_DATA_PCS;
 extern u32 DATA_Packet_ID;

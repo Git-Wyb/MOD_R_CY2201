@@ -405,6 +405,7 @@ void ID_learn(void)
     if (FG_10ms)
     { //90==1ç§?
         FG_10ms = 0;
+        TIME_BEEP_Module();
         if(FREQ_auto_useful_count)
             --FREQ_auto_useful_count;
         if(TIME_TestNo91)
