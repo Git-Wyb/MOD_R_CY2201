@@ -498,34 +498,36 @@ void RSSI_out_BEEP(void)
     char rssi;
     UINT8 RSSI_level;
 
-    if(TIME_RSSI_valid!=0)
+    if ((FLAG_ID_Erase_Login == 1) || (FLAG_ID_Login == 1) || (FLAG_ID_SCX1801_Login == 1))
         FLAG_RSSI_level = 0;
-    else 
+
+    if (TIME_RSSI_valid != 0)
+        FLAG_RSSI_level = 0;
+    else
     {
-        if ((FLAG_ID_Erase_Login == 0) && (FLAG_ID_Login == 0) && (FLAG_ID_SCX1801_Login == 0) && (FLAG_RSSI_level == 1) && (FLAG_Signal_DATA_OK==1))
+        if ((FLAG_RSSI_level == 1) && (FLAG_Signal_DATA_OK == 1))
         {
-                rssi = RAM_RSSI_AVG / 128;
-                rssi = -rssi;
-                if ((rssi >= 127)||(rssi==0))
-                    rssi = 127;
+            rssi = RAM_RSSI_AVG / 128;
+            rssi = -rssi;
+            if ((rssi >= 127) || (rssi == 0))
+                rssi = 127;
 
+            if (rssi > 115)
+                RSSI_level = 1;
+            else if (rssi > 100)
+                RSSI_level = 2;
+            else if (rssi > 80)
+                RSSI_level = 3;
+            else
+                RSSI_level = 4;
 
-                if (rssi > 115)
-                    RSSI_level = 1;
-                else if (rssi > 100)
-                    RSSI_level = 2;
-                else if (rssi > 80)
-                    RSSI_level = 3;
-                else
-                    RSSI_level = 4;
+            if ((RSSI_level > 0) && (TIME_RSSI_valid == 0))
+            {
+                if (TIME_RSSI_valid == 0)
+                    TIME_RSSI_valid = 70;
 
-                if ((RSSI_level > 0) && (TIME_RSSI_valid == 0))
-                {
-                    if (TIME_RSSI_valid == 0)
-                        TIME_RSSI_valid = 70;
-
-                    _ReqBuzzer(5, 15, RSSI_level-1);
-                }
+                _ReqBuzzer(5, 15, RSSI_level - 1);
+            }
         }
     }
 }
