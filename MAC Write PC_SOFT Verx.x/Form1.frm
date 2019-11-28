@@ -2,8 +2,8 @@ VERSION 5.00
 Object = "{648A5603-2C6E-101B-82B6-000000000014}#1.1#0"; "MSCOMM32.OCX"
 Begin VB.Form Form1 
    BorderStyle     =   3  'Fixed Dialog
-   Caption         =   "MAC SSID KEY Write and Read Ver2.1  (MAC=0:00～F:FF  SSID=000000～FFFFFF  KEY=Lot+000～FFF)"
-   ClientHeight    =   12045
+   Caption         =   "MAC SSID KEY Write and Read Ver3.0  (MAC=0:00～F:FF  SSID=000000～FFFFFF)"
+   ClientHeight    =   13185
    ClientLeft      =   45
    ClientTop       =   435
    ClientWidth     =   11865
@@ -21,18 +21,165 @@ Begin VB.Form Form1
    MaxButton       =   0   'False
    MinButton       =   0   'False
    Picture         =   "Form1.frx":08CA
-   ScaleHeight     =   12045
+   ScaleHeight     =   13185
    ScaleWidth      =   11865
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  '屏幕中心
    Begin VB.Frame Frame1 
+      Caption         =   "Device ID Set"
+      Height          =   2655
+      Index           =   3
+      Left            =   120
+      TabIndex        =   127
+      Top             =   4560
+      Width           =   11535
+      Begin VB.CommandButton Command1 
+         Caption         =   "read"
+         Height          =   615
+         Index           =   3
+         Left            =   7080
+         TabIndex        =   133
+         Top             =   1920
+         Width           =   1400
+      End
+      Begin VB.TextBox Text6 
+         Alignment       =   2  'Center
+         Enabled         =   0   'False
+         BeginProperty Font 
+            Name            =   "宋体"
+            Size            =   36
+            Charset         =   134
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   855
+         Index           =   3
+         Left            =   1680
+         MaxLength       =   17
+         TabIndex        =   132
+         Top             =   1680
+         Width           =   5175
+      End
+      Begin VB.CommandButton Command2 
+         Caption         =   "write"
+         Height          =   615
+         Index           =   3
+         Left            =   7080
+         TabIndex        =   131
+         Top             =   1080
+         Width           =   1400
+      End
+      Begin VB.CommandButton Command4 
+         Caption         =   "reset"
+         BeginProperty Font 
+            Name            =   "宋体"
+            Size            =   12
+            Charset         =   134
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   435
+         Index           =   3
+         Left            =   10680
+         TabIndex        =   130
+         Top             =   240
+         Width           =   855
+      End
+      Begin VB.TextBox Text1 
+         Alignment       =   2  'Center
+         Enabled         =   0   'False
+         BeginProperty Font 
+            Name            =   "宋体"
+            Size            =   36
+            Charset         =   134
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   855
+         Index           =   3
+         Left            =   1680
+         MaxLength       =   12
+         TabIndex        =   129
+         Text            =   "000000000000"
+         Top             =   720
+         Width           =   5175
+      End
+      Begin VB.CommandButton Command12 
+         Caption         =   "Generate"
+         BeginProperty Font 
+            Name            =   "宋体"
+            Size            =   15
+            Charset         =   134
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   495
+         Index           =   3
+         Left            =   7080
+         TabIndex        =   128
+         Top             =   480
+         Width           =   1400
+      End
+      Begin VB.Image Image1 
+         Height          =   735
+         Index           =   3
+         Left            =   8760
+         Top             =   840
+         Width           =   735
+      End
+      Begin VB.Label Label1 
+         Caption         =   "ID"
+         BeginProperty Font 
+            Name            =   "Trebuchet MS"
+            Size            =   36
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   855
+         Index           =   3
+         Left            =   120
+         TabIndex        =   134
+         Top             =   600
+         Width           =   1335
+      End
+   End
+   Begin VB.Frame Frame1 
       Caption         =   "KEY Set"
-      Height          =   3375
+      Height          =   2655
       Index           =   2
       Left            =   120
       TabIndex        =   119
-      Top             =   8400
+      Top             =   10320
       Width           =   11535
+      Begin VB.CommandButton Command12 
+         Caption         =   "Generate"
+         BeginProperty Font 
+            Name            =   "宋体"
+            Size            =   15
+            Charset         =   134
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   495
+         Index           =   2
+         Left            =   5640
+         TabIndex        =   126
+         Top             =   360
+         Width           =   1400
+      End
       Begin VB.TextBox Text1 
          Alignment       =   2  'Center
          Enabled         =   0   'False
@@ -48,21 +195,11 @@ Begin VB.Form Form1
          Height          =   855
          Index           =   2
          Left            =   1680
-         MaxLength       =   5
-         TabIndex        =   126
-         Text            =   "18510"
+         MaxLength       =   8
+         TabIndex        =   124
+         Text            =   "00000000"
          Top             =   720
-         Width           =   2295
-      End
-      Begin VB.CheckBox Check1 
-         Caption         =   "Auto Inc"
-         Height          =   495
-         Index           =   2
-         Left            =   1920
-         TabIndex        =   125
-         Top             =   1680
-         Value           =   1  'Checked
-         Width           =   2415
+         Width           =   3735
       End
       Begin VB.CommandButton Command4 
          Caption         =   "reset"
@@ -78,7 +215,7 @@ Begin VB.Form Form1
          Height          =   435
          Index           =   2
          Left            =   10680
-         TabIndex        =   124
+         TabIndex        =   123
          Top             =   240
          Width           =   855
       End
@@ -87,28 +224,9 @@ Begin VB.Form Form1
          Height          =   615
          Index           =   2
          Left            =   5640
-         TabIndex        =   123
-         Top             =   840
-         Width           =   1335
-      End
-      Begin VB.TextBox Text5 
-         BeginProperty Font 
-            Name            =   "宋体"
-            Size            =   36
-            Charset         =   134
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   855
-         Index           =   2
-         Left            =   3960
-         MaxLength       =   3
          TabIndex        =   122
-         Text            =   "000"
-         Top             =   720
-         Width           =   1500
+         Top             =   980
+         Width           =   1400
       End
       Begin VB.TextBox Text6 
          Alignment       =   2  'Center
@@ -127,7 +245,7 @@ Begin VB.Form Form1
          Left            =   1680
          MaxLength       =   17
          TabIndex        =   121
-         Top             =   2280
+         Top             =   1680
          Width           =   3735
       End
       Begin VB.CommandButton Command1 
@@ -136,8 +254,8 @@ Begin VB.Form Form1
          Index           =   2
          Left            =   5640
          TabIndex        =   120
-         Top             =   2280
-         Width           =   1335
+         Top             =   1780
+         Width           =   1400
       End
       Begin VB.Label Label1 
          Caption         =   "KEY"
@@ -153,25 +271,25 @@ Begin VB.Form Form1
          Height          =   855
          Index           =   2
          Left            =   120
-         TabIndex        =   127
+         TabIndex        =   125
          Top             =   600
          Width           =   1335
       End
       Begin VB.Image Image1 
          Height          =   735
          Index           =   2
-         Left            =   7320
+         Left            =   7350
          Top             =   840
          Width           =   735
       End
    End
    Begin VB.Frame Frame1 
       Caption         =   "SSID Set"
-      Height          =   3375
+      Height          =   2655
       Index           =   1
       Left            =   120
       TabIndex        =   111
-      Top             =   4800
+      Top             =   7440
       Width           =   11535
       Begin VB.TextBox Text1 
          Alignment       =   2  'Center
@@ -257,7 +375,7 @@ Begin VB.Form Form1
          Left            =   1680
          MaxLength       =   17
          TabIndex        =   113
-         Top             =   2280
+         Top             =   1680
          Width           =   3855
       End
       Begin VB.CommandButton Command1 
@@ -266,7 +384,7 @@ Begin VB.Form Form1
          Index           =   1
          Left            =   5880
          TabIndex        =   112
-         Top             =   2280
+         Top             =   1780
          Width           =   1335
       End
       Begin VB.Label Label1 
@@ -2052,21 +2170,21 @@ Begin VB.Form Form1
       List            =   "Form1.frx":0A21
       TabIndex        =   8
       Text            =   "Trigger mode"
-      Top             =   12360
+      Top             =   13320
       Width           =   3615
    End
    Begin VB.Timer Timer1 
       Enabled         =   0   'False
       Interval        =   700
-      Left            =   6840
-      Top             =   12240
+      Left            =   6960
+      Top             =   13320
    End
    Begin VB.CommandButton Command3 
       Caption         =   "exit"
       Height          =   615
       Left            =   8640
       TabIndex        =   5
-      Top             =   12120
+      Top             =   13200
       Width           =   1215
    End
    Begin VB.ComboBox Combo1 
@@ -2090,7 +2208,7 @@ Begin VB.Form Form1
    End
    Begin VB.Frame Frame1 
       Caption         =   "MAC Set"
-      Height          =   3375
+      Height          =   3135
       Index           =   0
       Left            =   120
       TabIndex        =   0
@@ -2229,8 +2347,8 @@ Begin VB.Form Form1
       End
    End
    Begin MSCommLib.MSComm MSComm1 
-      Left            =   7560
-      Top             =   12120
+      Left            =   7680
+      Top             =   13200
       _ExtentX        =   1005
       _ExtentY        =   1005
       _Version        =   393216
@@ -2249,9 +2367,9 @@ Begin VB.Form Form1
    Begin VB.Label Label2 
       ForeColor       =   &H000000FF&
       Height          =   495
-      Left            =   3960
+      Left            =   4080
       TabIndex        =   6
-      Top             =   12360
+      Top             =   13440
       Width           =   2535
    End
 End
@@ -2426,7 +2544,27 @@ If Index = 2 Then
         Text3.Text = str
         
         str1 = Mid(Text3.Text, 12, 8)
-        Text6(Index).Text = UCase(str1)
+        Text6(Index).Text = str1    'UCase(str1)
+End If
+
+If Index = 3 Then
+
+        Text2.Text = "DEVICE_CODE" + Chr(13)
+        
+        MSComm1.OutBufferCount = 0                   '清发送缓存区
+        MSComm1.Output = Text2.Text
+        MSComm1.InBufferCount = 0                    '清接收缓存区
+        InputSignal = ""
+        MSComm1.RThreshold = 1
+        
+        Text3.Text = ""
+        Call timer_delay(200)
+        
+        str = InputSignal
+        Text3.Text = str
+        
+        str1 = Mid(Text3.Text, 28, 12)
+        Text6(Index).Text = str1    'UCase(str1)
 End If
 
 End Function
@@ -2540,6 +2678,26 @@ TextR(15).Text = "0000000F"
  For i0 = 0 To 15
    TextR(i0).BackColor = &H80000005
  Next
+
+End Sub
+
+Private Sub Command12_Click(Index As Integer)
+
+Dim str1 As String
+Dim str2 As String
+Dim len1 As Integer
+
+str1 = "ABCDEFGHIJKLMNPQRSTUVWXYZabcdefghijklmnpqrstuvwxyz"
+str2 = "123456789"
+
+If Index = 2 Then
+    len1 = 8
+End If
+If Index = 3 Then
+    len1 = 12
+End If
+
+Text1(Index).Text = Generate_fun(str1, str2, len1)
 
 End Sub
 
@@ -2717,29 +2875,13 @@ If Index = 1 Then
 End If
 
 If Index = 2 Then
-        Send_Str = Text5(Index).Text
-        Long_Num = Len(Send_Str)
-        If Long_Num <> 3 Then
-        MsgBox "bits ! = 3,value（ 000～FFF ）", vbInformation, "Error"
-        Command2(Index).Enabled = True
-        Exit Sub
-        End If
+     
+        Command12_Click (Index)
         
-        'Text1(Index).Text = "17Z07"
-        str1 = Text5(Index).Text
+        Text2.Text = "PWD -W " + Mid(Text1(Index).Text, 1, 8) + Chr(13)
+        str_Write = Mid(Text1(Index).Text, 1, 8)
         
-        a = hex2dec(Mid(str1, 1, 1)) * 256 + hex2dec(Mid(str1, 2, 1)) * 16 + hex2dec(Mid(str1, 3, 1))
-        If a > 4095 Then
-        
-            MsgBox "KEY>4095(Hex=0xFFF)", vbInformation, "Error"
-            Command2(Index).Enabled = True
-            Exit Sub
-        End If
-        
-        Text2.Text = "PWD -W " + Mid(Text1(Index).Text, 1, 5) + Mid(str1, 1, 3) + Chr(13)
-        str_Write = Mid(Text1(Index).Text, 1, 5) + Mid(str1, 1, 3)
-        
-        b = MsgBox("请仔细确认今天的日期" + TimeDate + "，以及需要写入的KEY后三位" + str1 + "是否正确，由于是写入到OTP区域，只能写一次,如果KEY正确，请点击“确定”；如果KEY错误，请点击“取消”", vbOKCancel, "注意，特别提示是否KEY写入")
+        b = MsgBox("请仔细确认是否正确，由于是写入到OTP区域，只能写一次,如果KEY正确，请点击“确定”；如果KEY错误，请点击“取消”", vbOKCancel, "注意，特别提示是否KEY写入")
         If b = vbCancel Then
          Command2(Index).Enabled = True
          Exit Sub
@@ -2782,21 +2924,62 @@ If Index = 2 Then
         
            Image1(Index).Picture = LoadPicture(App.Path & "\navigate_cross.bmp")
         End If
-        
-        If Check1(Index).Value = 1 Then
-            If char0 = 0 Then
-                If a < 4095 Then
-                    d1 = a + 1
-                    str3 = Right$("000" + Hex(d1), 3)
-                    Text5(Index).Text = Mid(str3, 1, 1) + Mid(str3, 2, 2)
-                Else
-                    Text5(Index).Text = "000"
-                End If
-            End If
-        End If
                 
 End If
 
+
+If Index = 3 Then
+     
+        Command12_Click (Index)
+        
+        Text2.Text = "DEVICE_CODE -W " + Mid(Text1(Index).Text, 1, 12) + Chr(13)
+        str_Write = Mid(Text1(Index).Text, 1, 12)
+        
+        b = MsgBox("请仔细确认是否正确，由于是写入到OTP区域，只能写一次,如果Device ID正确，请点击“确定”；如果Device ID错误，请点击“取消”", vbOKCancel, "注意，特别提示是否Device ID写入")
+        If b = vbCancel Then
+         Command2(Index).Enabled = True
+         Exit Sub
+        End If
+        
+        MSComm1.OutBufferCount = 0                   '清发送缓存区
+        MSComm1.Output = Text2.Text
+        MSComm1.InBufferCount = 0                    '清接收缓存区
+        InputSignal = ""
+        MSComm1.RThreshold = 1
+        
+        Text3.Text = ""
+        Call timer_delay(200)
+        
+        'str = MSComm1.Input
+        str = InputSignal
+        Text3.Text = str
+                
+        str_SET = Mid(Text3.Text, 31, 3)
+        str4 = "set"
+        If str_SET <> str4 Then
+            Image1(Index).Picture = LoadPicture(App.Path & "\navigate_cross.bmp")
+            Command2(Index).Enabled = True
+            Exit Sub
+        End If
+                
+        Call timer_delay(200)
+        Call Command1_read(Index)
+        str_Read = Text6(Index).Text
+        
+                If str_Read <> str_Write Then
+                   char0 = 1
+                End If
+        
+        If char0 = 0 Then
+        
+            Image1(Index).Picture = LoadPicture(App.Path & "\navigate_check.bmp")
+        
+        Else
+        
+           Image1(Index).Picture = LoadPicture(App.Path & "\navigate_cross.bmp")
+        End If
+                
+End If
 
 Command2(Index).Enabled = True
 
@@ -3206,88 +3389,25 @@ str = Format(Now, "yyyy-mm-dd")
 TimeDate = str
 str1 = Mid(str, 6, 1)
 str2 = Mid(str, 6, 2)
-If str1 <> "0" Then
-   If str2 = "10" Then
-      Text1(2).Text = Mid(str, 3, 2) + "X" + Mid(str, 9, 2)
-   End If
-   If str2 = "11" Then
-      Text1(2).Text = Mid(str, 3, 2) + "Y" + Mid(str, 9, 2)
-   End If
-   If str2 = "12" Then
-      Text1(2).Text = Mid(str, 3, 2) + "Z" + Mid(str, 9, 2)
-   End If
-Else
-  Text1(2).Text = Mid(str, 3, 2) + Mid(str, 7, 1) + Mid(str, 9, 2)
-End If
+'If str1 <> "0" Then
+'   If str2 = "10" Then
+'      Text1(2).Text = Mid(str, 3, 2) + "X" + Mid(str, 9, 2)
+'   End If
+'   If str2 = "11" Then
+'      Text1(2).Text = Mid(str, 3, 2) + "Y" + Mid(str, 9, 2)
+'   End If
+'   If str2 = "12" Then
+'      Text1(2).Text = Mid(str, 3, 2) + "Z" + Mid(str, 9, 2)
+'   End If
+'Else
+'  Text1(2).Text = Mid(str, 3, 2) + Mid(str, 7, 1) + Mid(str, 9, 2)
+'End If
 
 
-'----------------------------TX
-HScroll1(0).Value = 13           'TX Power
-Label6(0).Caption = "Setting " + Right$("00" + HScroll1(0).Value, 2)
-
-HScroll1(1).Value = 1           'VCO Adjust
-Label6(1).Caption = "Setting " + Right$("00" + HScroll1(1).Value, 2)
-
-'    a = cboSysOp(1).ListIndex
-'    b = cboSysOp(1).ItemData(a)
-Combo3(0).ListIndex = 1  'PLL Charge Pump
-Combo3(1).ListIndex = 0  'Battery Measure
-Combo3(2).ListIndex = 1  'Frequency Deviation
-
-Text4(0).Text = "00884000"
-Text4(1).Text = "00154DC1"
-Text4(2).Text = "011209A6"
-Text4(3).Text = "0021D04F"
-
- For i0 = 0 To 3
-   Text4(i0).BackColor = &H80000005
- Next
-
-
-'-------------------------------RX
-
-HScroll1(2).Value = 2           'VCO Adjust
-Label6(2).Caption = "Setting " + Right$("00" + HScroll1(2).Value, 2)
-
-Combo3(3).ListIndex = 2   'PLL Charge Pump
-
-TextR(0).Text = "0954C7B0"
-TextR(1).Text = "031B5011"
-TextR(2).Text = "00500882"
-TextR(3).Text = "29915CD3"
-TextR(4).Text = "00289A14"
-TextR(10).Text = "049668FA"
-
-TextR(5).Text = "00000005"
-TextR(6).Text = "00000006"
-TextR(7).Text = "00000007"
-TextR(8).Text = "00000008"
-TextR(9).Text = "00000009"
-TextR(11).Text = "0000000B"
-TextR(12).Text = "0000000C"
-TextR(13).Text = "0000000D"
-TextR(14).Text = "0000000E"
-TextR(15).Text = "0000000F"
-
- For i0 = 0 To 15
-   TextR(i0).BackColor = &H80000005
- Next
-
-
-
-'---------------------------to fty
-Frame4.Enabled = False
-Frame6.Enabled = False
- For i0 = 0 To 3
-   Label9(i0).ForeColor = &H80000010
-   Text4(i0).Enabled = False
-   Command5(i0).Enabled = False
- Next
-  For i0 = 0 To 15
-   Label10(i0).ForeColor = &H80000010
-   TextR(i0).Enabled = False
-   CommandR(i0).Enabled = False
- Next
+Command12_Click (2)
+Command12_Click (3)
+Command4(2).Visible = False
+Command4(3).Visible = False
 
 End Sub
 
@@ -3298,7 +3418,7 @@ Private Sub Text4_Change(Index As Integer)
 End Sub
 
 Private Sub Text5_KeyPress(Index As Integer, KeyAscii As Integer)
-    '判断输入字符的Ascii码,如果不符合英文Ascii码就不进行任何操作
+  '判断输入字符的Ascii码,如果不符合英文Ascii码就不进行任何操作
     Select Case KeyAscii
     Case 48 To 58 '数字有效
     Case 65 To 70 ' 字母A,B,C,D,E,F
@@ -3357,4 +3477,18 @@ Public Function hex2dec(char As String) As Variant
         Case "F": i = 15
     End Select
     hex2dec = i
+End Function
+
+Public Function Generate_fun(a As String, b As String, c As Integer) As String
+    Dim i As Integer
+    Dim o As String
+    Dim d As String
+    
+    o = ""
+    Randomize
+    d = a & b & ""
+    For t = 1 To c
+      o = o & Mid(d, Round(Rnd() * (Len(d) - 1) + 1), 1)
+    Next
+    Generate_fun = o
 End Function
