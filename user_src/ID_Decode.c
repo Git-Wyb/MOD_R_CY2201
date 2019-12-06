@@ -276,6 +276,17 @@ void Signal_DATA_Decode(UINT8 NUM_Type)
 	}
 }
 
+u32 ID_Receiver_DATA_READ(u8 *address)
+{
+    uni_rom_id xn;
+
+    xn.IDB[0] = 0;
+    xn.IDB[1] = address[0];
+    xn.IDB[2] = address[1];
+    xn.IDB[3] = address[2];
+
+    return xn.IDL;
+}
 void eeprom_IDcheck(void)
 {
     UINT16 i;
@@ -289,8 +300,9 @@ void eeprom_IDcheck(void)
 		{
 				for (i = 0; i < ID_DATA_PCS; i++)
 				{
-					if (ID_Receiver_DATA[i] == DATA_Packet_ID)
-					{
+                    //if (ID_Receiver_DATA[i] == DATA_Packet_ID)
+                    if (ID_Receiver_DATA_READ(ID_Receiver_DATA[i]) == DATA_Packet_ID)
+                    {
 						INquiry = i;
 						i = ID_DATA_PCS;
 						FLAG_IDCheck_OK = 1;
@@ -313,8 +325,9 @@ void eeprom_IDcheck(void)
 #else
 			for (i = 0; i < ID_DATA_PCS; i++)
 			{
-				if (ID_Receiver_DATA[i] == DATA_Packet_ID)
-				{
+                //if (ID_Receiver_DATA[i] == DATA_Packet_ID)
+                if (ID_Receiver_DATA_READ(ID_Receiver_DATA[i]) == DATA_Packet_ID)
+                {
 					INquiry = i;
 					i = ID_DATA_PCS;
 					FLAG_IDCheck_OK = 1;
