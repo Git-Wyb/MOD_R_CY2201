@@ -43,6 +43,8 @@ u8 TX_Scan_count=0;
 
 u8 Flag_RXtypeScan_formTX=0;
 u16 TimeOUT_RXtypeScan_formTX=0;
+u16 Def_type1_TimeOUT_RXtypeScan_formTX=3310;
+u16 Def_type2_TimeOUT_RXtypeScan_formTX=1120;
 
 void DELAY_30U(void)
 {
@@ -515,9 +517,9 @@ void ADF7030_TRANSMITTING_FROM_POWEROFF(void)
     ADF7030_WRITE_REGISTER_NOPOINTER_LONGADDR_OFFSET_MSB(ADF7030Cfg_pointer, CFG_SIZE(), ADDR_CHANNEL_FERQUENCY, 8, 4);
     WaitForADF7030_FIXED_DATA(); //等待芯片空闲/可接受CMD状�??
     DELAY_30U();
-	if(Uart_Type==1)
+	if(wireless_speed_type==1)
        Memory_Write_Block_Pointer_Short_Address(CONST_TXPACKET_DATA_20000AF0, PNTR_CUSTOM1_ADDR, 12);
-    else if(Uart_Type==2)
+    else if(wireless_speed_type==2)
 	   Memory_Write_Block_Pointer_Short_Address(CONST_TXPACKET_DATA_20000AF0, PNTR_CUSTOM1_ADDR, 28);
     WaitForADF7030_FIXED_DATA(); //等待芯片空闲/可接受CMD状�??
     DELAY_30U();
@@ -1209,8 +1211,8 @@ void Select_TX_frequency(void)
    		{
    			if(First_TX_Scan==0)
    			{
-   			    if(Uart_Type==2)Channels=3;
-				else if(Uart_Type==1)Channels=1;
+   			    if(wireless_speed_type==2)Channels=3;
+				else if(wireless_speed_type==1)Channels=1;
 				ADF7030_Change_Channel();
 				ADF7030Init();	   				
 				ADF7030_ACC_FROM_POWEROFF();
@@ -1229,11 +1231,11 @@ void Select_TX_frequency(void)
 				if((rssi_value<-90)||(TX_Scan_count>=3)) 
 					TX_Scan_step	=2;
 				else 
-					{   if(Uart_Type==2)
+					{   if(wireless_speed_type==2)
 					    {
 					      if(Channels==5)Channels=3;
 						}
-					    else if(Uart_Type==1)
+					    else if(wireless_speed_type==1)
 					    {
 					      if(Channels==3)Channels=1;
 					    }
@@ -1268,8 +1270,8 @@ void APP_TX_PACKET(void)
   if((FLAG_APP_TX_fromUART==1)&&(Flag_FREQ_Scan==0))
   {
     if(
-	  ((Uart_Type==1)&&((PROFILE_CH_FREQ_32bit_200002EC == 429175000)||(PROFILE_CH_FREQ_32bit_200002EC == 429200000)))||
-	  ((Uart_Type==2)&&((PROFILE_CH_FREQ_32bit_200002EC == PROFILE_CH1_FREQ_32bit_429HighSpeed)||(PROFILE_CH_FREQ_32bit_200002EC == PROFILE_CH2_FREQ_32bit_429HighSpeed)))
+	  ((wireless_speed_type==1)&&((PROFILE_CH_FREQ_32bit_200002EC == 429175000)||(PROFILE_CH_FREQ_32bit_200002EC == 429200000)))||
+	  ((wireless_speed_type==2)&&((PROFILE_CH_FREQ_32bit_200002EC == PROFILE_CH1_FREQ_32bit_429HighSpeed)||(PROFILE_CH_FREQ_32bit_200002EC == PROFILE_CH2_FREQ_32bit_429HighSpeed)))
 	  )
     {
               FLAG_APP_TX_fromUART=0;
@@ -1285,7 +1287,7 @@ void APP_TX_PACKET(void)
   	    if(TX_Scan_step==1)TX_Scan_step=2;//Select_TX_frequency();
 		if(TX_Scan_step==2)
 		{
-			    if(Uart_Type==1)
+			    if(wireless_speed_type==1)
 			    {
 				    if(APP_TX_freq==0)
 				    {
@@ -1314,10 +1316,10 @@ void APP_TX_PACKET(void)
 				       FLAG_APP_TX=0;
 				       Time_APP_RXstart=1;  
 					   Flag_RXtypeScan_formTX=1;
-					   TimeOUT_RXtypeScan_formTX=3310;
+					   TimeOUT_RXtypeScan_formTX=Def_type1_TimeOUT_RXtypeScan_formTX;
 				    } 
 			    }
-				else if(Uart_Type==2)
+				else if(wireless_speed_type==2)
 				{
 				    if(APP_TX_freq==0)
 				    {
@@ -1339,7 +1341,7 @@ void APP_TX_PACKET(void)
 				       FLAG_APP_TX=0;
 				       Time_APP_RXstart=1;   
 					   Flag_RXtypeScan_formTX=2;
-					   TimeOUT_RXtypeScan_formTX=1120;
+					   TimeOUT_RXtypeScan_formTX=Def_type2_TimeOUT_RXtypeScan_formTX;
 				    }	
 				}
 		}

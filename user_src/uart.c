@@ -21,6 +21,7 @@
 UINT8 UartStatus = 0;
 UINT8 UartLen = 0;
 UINT8 Uart_Fremo_NO = 0;
+UINT8 wireless_speed_type = 0;
 UINT8 Uart_Type = 0;
 UINT8 UartCount = 0;
 //UINT8 UART_DATA_buffer[9] = {0};
@@ -325,7 +326,7 @@ void ReceiveFrame(UINT8 Cache)
 
 void OprationFrame(void)
 { 
-  u16 check_sum=0,n;
+  u16 check_sum=0,n,m;
   u8 i=0;
   uni_rom_id xn;
 
@@ -333,6 +334,7 @@ void OprationFrame(void)
 	  {
 	  case 0x01:
 	  case 0x02:
+	  case 0x03:
 		   for(i=0;i<UART_DATA_buffer[3]-2;i++)  check_sum+=UART_DATA_buffer[i+4];
            n=UART_DATA_buffer[i+4]+UART_DATA_buffer[i+5]*256;
            if(check_sum==n)
@@ -344,10 +346,12 @@ void OprationFrame(void)
                 TX_ID_data=xn.IDL;
                 if(Uart_Type== 0x01)
                 {
+                  wireless_speed_type=1;  //low speed
                   TX_Control_code_TYPE01=UART_DATA_buffer[7];
                 }
-                else if(Uart_Type== 0x02)
+                else
                 {
+                  wireless_speed_type=2; //high speed
                   Uart_Struct_DATA_Packet_Contro.Fno_Type.byte=UART_DATA_buffer[7];
                   for(i=0;i<UART_DATA_buffer[3]-6;i++)Uart_Struct_DATA_Packet_Contro.data[i/2].uc[i%2]=UART_DATA_buffer[i+8];
 				  for(i=UART_DATA_buffer[3]-6;i<8;i++)Uart_Struct_DATA_Packet_Contro.data[i/2].uc[i%2]=0x00;
@@ -403,7 +407,29 @@ void OprationFrame(void)
 			  	}
 	  	  	}
 		  U1Statues = IdelStatues;   //不返回ACK
-		  break;			  
+		  break;
+	  case 0x12:
+	  	  if(UART_DATA_buffer[3]==2)
+	  	  {
+                    m=UART_DATA_buffer[4]*256+UART_DATA_buffer[5];
+	  	      if(m==0)
+                      {
+                         Def_type1_TimeOUT_RXtypeScan_formTX=0;
+                         Def_type2_TimeOUT_RXtypeScan_formTX=0;
+                      }                         
+		      else if(m==0xFFFF)
+		      {
+                         Def_type1_TimeOUT_RXtypeScan_formTX=3310;
+                         Def_type2_TimeOUT_RXtypeScan_formTX=1120;
+		      }
+                      else 
+                      {
+                         Def_type1_TimeOUT_RXtypeScan_formTX=m;
+                         Def_type2_TimeOUT_RXtypeScan_formTX=m;                        
+                      }
+	  	  }
+		  U1Statues = IdelStatues;   //不返回ACK
+		  break;                  
 	  case 0x60:
 		  		ACKBack[0] = FrameHead;
                 ACKBack[1] = Uart_Fremo_NO;

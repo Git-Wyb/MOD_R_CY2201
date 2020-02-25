@@ -20,6 +20,7 @@
 extern UINT8 UartStatus;
 extern UINT8 UartLen;
 extern UINT8 Uart_Fremo_NO ;
+extern UINT8 wireless_speed_type ;
 extern UINT8 Uart_Type ;
 extern UINT8 UartCount;
 //extern UINT8 UART_DATA_buffer[50];
