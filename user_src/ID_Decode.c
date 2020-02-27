@@ -740,10 +740,7 @@ void ID_Decode_OUT(void)
     }
     if (TIMER300ms == 0)
         FG_Receiver_LED_RX = 0; //Receiver_LED_RX=0;
-    if (FG_auto_manual_mode == 1)
-        AUTO_OR_MANUAL = 1;
-    else
-        AUTO_OR_MANUAL = 0;
+
 }
 
 void Freq_Scanning(void)

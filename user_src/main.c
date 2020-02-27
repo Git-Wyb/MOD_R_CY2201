@@ -66,10 +66,8 @@ void main(void)
     //PROFILE_GENERIC_PKT_FRAME_CFG1_32bit_20000500 = 0x0000100C;  
     ADF7030Init();     //灏勯鍒濆鍖?
     
-    //UART1_INIT();      // UART1 for PC Software
-    AUTO_OR_MANUAL_direc = Output; // Output   受信机继电器动作输出  高电平有??
-    AUTO_OR_MANUAL_CR1 = 1;
-    AUTO_OR_MANUAL = 0;
+    UART1_INIT();      // UART1 for PC Software
+
     _EI();             // 鍏佽涓柇
     TIME_power_led=500;
     ClearWDT();        // Service the WDT
