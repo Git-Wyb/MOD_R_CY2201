@@ -673,6 +673,7 @@ void SCAN_RECEIVE_PACKET(void)
     short Cache;
     if (ADF7030_GPIO3 == 1)
     {
+        FG_Receiver_LED_RX = 1;
         WaitForADF7030_FIXED_DATA(); //等待芯片空闲/可接受CMD状�??
         DELAY_30U();
         ADF7030_Clear_IRQ();

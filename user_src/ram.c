@@ -82,8 +82,11 @@ long RAM_RSSI_SUM = 0;
 u8 RSSI_Read_Counter = 0;
 u8 Flag_RSSI_Read_Timer = 10;
 
+// const u8 ADF7030Cfg[] = {
+// #include "Settings_ADF7030-1.cfg"
+// };
 const u8 ADF7030Cfg[] = {
-#include "Settings_ADF7030-1.cfg"
+#include "Settings_ADF7030-1_39kbps_Fdev20k.cfg"
 };
 const u8 ADF7030Cfg_load[] = {
 #include "Settings_ADF7030-1_load.cfg"

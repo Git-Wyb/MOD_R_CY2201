@@ -88,7 +88,7 @@ void main(void)
 		if((ID_SCX1801_DATA!=0)&&(Receiver_426MHz_mode==0))APP_TX_PACKET();
         if(FLAG_APP_RX==1)
         {
-    		  Freq_Scanning();
+    		  //Freq_Scanning();
     		  //if(Scan_step==2)
 			  	SCAN_RECEIVE_PACKET(); //É¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿?
         }
