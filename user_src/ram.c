@@ -86,7 +86,7 @@ u8 Flag_RSSI_Read_Timer = 10;
 // #include "Settings_ADF7030-1.cfg"
 // };
 const u8 ADF7030Cfg[] = {
-#include "Settings_ADF7030-1_39kbps_Fdev20k.cfg"
+#include "Settings_ADF7030-1_39kbps_Fdev20k_50ppm.cfg"
 };
 const u8 ADF7030Cfg_load[] = {
 #include "Settings_ADF7030-1_load.cfg"
