@@ -130,9 +130,11 @@ void ID_Decode_IDCheck(void)
                                         {
                                             ID_SCX1801_DATA = 0;
                                             ID_SCX1801_EEPROM_write(0x00);
-                                            if (ID_Receiver_DATA[0] != 0)
+                                            //if (ID_Receiver_DATA[0] != 0)
+                                            if (ID_Receiver_DATA_READ(ID_Receiver_DATA[0]) != 0)
                                             {
-                                                ID_SCX1801_DATA = ID_Receiver_DATA[0];
+                                                //ID_SCX1801_DATA = ID_Receiver_DATA[0];
+                                                ID_SCX1801_DATA = ID_Receiver_DATA_READ(ID_Receiver_DATA[0]);
                                                 ID_SCX1801_EEPROM_write(ID_SCX1801_DATA);
                                                 Delete_GeneralID_EEPROM(ID_SCX1801_DATA);
                                             }
@@ -286,17 +288,6 @@ void Signal_DATA_Decode(UINT8 NUM_Type)
 	}
 }
 
-u32 ID_Receiver_DATA_READ(u8 *address)
-{
-    uni_rom_id xn;
-
-    xn.IDB[0] = 0;
-    xn.IDB[1] = address[0];
-    xn.IDB[2] = address[1];
-    xn.IDB[3] = address[2];
-
-    return xn.IDL;
-}
 void eeprom_IDcheck(void)
 {
     UINT16 i;

@@ -18,6 +18,8 @@ void WriteByteToFLASH(unsigned long Addr, unsigned char Dat); // Ð´ÈëÒ»×�
 void EraseByteFLASH(unsigned int Addr);                       // ²Á³ýeeprom
 
 void eeprom_save(void);
+void ID_Receiver_DATA_WRITE(u8 *address, u32 Data);
+u32 ID_Receiver_DATA_READ(u8 *address);
 void eeprom_sys_load(void);
 
 void ALL_ID_EEPROM_Erase(void);
