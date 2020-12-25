@@ -75,14 +75,18 @@
       
       
       
-    <Pane/><ActivePane>0</ActivePane><Sizes><Pane><X>1000000</X><Y>1000000</Y></Pane></Sizes><SplitMode>1</SplitMode></Editor>
+    <Pane><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\user_src\main.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>30</YPos2><SelStart2>2088</SelStart2><SelEnd2>2088</SelEnd2></Tab><ActiveTab>0</ActiveTab></Pane><ActivePane>0</ActivePane><Sizes><Pane><X>1000000</X><Y>1000000</Y></Pane></Sizes><SplitMode>1</SplitMode></Editor>
     <Positions>
       
       
       
       
       
+<<<<<<< HEAD
     <Top><Row0><Sizes><Toolbar-010EE648><key>iaridepm.enu1</key></Toolbar-010EE648></Sizes></Row0></Top><Left><Row0><Sizes><Wnd0><Rect><Top>-2</Top><Left>-2</Left><Bottom>434</Bottom><Right>222</Right><x>-2</x><y>-2</y><xscreen>16</xscreen><yscreen>8</yscreen><sizeHorzCX>15857</sizeHorzCX><sizeHorzCY>12195</sizeHorzCY><sizeVertCX>222002</sizeVertCX><sizeVertCY>664634</sizeVertCY></Rect></Wnd0></Sizes></Row0></Left><Right><Row0><Sizes/></Row0></Right><Bottom><Row0><Sizes><Wnd1><Rect><Top>-2</Top><Left>-2</Left><Bottom>177</Bottom><Right>1011</Right><x>-2</x><y>-2</y><xscreen>1013</xscreen><yscreen>179</yscreen><sizeHorzCX>1003964</sizeHorzCX><sizeHorzCY>272866</sizeHorzCY><sizeVertCX>15857</sizeVertCX><sizeVertCY>12195</sizeVertCY></Rect></Wnd1></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
+=======
+    <Top><Row0><Sizes><Toolbar-026CA6C0><key>iaridepm.enu1</key></Toolbar-026CA6C0></Sizes></Row0></Top><Left><Row0><Sizes><Wnd0><Rect><Top>-2</Top><Left>-2</Left><Bottom>787</Bottom><Right>222</Right><x>-2</x><y>-2</y><xscreen>40</xscreen><yscreen>30</yscreen><sizeHorzCX>20833</sizeHorzCX><sizeHorzCY>29762</sizeHorzCY><sizeVertCX>116667</sizeVertCX><sizeVertCY>782738</sizeVertCY></Rect></Wnd0></Sizes></Row0></Left><Right><Row0><Sizes/></Row0></Right><Bottom><Row0><Sizes><Wnd1><Rect><Top>-2</Top><Left>-2</Left><Bottom>176</Bottom><Right>1922</Right><x>-2</x><y>-2</y><xscreen>1924</xscreen><yscreen>178</yscreen><sizeHorzCX>1002083</sizeHorzCX><sizeHorzCY>176587</sizeHorzCY><sizeVertCX>20833</sizeVertCX><sizeVertCY>29762</sizeVertCY></Rect></Wnd1></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
+>>>>>>> CRX1831DC
   </Desktop>
 </Workspace>
 

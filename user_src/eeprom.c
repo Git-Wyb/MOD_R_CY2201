@@ -106,6 +106,40 @@
 //#define UNLOCK_FLASH_TYPE       (( uchar )0x00 )
 //#define UNLOCK_EEPROM_TYPE      (( uchar )0x01 )
 
+#if defined (STM8L15X_MD) || defined (STM8L15X_MDP) || defined (STM8L15X_LD)  ||  defined (STM8L15X_HD)     //STM8L
+void OTA_bootloader_enable(void)
+{
+    FLASH_DUKR = 0xae;     
+    asm("nop");     
+    FLASH_DUKR = 0x56;                  // 解除写保护     
+    asm("nop");     
+    while(!(FLASH_IAPSR & 0x08));       // 等待解锁     
+    asm("nop");     
+    FLASH_CR2 = 0x80;                   // 对选项字节进行写操作     
+    asm("nop");     
+    *((unsigned char *)0x480b) = 0x55;     
+    asm("nop");     
+    *((unsigned char *)0x480c) = 0xaa;  // 写入选项字节       
+}
+#else    //STM8S
+void OTA_bootloader_enable(void)
+{
+    FLASH_DUKR = 0xae;     
+    asm("nop");     
+    FLASH_DUKR = 0x56;     
+    asm("nop");     
+    while(!(FLASH_IAPSR & 0x08));     
+    asm("nop");     
+    FLASH_CR2 = 0x80;     
+    asm("nop");     
+    FLASH_NCR2 = 0x7f;     
+    asm("nop");     
+    *((unsigned char *)0x487e) = 0x55;     
+    asm("nop");     
+    *((unsigned char *)0x487f) = 0xaa;  
+}
+#endif
+
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 void InitialFlashReg(void)
 { // 鍒濆?嬪寲闂?瀛樺瘎瀛樺櫒缁?
@@ -206,8 +240,8 @@ void eeprom_sys_load(void)
     ID_DATA_PCS = xm[0] * 256 + xm[1];
     if (ID_DATA_PCS == 0xFFFF)
         ID_DATA_PCS = 0;
-    else if (ID_DATA_PCS > 256)
-        ID_DATA_PCS = 256;
+    else if (ID_DATA_PCS > ID_Max_PCS)
+        ID_DATA_PCS = ID_Max_PCS;
     q = ID_DATA_PCS;
     p = 0;
     for (i = 0; i < q; i++)
@@ -252,13 +286,15 @@ void ALL_ID_EEPROM_Erase(void)
     xm[1] = 0;
     xm[2] = 0;
 
-	UnlockFlash(UNLOCK_EEPROM_TYPE);
+    ID_DATA_PCS = 0;
+    UnlockFlash(UNLOCK_EEPROM_TYPE);
     WriteByteToFLASH(addr_eeprom_sys + 0x3FE, xm[1]);
     WriteByteToFLASH(addr_eeprom_sys + 0x3FF, xm[0]);
     LockFlash(UNLOCK_EEPROM_TYPE);
 	
-    for (i = 0; i < 260; i++)
+    for (i = 0; i < 256; i++)
     {
+        ID_Receiver_DATA[i] = 0;
         m2 = 3 * i;
         UnlockFlash(UNLOCK_EEPROM_TYPE);
         WriteByteToFLASH(addr_eeprom_sys + m2, xm[0]);
@@ -288,7 +324,7 @@ void ID_EEPROM_write(void)
     ID_Receiver_DATA_WRITE(ID_Receiver_DATA[ID_DATA_PCS - 1], ID_Receiver_Login);
     xn.IDL = ID_Receiver_Login;
 
-    for (i = 0; i < 260; i++)
+    for (i = 0; i < 256; i++)
     {
         j = 3 * i;
         xm[0] = ReadByteEEPROM(addr_eeprom_sys + j);
@@ -317,7 +353,7 @@ void ID_EEPROM_write(void)
     WriteByteToFLASH(addr_eeprom_sys + m1, xm[2]);
     LockFlash(UNLOCK_EEPROM_TYPE);
 
-    if (ID_DATA_PCS >= 256)
+    if (ID_DATA_PCS >= ID_Max_PCS)
     {
         ID_Login_EXIT_Initial();
         DATA_Packet_Control = 0;
@@ -342,6 +378,56 @@ void ID_SCX1801_EEPROM_write(u32 id)
     WriteByteToFLASH(addr_eeprom_sys + 0x3FD, xm[2]);
     LockFlash(UNLOCK_EEPROM_TYPE);
 }
+void Delete_GeneralID_EEPROM(u32 id)
+{
+    UINT16 i, j, m2, original_pcs = 0;
+    UINT8 xm[3] = {0};
+    uni_rom_id xn;
+
+    original_pcs = ID_DATA_PCS;
+    for (i = 0; i < ID_DATA_PCS; i++)
+    {
+		if ((ID_Receiver_DATA[i] == id)&&(id!=0xFFFFFE)&&(id!=0))
+		{
+            for (j = i; j < ID_DATA_PCS; j++)
+            {
+                ID_Receiver_DATA[j] = ID_Receiver_DATA[j+1];
+                ClearWDT(); // Service the WDT
+            }
+            ID_DATA_PCS--;
+            if (ID_DATA_PCS==0)
+            {
+                ALL_ID_EEPROM_Erase();
+                return;
+            }
+        }
+        ClearWDT(); // Service the WDT
+    }
+
+    xm[0] = ID_DATA_PCS % 256;
+    xm[1] = ID_DATA_PCS / 256;
+    UnlockFlash(UNLOCK_EEPROM_TYPE);
+    WriteByteToFLASH(addr_eeprom_sys + 0x3FE, xm[1]);
+    WriteByteToFLASH(addr_eeprom_sys + 0x3FF, xm[0]);
+    LockFlash(UNLOCK_EEPROM_TYPE);
+
+    for (i = 0; i < original_pcs; i++)
+    {
+        xn.IDL = ID_Receiver_DATA[i];
+        xm[0] = xn.IDB[1];
+        xm[1] = xn.IDB[2];
+        xm[2] = xn.IDB[3];
+        m2 = 3 * i;
+        UnlockFlash(UNLOCK_EEPROM_TYPE);
+        WriteByteToFLASH(addr_eeprom_sys + m2, xm[0]);
+        m2++;
+        WriteByteToFLASH(addr_eeprom_sys + m2, xm[1]);
+        m2++;
+        WriteByteToFLASH(addr_eeprom_sys + m2, xm[2]);
+        LockFlash(UNLOCK_EEPROM_TYPE);
+        ClearWDT(); // Service the WDT
+    }
+}
 void ID_EEPROM_write_0x00(void)
 {
     UINT8 xm[3] = {0};
@@ -357,7 +443,7 @@ void ID_EEPROM_write_0x00(void)
     WriteByteToFLASH(addr_eeprom_sys + 0x3FF, xm[0]);
     LockFlash(UNLOCK_EEPROM_TYPE);
 
-    for (i = 0; i < 260; i++)
+    for (i = 0; i < 256; i++)
     {
         j = 3 * i;
         xm[0] = ReadByteEEPROM(addr_eeprom_sys + j);
@@ -461,7 +547,7 @@ void ID_learn(void)
         {
             if(FLAG_ID_SCX1801_Login!=1)TIME_Receiver_Login++;
             TIME_Receiver_Login_restrict = 350;
-            if ((COUNT_Receiver_Login >= 2) && (FLAG_ID_Erase_Login == 0) && (FLAG_ID_Login == 0) && (ID_DATA_PCS < 256))
+            if ((COUNT_Receiver_Login >= 2) && (FLAG_ID_Erase_Login == 0) && (FLAG_ID_Login == 0) && (ID_DATA_PCS < ID_Max_PCS))
             {
                 FLAG_ID_Login = 1;
 				/*BEEP_Module(1800,900);
@@ -561,8 +647,11 @@ void ID_learn(void)
 					FLAG_ID_Erase_Login=0;
                 	BEEP_and_LED();
 					ID_SCX1801_EEPROM_write(ID_Receiver_Login);
-					if(FLAG_IDCheck_OK==1) FLAG_IDCheck_OK = 0;
-					else ID_EEPROM_write();
+					if(FLAG_IDCheck_OK==1) 
+                    {
+                        FLAG_IDCheck_OK = 0;
+                        Delete_GeneralID_EEPROM(ID_SCX1801_DATA);
+                    }
 					ID_Login_EXIT_Initial();
                 }
 				else 
@@ -574,7 +663,11 @@ void ID_learn(void)
 		                    BEEP_and_LED();
 		                    TIME_Login_EXIT_rest = 5380; //杩藉姞澶氭??ID鐧诲綍
 		                    if ((FLAG_ID_Login == 1) && (ID_Receiver_Login != 0xFFFFFE))
-		                        ID_EEPROM_write();
+                            {
+                                if (ID_SCX1801_DATA == 0)
+                                    ID_SCX1801_EEPROM_write(ID_Receiver_Login);
+                                else ID_EEPROM_write();
+                            }
 		                    else if (FLAG_ID_Erase_Login == 1)
 		                    {
 		                        if (FLAG_ID_Erase_Login_PCS == 1)
@@ -582,9 +675,12 @@ void ID_learn(void)
 		                            FLAG_ID_Erase_Login_PCS = 0;
 		                            ID_DATA_PCS = 0;
 		                            ALL_ID_EEPROM_Erase();
-									ID_SCX1801_EEPROM_write(0x00);
+                                    ID_SCX1801_DATA = 0;
+                                    ID_SCX1801_EEPROM_write(0x00);
+                                    if (ID_Receiver_Login != 0xFFFFFE)
+                                        ID_SCX1801_EEPROM_write(ID_Receiver_Login);
 		                        } //杩藉姞澶氭??ID鐧诲綍
-		                        if (ID_Receiver_Login != 0xFFFFFE)
+		                        else if (ID_Receiver_Login != 0xFFFFFE)
 		                            ID_EEPROM_write();
 		                    }
 		                } //end else
