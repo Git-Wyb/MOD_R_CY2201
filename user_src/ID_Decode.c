@@ -14,6 +14,25 @@
 #include "eeprom.h" // eeprom
 #include "uart.h"   // uart
 #include "ADF7030_1.h"
+
+UINT16 TIME_BEEP_on;
+UINT16 TIME_BEEP_off;
+UINT16 BASE_TIME_BEEP_on;
+UINT16 BASE_TIME_BEEP_off;
+UINT16 TIME_BEEP_freq;
+UINT16 BASE_TIME_BEEP_freq;
+UINT8 FG_beep_on_Motor;
+UINT8 FG_beep_off_Motor;
+UINT16 TIME_BEEP_on2;
+UINT16 TIME_BEEP_off2;
+UINT16 BASE_TIME_BEEP_on2;
+UINT16 BASE_TIME_BEEP_off2;
+UINT16 TIME_BEEP_freq2;
+UINT8 FG_beep_on_Motor2;
+UINT8 FG_beep_off_Motor2;
+
+void BEEP_function(void);
+
 //void EXIT_init(void)
 //{
 //    EXTI_CR1 = 0x20;          //PORT B2  的中断触发位
@@ -377,6 +396,134 @@ void Tone_OFF(void)
     TIM3_CCER1 =  0x00; //????PWM?????????????????I/O
     PIN_BEEP = 0;
 }
+
+void BEEP_function(void)
+{
+    if (TIME_BEEP_on)
+    {
+        if (TIME_BEEP_on < 0xfff0) //??0xfff0?????
+            --TIME_BEEP_on;
+        if (FG_beep_on_Motor == 0)
+        {
+            FG_beep_on_Motor = 1;
+            FG_beep_off_Motor = 0;
+            //BEEP_CSR2_BEEPEN = 1;
+            TIM3_init();
+        }
+    }
+    else if (TIME_BEEP_off)
+    {
+        --TIME_BEEP_off;
+        if (FG_beep_off_Motor == 0)
+        {
+            FG_beep_off_Motor = 1;
+            FG_beep_on_Motor = 0;
+            //BEEP_CSR2_BEEPEN = 0;
+            Tone_OFF();
+        }
+    }
+    else if (TIME_BEEP_freq)
+    {
+        if (TIME_BEEP_freq < 0xfff0) //??0xfff0???????
+            --TIME_BEEP_freq;
+        TIME_BEEP_on = BASE_TIME_BEEP_on;
+        TIME_BEEP_off = BASE_TIME_BEEP_off;
+        if (FG_beep_on_Motor == 0)
+        {
+            FG_beep_on_Motor = 1;
+            FG_beep_off_Motor = 0;
+            //BEEP_CSR2_BEEPEN = 1;
+            TIM3_init();
+        }
+    }
+
+    else if (TIME_BEEP_on2)
+    {
+        if (TIME_BEEP_on2 < 0xfff0) //??0xfff0?????
+            --TIME_BEEP_on2;
+        if (FG_beep_on_Motor2 == 0)
+        {
+            FG_beep_on_Motor2 = 1;
+            FG_beep_off_Motor2 = 0;
+            //BEEP_CSR2_BEEPEN = 1;
+            TIM3_init();
+        }
+    }
+    else if (TIME_BEEP_off2)
+    {
+        --TIME_BEEP_off2;
+        if (FG_beep_off_Motor2 == 0)
+        {
+            FG_beep_off_Motor2 = 1;
+            FG_beep_on_Motor2 = 0;
+            //BEEP_CSR2_BEEPEN = 0;
+            Tone_OFF();
+        }
+    }
+    else if (TIME_BEEP_freq2)
+    {
+        if (TIME_BEEP_freq2 < 0xfff0) //??0xfff0???????
+            --TIME_BEEP_freq2;
+        TIME_BEEP_on = BASE_TIME_BEEP_on;
+        TIME_BEEP_off = BASE_TIME_BEEP_off;
+        TIME_BEEP_freq = BASE_TIME_BEEP_freq;
+        TIME_BEEP_on2 = BASE_TIME_BEEP_on2;
+        TIME_BEEP_off2 = BASE_TIME_BEEP_off2;
+        if (FG_beep_on_Motor2 == 0)
+        {
+            FG_beep_on_Motor2 = 1;
+            FG_beep_off_Motor2 = 0;
+            //BEEP_CSR2_BEEPEN = 1;
+            TIM3_init();
+        }
+    }
+}
+
+void _ReqBuzzer(UINT16 d_BEEP_on, UINT16 d_BEEP_off, UINT16 d_BEEP_freq)
+{
+    if (d_BEEP_on < 10)
+        d_BEEP_on = 10;
+    if (d_BEEP_on != 0xffff)
+        BASE_TIME_BEEP_on = d_BEEP_on / 10;
+    if (d_BEEP_off < 10)
+        d_BEEP_off = 10;
+    BASE_TIME_BEEP_off = d_BEEP_off / 10;
+    TIME_BEEP_on = BASE_TIME_BEEP_on;
+    TIME_BEEP_off = BASE_TIME_BEEP_off;
+    TIME_BEEP_freq = d_BEEP_freq - 1;
+}
+void _ReqBuzzer_2(UINT16 d_BEEP_on1, UINT16 d_BEEP_off1, UINT16 d_BEEP_freq1, UINT16 d_BEEP_on2, UINT16 d_BEEP_off2, UINT16 d_BEEP_freq2)
+{
+    if (d_BEEP_on1 < 10)
+        d_BEEP_on1 = 10;
+    if (d_BEEP_on1!=0xffff)
+        BASE_TIME_BEEP_on = d_BEEP_on1 / 10;
+    if (d_BEEP_off1 < 10)
+        d_BEEP_off1 = 10;
+    BASE_TIME_BEEP_off = d_BEEP_off1/10;
+    TIME_BEEP_on = BASE_TIME_BEEP_on;
+    TIME_BEEP_off = BASE_TIME_BEEP_off;
+    if (d_BEEP_freq1)
+        BASE_TIME_BEEP_freq = d_BEEP_freq1 - 1;
+    else
+        BASE_TIME_BEEP_freq = 0;
+    TIME_BEEP_freq = BASE_TIME_BEEP_freq;
+
+    if (d_BEEP_on2 < 10)
+        d_BEEP_on2 = 10;
+    if (d_BEEP_on2 != 0xffff)
+        BASE_TIME_BEEP_on2 = d_BEEP_on2 / 10;
+    if (d_BEEP_off2 < 10)
+        d_BEEP_off2 = 10;
+    BASE_TIME_BEEP_off2 = d_BEEP_off2/10;
+    TIME_BEEP_on2 = BASE_TIME_BEEP_on2;
+    TIME_BEEP_off2 = BASE_TIME_BEEP_off2;
+    if (d_BEEP_freq2)
+        TIME_BEEP_freq2 = d_BEEP_freq2 - 1;
+    else
+        TIME_BEEP_freq2 = 0;
+}
+
 /*
    time_beepON、time_beepOFF单位时间�?0.4333333ms
 */
@@ -423,12 +570,12 @@ void BEEP_and_LED(void)
     Receiver_LED_OUT = 1;
     BEEP_Module(2300,1);
     FG_beep_on = 0;
-    //BEEP_CSR2_BEEPEN = 0;
     TIME_Receiver_LED_OUT = 60; //185;
 }
 
 void Receiver_BEEP(void)
 {
+    /*
     UINT16 j;
     if (FLAG_Receiver_BEEP == 0)
     {
@@ -436,10 +583,12 @@ void Receiver_BEEP(void)
         for (j = 0; j < 3; j++)
           BEEP_Module(1050,1050);
     }
+    */
 }
 
 void TEST_beep(void)
 {
+    /*
 	if(FLAG_testBEEP==1)
 		BEEP_Module(300,1);
 	else if(FLAG_testBEEP==2)
@@ -449,6 +598,7 @@ void TEST_beep(void)
 		}
 	else if(FLAG_testBEEP==3) BEEP_CSR2_BEEPEN = 1;
 	FLAG_testBEEP=0;
+    */
 }
 
 void ID_Decode_OUT(void)

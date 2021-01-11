@@ -79,14 +79,16 @@ void main(void)
     TIME_EMC = 10;
     FLAG_testNo91=0;
 	FLAG_testBEEP=0;
-    while (1)
-    {
-        ClearWDT(); // Service the WDT
-        if(FLAG_testBEEP!=0)TEST_beep();
+  FLAG_Uart_WirelessLogin = 1;
+  while (1)
+  {
+    ClearWDT(); // Service the WDT
+    if (FLAG_testBEEP != 0)
+      TEST_beep();
 
-        if (time_Login_exit_256 == 0)
-            ID_Decode_OUT();
-        ID_learn();
+    if (time_Login_exit_256 == 0)
+      ID_Decode_OUT();
+    ID_learn();
 		if((ID_SCX1801_DATA!=0)&&(Receiver_426MHz_mode==0))APP_TX_PACKET();
         if(FLAG_APP_RX==1)
         {

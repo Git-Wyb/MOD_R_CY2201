@@ -521,14 +521,17 @@ void ID_learn(void)
     if (FG_10ms)
     { //90==1绉?
         FG_10ms = 0;
+        BEEP_function();
         if(FREQ_auto_useful_count)
             --FREQ_auto_useful_count;
         if(TIME_TestNo91)
 			--TIME_TestNo91;
 		else FLAG_testNo91=0;
 		if(TIME_ERROR_Read_once_again)
-			--TIME_ERROR_Read_once_again;	
-		if(Time_error_read_timeout)
+			--TIME_ERROR_Read_once_again;
+        if (TIME_Receiver_OUT_SendUart)
+            --TIME_Receiver_OUT_SendUart;
+        if(Time_error_read_timeout)
 			--Time_error_read_timeout;
 		if(Time_error_read_gap)
 			--Time_error_read_gap;
@@ -560,16 +563,13 @@ void ID_learn(void)
             COUNT_Receiver_Login = 0;
         }
 
-        if (Receiver_Login == 0)
+        if ((Receiver_Login == 0)||(FLAG_Uart_WirelessLogin==0))
         {
             if(FLAG_ID_SCX1801_Login!=1)TIME_Receiver_Login++;
             TIME_Receiver_Login_restrict = 350;
             if ((COUNT_Receiver_Login >= 2) && (FLAG_ID_Erase_Login == 0) && (FLAG_ID_Login == 0) && (ID_DATA_PCS < ID_Max_PCS))
             {
                 FLAG_ID_Login = 1;
-				/*BEEP_Module(1800,900);
-				BEEP_Module(300,1);*/
-				//COUNT_Receiver_Login++; //为什么要加这个？？因为加入了BEEP_Module后，beep时间较长，这时采不到按键的时间TIME_Receiver_Login
                 TIME_Login_EXIT_rest = 5380;
                 TIME_Login_EXIT_Button = 500;
             } //6000
@@ -581,9 +581,9 @@ void ID_learn(void)
                     ID_Login_EXIT_Initial();
             }
         }
-        if (Receiver_Login == 1)
+        if ((Receiver_Login == 1)&&(FLAG_Uart_WirelessLogin==1))
         {
-	            if (TIME_Receiver_Login > 3)
+	            if (TIME_Receiver_Login >= 2)
 	            {
 	                if (COUNT_Receiver_Login < 10)
 	                    COUNT_Receiver_Login++;
@@ -600,8 +600,8 @@ void ID_learn(void)
         	FLAG_ID_SCX1801_Login=1;
 			FLAG_ID_Erase_Login = 0;
 	            TIME_Receiver_Login = 0;
-                BEEP_CSR2_BEEPEN = 0;
-				FG_ID_SCX1801_Login_BEEP=0;
+                //BEEP_CSR2_BEEPEN = 0;
+				//FG_ID_SCX1801_Login_BEEP=0;
 				TIME_ID_SCX1801_Login=130;
 	            TIME_Login_EXIT_rest = 5380;
 				COUNT_Receiver_Login=0;
@@ -612,16 +612,13 @@ void ID_learn(void)
 	            TIME_Receiver_Login = 0;
 	            FLAG_ID_Erase_Login = 1;
 	            FLAG_ID_Erase_Login_PCS = 1; //杩藉姞澶氭??ID鐧诲綍
-	            /*BEEP_Module(1800,900);
-				BEEP_Module(300,900);
-				BEEP_Module(300,1);*/
-				//COUNT_Receiver_Login++; //为什么要加这个？？因为加入了BEEP_Module后，beep时间较长，这时采不到按键的时间TIME_Receiver_Login
 	            TIME_Login_EXIT_rest = 5380;
 	            TIME_Login_EXIT_Button = 500;
 	       }		
 		if((FLAG_ID_SCX1801_Login==1)&&(TIME_ID_SCX1801_Login==0))
 		{
-			if(FG_ID_SCX1801_Login_BEEP==0)
+			/*
+            if(FG_ID_SCX1801_Login_BEEP==0)
 			{
 			    FG_ID_SCX1801_Login_BEEP=1;
 				TIME_ID_SCX1801_Login=390;
@@ -633,6 +630,7 @@ void ID_learn(void)
 				TIME_ID_SCX1801_Login=130;
 				BEEP_CSR2_BEEPEN = 1;		
 			}
+            */
 		}
         if ((FLAG_ID_Erase_Login == 1) || (FLAG_ID_Login == 1) ||(FLAG_ID_SCX1801_Login==1))
         {
@@ -726,7 +724,7 @@ void ID_Login_EXIT_Initial(void)
 		/*BEEP_Module(300,900);
 		BEEP_Module(1800,1);*/		
 		}   
-	BEEP_CSR2_BEEPEN = 0;
+	//BEEP_CSR2_BEEPEN = 0;
     FLAG_ID_Login_EXIT = 1;
     FLAG_ID_Login_OK = 0;
     FLAG_ID_Login_OK_bank = 0;

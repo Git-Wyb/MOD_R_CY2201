@@ -165,6 +165,8 @@ u8 TIME_TX_RSSI_Scan=0;
 u8 Flag_TX_ID_load=0;
 
 u8 TIME_ERROR_Read_once_again=0;
+u8 TIME_Receiver_OUT_SendUart = 0;
+u8 COUNT_Receiver_OUT_SendUart;
 unsigned char Send_err_com[7] = {0x02, 0x07, 0x11,0x98,0x09,0x52,0x46};
 u8 Time_error_read_gap=0;
 u16 Time_error_read_timeout=0;

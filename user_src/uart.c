@@ -12,6 +12,8 @@
 #include "ram.h"		  // RAM定义
 #include "eeprom.h"		  // eeprom
 #include "uart.h"
+#include "ID_Decode.h"
+
 #define TXD1_enable (USART1_CR2 = 0x08) // 允许发�??
 #define RXD1_enable (USART1_CR2 = 0x24) // 允许接收及其中断
 
@@ -34,8 +36,7 @@ UINT8 FLAG_testBEEP=0;
 UINT8 FLAG_testNo91_step=0;
 UINT8 FLAG_testNo91SendUart=0;
 
-
-
+void Receiver_OUT_change_UART(void);
 //********************************************
 void UART1_INIT(void)
 {
@@ -108,19 +109,19 @@ void UART1_RX_RXNE(void)
 //--------------------------------------------
 void Send_char(unsigned char ch)
 {				 // 发�?�字�?
-	TXD1_enable; // 允许发�??
+	//TXD1_enable; // 允许发�??
 	while (!USART1_SR_TXE)
 		;
 	USART1_DR = ch; // 发�??
 	while (!USART1_SR_TC)
 		;		 // 等待完成发�??
-	RXD1_enable; // 允许接收及其中断
+	//RXD1_enable; // 允许接收及其中断
 }
 //--------------------------------------------
 void Send_String(unsigned char *string)
 { // 发�?�字符串
 	unsigned char i = 0;
-	TXD1_enable; // 允许发�??
+	//TXD1_enable; // 允许发�??
 	while (string[i])
 	{
 		while (!USART1_SR_TXE)
@@ -130,13 +131,13 @@ void Send_String(unsigned char *string)
 	}
 	while (!USART1_SR_TC)
 		;		 // 等待完成发�??
-	RXD1_enable; // 允许接收及其中断
+	//RXD1_enable; // 允许接收及其中断
 				 //	BIT_SIO = 0;							// 标志
 }
 void Send_Data(unsigned char *P_data, unsigned int length)
 { // 发�?�字符串
 	unsigned int i = 0;
-	TXD1_enable; // 允许发�??
+	//TXD1_enable; // 允许发�??
 	for (i = 0; i < length; i++)
 	{
 		while (!USART1_SR_TXE)
@@ -145,7 +146,7 @@ void Send_Data(unsigned char *P_data, unsigned int length)
 	}
 	while (!USART1_SR_TC)
 		;		 // 等待完成发�??
-	RXD1_enable; // 允许接收及其中断
+	//RXD1_enable; // 允许接收及其中断
 				 //	BIT_SIO = 0;							// 标志
 }
 
@@ -298,6 +299,14 @@ void ReceiveFrame(UINT8 Cache)
 			UartStatus++;
 			UartLen = UART_DATA_buffer[1];
 		}
+		else if ((UART_DATA_buffer[0] == FrameHead) && (UART_DATA_buffer[1] == 0x03) && (UART_DATA_buffer[2] == 0x00)) //ack
+		{
+			TIME_Receiver_OUT_SendUart = 0;
+			COUNT_Receiver_OUT_SendUart = 0;
+			UartStatus = 0;
+			UartCount = 0;
+			U1Statues = IdelStatues;
+		}
 	}
 	break;
 	case DataStatus:
@@ -334,6 +343,8 @@ void ReceiveFrame(UINT8 Cache)
 void OprationFrame(void)
 {
 	unsigned char i;
+	uni_i data_x[6];
+
 	for (i = 0; i < 4; i++)
 		Databits_t.Data[i] = UART_DATA_buffer[3 + i];
 	if (Databits_t.ID_No == 146)  //0x92
@@ -355,7 +366,8 @@ void OprationFrame(void)
 		case 5:	
 		case 6:
 		case 7:	
-		case 8:			
+		case 8:
+		case 9:
 			break;
 		default:
 			ACKBack[2] = 1;
@@ -381,6 +393,7 @@ void OprationFrame(void)
 		case 0x00:
 		case 0x04:
 		case 0x06:
+		case 0x08:
 		case 0x45:
 		case 0x46:
 		case 0x47:
@@ -389,7 +402,9 @@ void OprationFrame(void)
 		case 0x4A:
 		case 0x4B:
 		case 0x4C:	
-		case 0x4D:		
+		case 0x4D:
+		case 0x4E:
+		case 0x4F:
 			break;
 		default:
 			ACKBack[2] = 1;
@@ -407,6 +422,29 @@ void OprationFrame(void)
 		ERROR_Read_sendTX_count=0;
 		ERROR_Read_sendTX_packet=0;
 		Time_error_read_gap=38;	
+	}
+	else if (Databits_t.ID_No == 193)  //0xc1 beep
+	{
+		ACKBack[2] = 0;
+		data_x[0].uc[0] = UART_DATA_buffer[5]; //beep ON Time
+		data_x[0].uc[1] = UART_DATA_buffer[4];
+		data_x[1].uc[0] = UART_DATA_buffer[7]; //beep OFF Time
+		data_x[1].uc[1] = UART_DATA_buffer[6];
+		data_x[2].uc[0] = UART_DATA_buffer[9]; //beep freq
+		data_x[2].uc[1] = UART_DATA_buffer[8];
+		data_x[3].uc[0] = UART_DATA_buffer[11]; //beep ON Time
+		data_x[3].uc[1] = UART_DATA_buffer[10];
+		data_x[4].uc[0] = UART_DATA_buffer[13]; //beep OFF Time
+		data_x[4].uc[1] = UART_DATA_buffer[12];
+		data_x[5].uc[0] = UART_DATA_buffer[15]; //beep freq
+		data_x[5].uc[1] = UART_DATA_buffer[14];
+		_ReqBuzzer_2(data_x[0].ui, data_x[1].ui, data_x[2].ui, data_x[3].ui, data_x[4].ui, data_x[5].ui);
+	}
+	else if (Databits_t.ID_No == 194) //0xc2 WirelessLogin
+	{
+		ACKBack[2] = 0;
+		if(UART_DATA_buffer[4])FLAG_Uart_WirelessLogin=0; //Key press
+		else FLAG_Uart_WirelessLogin=1;  //Key release
 	}
 	else if (Databits_t.ID_test_No91or93 == 145)  //0x91
 	{
@@ -464,6 +502,37 @@ void OprationFrame(void)
 	}
 }
 
+UINT8 Receiver_OUT_value;
+UINT8 Receiver_OUT_value_last;
+UINT8 Receiver_OUT_uart[5] = {0x02, 0x05, 0x11, 0xB1, 0x00};
+UINT8 Flag_Receiver_OUT_SendUart;
+void Receiver_OUT_change_UART(void)
+{
+	if (Receiver_OUT_OPEN == 1)
+		Receiver_OUT_value = Receiver_OUT_value | 0x01;
+	else
+		Receiver_OUT_value = Receiver_OUT_value & 0xfe;
+	if (Receiver_OUT_STOP == 1)
+		Receiver_OUT_value = Receiver_OUT_value | 0x02;
+	else
+		Receiver_OUT_value = Receiver_OUT_value & 0xfd;
+	if (Receiver_OUT_CLOSE == 1)
+		Receiver_OUT_value = Receiver_OUT_value | 0x04;
+	else
+		Receiver_OUT_value = Receiver_OUT_value & 0xfb;
+	if (Receiver_OUT_VENT == 1)
+		Receiver_OUT_value = Receiver_OUT_value | 0x08;
+	else
+		Receiver_OUT_value = Receiver_OUT_value & 0xf7;
+	if (Receiver_OUT_value_last != Receiver_OUT_value)
+	{
+		Receiver_OUT_value_last = Receiver_OUT_value;
+		Receiver_OUT_uart[4] = Receiver_OUT_value;
+		if (Receiver_OUT_value)
+			Flag_Receiver_OUT_SendUart = 1;
+	}
+}
+
 void TranmissionACK(void)
 {
 	if (u1InitCompleteFlag)
@@ -478,10 +547,26 @@ void TranmissionACK(void)
 		}
 	}
 
-	if((Flag_ERROR_Read_once_again==1)&&(TIME_ERROR_Read_once_again==0))
+	Receiver_OUT_change_UART();
+	if(Flag_Receiver_OUT_SendUart==1)
+	{
+		Flag_Receiver_OUT_SendUart = 0;
+		Send_Data(Receiver_OUT_uart, 5);
+		TIME_Receiver_OUT_SendUart = Uart_Resend_Time;
+		COUNT_Receiver_OUT_SendUart = Uart_Resend_Count;
+	}
+	else if ((TIME_Receiver_OUT_SendUart==0)&&(COUNT_Receiver_OUT_SendUart))
+	{
+		COUNT_Receiver_OUT_SendUart --;
+		while (COUNT_Receiver_OUT_SendUart==0); //Communication failed, waiting for watchdog reset
+		TIME_Receiver_OUT_SendUart = Uart_Resend_Time;
+		Send_Data(Receiver_OUT_uart, 5);
+	}
+	else if((Flag_ERROR_Read_once_again==1)&&(TIME_ERROR_Read_once_again==0))
 	{
 		Send_Data(Send_err_com, 7);
 		Flag_ERROR_Read_once_again=0;
 		TIME_ERROR_Read_once_again=0;
-	}			
+	}
+
 }
