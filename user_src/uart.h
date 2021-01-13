@@ -10,11 +10,13 @@
 /*  Mark        :ver 1.0                                               */
 /***********************************************************************/
 #include "uart.h"
+
 extern u8 u1busyCache;
 #define U1Busy_OUT u1busyCache
 #define FrameHeadSataus 0x00 //帧头
 #define DataStatus 0x01      //数据位置
-#define FrameEndStatus 0x02  //桢结�?
+#define Data_chceksum_Status 0x02
+#define FrameEndStatus 0x03
 #define FrameHead 0x02       //数据�?�?
 #define FrameSingnalID 0x11  //信号ID
 

@@ -1,7 +1,7 @@
 [DebugChecksum]
 <<<<<<< HEAD
 <<<<<<< HEAD
-Checksum=-539839410
+Checksum=1127145374
 =======
 Checksum=-488636172
 >>>>>>> CRX1831DC
@@ -72,8 +72,9 @@ Fmt1=uFLAG-BYTE	4	0
 Fmt0=u32_t[6]	4	0
 Fmt1=u32_t[7]	4	0
 Fmt2=unsigned char[3]	4	0
-Fmt3=unsigned char[4]	4	0
-Fmt4=unsigned char[9]	4	0
+Fmt3=unsigned char[41]	4	0
+Fmt4=unsigned char[4]	4	0
+Fmt5=unsigned char[9]	4	0
 [watch_formats]
 Fmt0={W}0:COUNT_Receiver_Login	3	0
 Fmt1={W}0:RAM_rssi_AVG	3	0

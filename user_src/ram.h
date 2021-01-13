@@ -5,6 +5,9 @@
 //#define TX_TEST_CARRIER_MODE 0
 #include "initial.h" // 锟斤拷始锟斤�? 预锟斤拷锟斤�?
 
+/*  define Uart_CheckSUM_def   */
+#define Uart_CheckSUM_def
+
 #define ID_Max_PCS   255
 
 //#define DEF_test_MAX_32pcs
