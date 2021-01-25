@@ -575,6 +575,7 @@ UINT8 Receiver_OUT_value;
 UINT8 Receiver_OUT_value_last;
 UINT8 Receiver_OUT_uart[5] = {0x02, 0x05, 0x11, 0xB1, 0x00};
 UINT8 Flag_Receiver_OUT_SendUart;
+UINT8 Flag_SendUart_Receiver_LED_OUT;
 void Receiver_OUT_change_UART(void)
 {
 	if (Receiver_OUT_OPEN == 1)
@@ -593,12 +594,22 @@ void Receiver_OUT_change_UART(void)
 		Receiver_OUT_value = Receiver_OUT_value | 0x08;
 	else
 		Receiver_OUT_value = Receiver_OUT_value & 0xf7;
+	if(Receiver_LED_OUT==1)
+	{
+		Receiver_OUT_value = Receiver_OUT_value | 0x80;
+		Flag_SendUart_Receiver_LED_OUT = 1;
+	}
+	else
+		Receiver_OUT_value = Receiver_OUT_value & 0x7f;
 	if (Receiver_OUT_value_last != Receiver_OUT_value)
 	{
 		Receiver_OUT_value_last = Receiver_OUT_value;
 		Receiver_OUT_uart[4] = Receiver_OUT_value;
-		if (Receiver_OUT_value)
+		if ((Receiver_OUT_value)||((Receiver_OUT_value==0)&&(Flag_SendUart_Receiver_LED_OUT==1)))
+		{
 			Flag_Receiver_OUT_SendUart = 1;
+			Flag_SendUart_Receiver_LED_OUT = 0;
+		}
 	}
 }
 
