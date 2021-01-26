@@ -378,11 +378,11 @@ void TIM3_init(void)
 { // 2015.3.11????
     TIM3_CCMR1 = TIM3_CCMR1 | 0x70;
     TIM3_CCER1 = TIM3_CCER1 | 0x03;  //TIME3_CH1
-    TIM3_ARRH = 0x08;                //0x07D0 -->PWM=2K        0x0880 -->PWM=1.83K
-    TIM3_ARRL = 0x84;                	
+    TIM3_ARRH = 0x05;                //0x07D0 -->PWM=2K   0x0880 -->PWM=1.83K   0x05be -->2.73k
+    TIM3_ARRL = 0xbe;                	
                                      //TIM2_IER = 0x01;						// ??????????
-    TIM3_CCR1H = 0x04;               //50%
-    TIM3_CCR1L = 0x42;                 
+    TIM3_CCR1H = 0x02;               //50%
+    TIM3_CCR1L = 0xdf;                 
     TIM3_PSCR = 0x02;                // ?????=Fsystem/(2(PSC[2:0])????4MHz=16MHz/2/2
     //TIM3_EGR_bit.UG=1;
     //TIM2_CR1 = 0x01;					// ?????????????????
@@ -481,11 +481,11 @@ void BEEP_function(void)
 
 void _ReqBuzzer(UINT16 d_BEEP_on, UINT16 d_BEEP_off, UINT16 d_BEEP_freq)
 {
-    if (d_BEEP_on < 10)
+    if ((d_BEEP_on < 10) && (d_BEEP_on))
         d_BEEP_on = 10;
     if (d_BEEP_on != 0xffff)
         BASE_TIME_BEEP_on = d_BEEP_on / 10;
-    if (d_BEEP_off < 10)
+    if ((d_BEEP_off < 10) && (d_BEEP_off))
         d_BEEP_off = 10;
     BASE_TIME_BEEP_off = d_BEEP_off / 10;
     TIME_BEEP_on = BASE_TIME_BEEP_on;
@@ -494,11 +494,11 @@ void _ReqBuzzer(UINT16 d_BEEP_on, UINT16 d_BEEP_off, UINT16 d_BEEP_freq)
 }
 void _ReqBuzzer_2(UINT16 d_BEEP_on1, UINT16 d_BEEP_off1, UINT16 d_BEEP_freq1, UINT16 d_BEEP_on2, UINT16 d_BEEP_off2, UINT16 d_BEEP_freq2)
 {
-    if (d_BEEP_on1 < 10)
+    if ((d_BEEP_on1 < 10)&&(d_BEEP_on1))
         d_BEEP_on1 = 10;
     if (d_BEEP_on1!=0xffff)
         BASE_TIME_BEEP_on = d_BEEP_on1 / 10;
-    if (d_BEEP_off1 < 10)
+    if ((d_BEEP_off1 < 10) && (d_BEEP_off1))
         d_BEEP_off1 = 10;
     BASE_TIME_BEEP_off = d_BEEP_off1/10;
     TIME_BEEP_on = BASE_TIME_BEEP_on;
@@ -509,11 +509,11 @@ void _ReqBuzzer_2(UINT16 d_BEEP_on1, UINT16 d_BEEP_off1, UINT16 d_BEEP_freq1, UI
         BASE_TIME_BEEP_freq = 0;
     TIME_BEEP_freq = BASE_TIME_BEEP_freq;
 
-    if (d_BEEP_on2 < 10)
+    if ((d_BEEP_on2 < 10) && (d_BEEP_on2))
         d_BEEP_on2 = 10;
     if (d_BEEP_on2 != 0xffff)
         BASE_TIME_BEEP_on2 = d_BEEP_on2 / 10;
-    if (d_BEEP_off2 < 10)
+    if ((d_BEEP_off2 < 10) && (d_BEEP_off2))
         d_BEEP_off2 = 10;
     BASE_TIME_BEEP_off2 = d_BEEP_off2/10;
     TIME_BEEP_on2 = BASE_TIME_BEEP_on2;
