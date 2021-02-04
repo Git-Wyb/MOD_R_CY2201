@@ -404,7 +404,7 @@ void OprationFrame(void)
 	{
 		if (Databits_t.ID_No == 146) //0x92
 		{
-			FLAG_APP_TX_fromUART = 1;
+			//FLAG_APP_TX_fromUART = 1;
 			if (TIMER1s)
 				;
 			else
@@ -608,6 +608,7 @@ void Receiver_OUT_change_UART(void)
 		if ((Receiver_OUT_value)||((Receiver_OUT_value==0)&&(Flag_SendUart_Receiver_LED_OUT==1)))
 		{
 			Flag_Receiver_OUT_SendUart = 1;
+			if (Receiver_OUT_value)FLAG_APP_TX_fromUART = 1;
 			Flag_SendUart_Receiver_LED_OUT = 0;
 		}
 	}
@@ -638,7 +639,7 @@ void TranmissionACK(void)
 	else if ((TIME_Receiver_OUT_SendUart==0)&&(COUNT_Receiver_OUT_SendUart))
 	{
 		COUNT_Receiver_OUT_SendUart --;
-		while (COUNT_Receiver_OUT_SendUart==0); //Communication failed, waiting for watchdog reset
+		//while (COUNT_Receiver_OUT_SendUart==0); //Communication failed, waiting for watchdog reset
 		TIME_Receiver_OUT_SendUart = Uart_Resend_Time;
 		Send_Data(Receiver_OUT_uart, 5);
 	}
