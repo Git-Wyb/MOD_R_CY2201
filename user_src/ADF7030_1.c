@@ -453,8 +453,8 @@ void ADF7030_Wait_GPIO3(void)
 
     while ((ADF7030_GPIO3 == 1)&&(count < 5000)) //清中�? GPIO3被置�?
     {
-        count++;
-        ClearWDT();
+        // count++;
+        // ClearWDT();
     }
 }
 void ADF7030_WRITING_PROFILE_FROM_POWERON(void)
@@ -569,8 +569,8 @@ void ADF7030_RECEIVING_FROM_POWEROFF(void)
         ;
     while ((GET_STATUE_BYTE().FW_STATUS != 1)&&(while_count<5000))
     {
-        while_count++;
-        ClearWDT();
+        // while_count++;
+        // ClearWDT();
     }
     DELAY_30U();
 }
@@ -598,8 +598,8 @@ void ADF7030_RECEIVING_FROM_POWEROFF_testMode(void)
         ;
     while ((GET_STATUE_BYTE().FW_STATUS != 1)&&(while_count<5000))
         {
-            while_count++;
-            ClearWDT();
+            // while_count++;
+            // ClearWDT();
         }
     DELAY_30U();
 }
@@ -727,8 +727,8 @@ void WaitForADF7030_FIXED_DATA(void)
     {
         DELAY_30U();
         ADF7030_FIXED_DATA();
-        ClearWDT();
-        count++;
+        // ClearWDT();
+        // count++;
     } while ((((ADF7030_Read_OneByte & 0x20) != 0x20) || ((ADF7030_Read_OneByte & 0x06) != 0x04)) && (count < 5000));
 }
 /**
@@ -1053,8 +1053,8 @@ void ADF7030_TX(u8 mode)
         ;
     while ((GET_STATUE_BYTE().FW_STATUS != 1)&&(while_count<5000))
         {
-            while_count++;
-            ClearWDT();
+            // while_count++;
+            // ClearWDT();
         }
 }
 /**
