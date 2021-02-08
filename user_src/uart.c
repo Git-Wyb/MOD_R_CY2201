@@ -338,7 +338,7 @@ void OprationFrame(void)
 		Databits_t.Data[i] = UART_DATA_buffer[3 + i];
 	if (Databits_t.ID_No == 146)  //0x92
 	{
-	    FLAG_APP_TX_fromUART=1;
+	    //FLAG_APP_TX_fromUART=1;
 		if(TIMER1s);
 		else Uart_Struct_DATA_Packet_Contro.Fno_Type.UN.fno=0;
 		//for(i=0;i<3;i++)Uart_Struct_DATA_Packet_Contro.data[i/2].uc[i%2]=Databits_t.Data[i+1];
@@ -464,6 +464,36 @@ void OprationFrame(void)
 	}
 }
 
+UINT8 Receiver_OUT_value;
+UINT8 Receiver_OUT_value_last;
+void Receiver_OUT_change_UART(void)
+{
+	if (Receiver_OUT_OPEN == 1)
+		Receiver_OUT_value = Receiver_OUT_value | 0x01;
+	else
+		Receiver_OUT_value = Receiver_OUT_value & 0xfe;
+	if (Receiver_OUT_STOP == 1)
+		Receiver_OUT_value = Receiver_OUT_value | 0x02;
+	else
+		Receiver_OUT_value = Receiver_OUT_value & 0xfd;
+	if (Receiver_OUT_CLOSE == 1)
+		Receiver_OUT_value = Receiver_OUT_value | 0x04;
+	else
+		Receiver_OUT_value = Receiver_OUT_value & 0xfb;
+	if (Receiver_LED_OUT == 1)
+	{
+		Receiver_OUT_value = Receiver_OUT_value | 0x80;
+	}
+	else
+		Receiver_OUT_value = Receiver_OUT_value & 0x7f;
+	if (Receiver_OUT_value_last != Receiver_OUT_value)
+	{
+		Receiver_OUT_value_last = Receiver_OUT_value;
+		if (Receiver_OUT_value)
+			FLAG_APP_TX_fromUART = 1;
+	}
+}
+
 void TranmissionACK(void)
 {
 	if (u1InitCompleteFlag)
@@ -478,6 +508,8 @@ void TranmissionACK(void)
 		}
 	}
 
+        Receiver_OUT_change_UART();
+        
 	if((Flag_ERROR_Read_once_again==1)&&(TIME_ERROR_Read_once_again==0))
 	{
 		Send_Data(Send_err_com, 7);
