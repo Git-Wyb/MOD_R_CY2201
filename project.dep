@@ -6,29 +6,11 @@
   <configuration>
     <name>Debug</name>
     <outputs>
-<<<<<<< HEAD
-      <file>$PROJ_DIR$\Debug\Obj\ADF7030_1.__cstat.et</file>
-      <file>$PROJ_DIR$\Debug\Obj\stm8l15x_it.__cstat.et</file>
-      <file>$PROJ_DIR$\Debug\Obj\main.__cstat.et</file>
-      <file>$PROJ_DIR$\Debug\Obj\project.pbd</file>
-      <file>$PROJ_DIR$\Libraries\inc\stm8l15x_spi.h</file>
-      <file>$PROJ_DIR$\user_src\ADF7030_1.h</file>
-      <file>$TOOLKIT_DIR$\inc\c\stdio.h</file>
-      <file>$TOOLKIT_DIR$\inc\c\ystdio.h</file>
-      <file>$TOOLKIT_DIR$\inc\c\xencoding_limits.h</file>
-      <file>$TOOLKIT_DIR$\lib\dlstm8mmn.h</file>
-      <file>$TOOLKIT_DIR$\inc\c\DLib_Product.h</file>
-      <file>$TOOLKIT_DIR$\inc\iostm8l151g4.h</file>
-      <file>$PROJ_DIR$\user_src\Settings_ADF7030-1_load.cfg</file>
-      <file>$PROJ_DIR$\Libraries\inc\stm8l15x_gpio.h</file>
-      <file>$PROJ_DIR$\Libraries\inc\stm8l15x_tim1.h</file>
-      <file>$PROJ_DIR$\Libraries\inc\stm8l15x_rst.h</file>
-      <file>$PROJ_DIR$\Libraries\inc\stm8l15x_pwr.h</file>
-      <file>$PROJ_DIR$\Libraries\inc\stm8l15x_lcd.h</file>
-      <file>$PROJ_DIR$\Libraries\inc\stm8l15x_aes.h</file>
-      <file>$PROJ_DIR$\Libraries\inc\stm8l15x_clk.h</file>
-      <file>$PROJ_DIR$\user_src\stm8l15x_it.h</file>
-      <file>$PROJ_DIR$\Libraries\inc\stm8l15x_rtc.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\ADF7030_1.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\eeprom.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\Timer.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\ADF7030_1.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\uart.o</file>
       <file>$PROJ_DIR$\user_src\ADF7030_1.c</file>
       <file>$PROJ_DIR$\user_src\eeprom.c</file>
       <file>$PROJ_DIR$\user_src\ID_Decode.c</file>
@@ -39,335 +21,98 @@
       <file>$PROJ_DIR$\user_src\stm8l15x_it.c</file>
       <file>$PROJ_DIR$\user_src\Timer.c</file>
       <file>$PROJ_DIR$\user_src\uart.c</file>
-      <file>$PROJ_DIR$\Libraries\inc\stm8l15x_syscfg.h</file>
-      <file>$PROJ_DIR$\Libraries\inc\stm8l15x_beep.h</file>
-      <file>$PROJ_DIR$\Libraries\inc\stm8l15x_flash.h</file>
-      <file>$TOOLKIT_DIR$\inc\c\ycheck.h</file>
-      <file>$PROJ_DIR$\Debug\Obj\ID_Decode.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\ADF7030_1.o</file>
-      <file>$PROJ_DIR$\user_src\ID_Decode.h</file>
-      <file>$TOOLKIT_DIR$\inc\c\ysizet.h</file>
-      <file>$PROJ_DIR$\Debug\Obj\main.o</file>
-      <file>$PROJ_DIR$\Debug\Obj\Initial.o</file>
-      <file>$PROJ_DIR$\Debug\Obj\Initial.pbi</file>
-      <file>$TOOLKIT_DIR$\inc\io_macros.h</file>
-      <file>$TOOLKIT_DIR$\lib\dlstm8mmn.a</file>
-      <file>$PROJ_DIR$\Debug\Obj\uart.__cstat.et</file>
-      <file>$TOOLKIT_DIR$\lib\dbgstm8mmd.a</file>
-      <file>$TOOLKIT_DIR$\config\math_small.xcl</file>
-      <file>$TOOLKIT_DIR$\config\lnkstm8l151g6.icf</file>
-      <file>$PROJ_DIR$\Debug\List\project.map</file>
-      <file>$TOOLKIT_DIR$\inc\c\intrinsics.h</file>
-      <file>$PROJ_DIR$\Debug\Obj\Initial.__cstat.et</file>
-      <file>$PROJ_DIR$\Debug\Obj\ID_Decode.__cstat.et</file>
-      <file>$PROJ_DIR$\user_src\eeprom.h</file>
-      <file>$PROJ_DIR$\user_src\Settings_ADF7030-1_4dot8k.cfg</file>
-      <file>$TOOLKIT_DIR$\inc\c\stdbool.h</file>
-      <file>$PROJ_DIR$\Libraries\inc\stm8l15x_iwdg.h</file>
-      <file>$PROJ_DIR$\Libraries\inc\stm8l15x_irtim.h</file>
-      <file>$PROJ_DIR$\Libraries\inc\stm8l15x_comp.h</file>
-      <file>$PROJ_DIR$\Libraries\inc\stm8l15x_exti.h</file>
-      <file>$PROJ_DIR$\Libraries\inc\stm8l15x_dac.h</file>
-      <file>$PROJ_DIR$\Libraries\inc\stm8l15x_tim3.h</file>
-      <file>$PROJ_DIR$\Libraries\inc\stm8l15x_dma.h</file>
-      <file>$PROJ_DIR$\Libraries\inc\stm8l15x_tim2.h</file>
-      <file>$PROJ_DIR$\Debug\Obj\main.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\ram.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\spi.pbi</file>
-      <file>$PROJ_DIR$\Debug\Exe\Bunka STM8L151 RX Ver.hex</file>
-      <file>$PROJ_DIR$\Libraries\inc\stm8l15x_itc.h</file>
-      <file>$PROJ_DIR$\Libraries\inc\stm8l15x_tim4.h</file>
-      <file>$PROJ_DIR$\Libraries\inc\stm8l15x_tim5.h</file>
-      <file>$PROJ_DIR$\Libraries\inc\stm8l15x_usart.h</file>
-      <file>$PROJ_DIR$\Libraries\inc\stm8l15x_wfe.h</file>
-      <file>$PROJ_DIR$\Libraries\inc\stm8l15x_wwdg.h</file>
-      <file>$PROJ_DIR$\user_src\ram.h</file>
-      <file>$PROJ_DIR$\user_src\uart.h</file>
-      <file>$TOOLKIT_DIR$\inc\c\DLib_Defaults.h</file>
-      <file>$PROJ_DIR$\user_src\initial.h</file>
-=======
->>>>>>> EGA-5.3T
-      <file>$TOOLKIT_DIR$\inc\c\DLib_Threads.h</file>
-      <file>$PROJ_DIR$\user_src\Timer.h</file>
-      <file>$TOOLKIT_DIR$\inc\c\stdlib.h</file>
-      <file>$PROJ_DIR$\user_src\Pin_define.h</file>
-      <file>$PROJ_DIR$\Debug\Obj\ram.__cstat.et</file>
-      <file>$PROJ_DIR$\user_src\Settings_ADF7030-1.cfg</file>
-      <file>$PROJ_DIR$\Debug\Obj\stm8l15x_it.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\spi.__cstat.et</file>
       <file>$PROJ_DIR$\Debug\Obj\eeprom.o</file>
       <file>$PROJ_DIR$\Debug\Obj\ram.o</file>
-      <file>$PROJ_DIR$\Debug\Obj\ID_Decode.o</file>
-      <file>$PROJ_DIR$\Debug\Exe\project.out</file>
-      <file>$TOOLKIT_DIR$\inc\c\yvals.h</file>
-      <file>$PROJ_DIR$\user_src\type_def.h</file>
-      <file>$PROJ_DIR$\user_src\spi.h</file>
-      <file>$PROJ_DIR$\Debug\Obj\stm8l15x_it.o</file>
-      <file>$PROJ_DIR$\Debug\Obj\Timer.o</file>
-      <file>$PROJ_DIR$\Debug\Obj\spi.o</file>
-      <file>$PROJ_DIR$\Debug\Obj\uart.o</file>
-      <file>$PROJ_DIR$\Debug\Obj\ADF7030_1.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\eeprom.pbi</file>
-      <file>$PROJ_DIR$\user_src\stm8l15x_conf.h</file>
-      <file>$PROJ_DIR$\Libraries\inc\stm8l15x_i2c.h</file>
-      <file>$PROJ_DIR$\Debug\Obj\Timer.__cstat.et</file>
-      <file>$PROJ_DIR$\Debug\Obj\Timer.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\uart.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\eeprom.__cstat.et</file>
-      <file>$PROJ_DIR$\Libraries\inc\stm8l15x.h</file>
-      <file>$PROJ_DIR$\Libraries\inc\stm8l15x_adc.h</file>
-<<<<<<< HEAD
-=======
-      <file>$PROJ_DIR$\Debug\Obj\ADF7030_1.__cstat.et</file>
-      <file>$PROJ_DIR$\Debug\Obj\stm8l15x_it.__cstat.et</file>
-      <file>$PROJ_DIR$\Debug\Obj\main.__cstat.et</file>
-      <file>$PROJ_DIR$\Debug\Obj\project.pbd</file>
-      <file>$PROJ_DIR$\Libraries\inc\stm8l15x_spi.h</file>
-      <file>$PROJ_DIR$\user_src\ADF7030_1.h</file>
-      <file>$TOOLKIT_DIR$\inc\c\stdio.h</file>
-      <file>$TOOLKIT_DIR$\inc\c\ystdio.h</file>
-      <file>$TOOLKIT_DIR$\inc\c\xencoding_limits.h</file>
-      <file>$TOOLKIT_DIR$\lib\dlstm8mmn.h</file>
-      <file>$TOOLKIT_DIR$\inc\c\DLib_Product.h</file>
-      <file>$TOOLKIT_DIR$\inc\iostm8l151g4.h</file>
-      <file>$PROJ_DIR$\user_src\Settings_ADF7030-1_load.cfg</file>
-      <file>$PROJ_DIR$\Libraries\inc\stm8l15x_gpio.h</file>
-      <file>$PROJ_DIR$\Libraries\inc\stm8l15x_tim1.h</file>
-      <file>$PROJ_DIR$\Libraries\inc\stm8l15x_rst.h</file>
-      <file>$PROJ_DIR$\Libraries\inc\stm8l15x_pwr.h</file>
-      <file>$PROJ_DIR$\Libraries\inc\stm8l15x_lcd.h</file>
-      <file>$PROJ_DIR$\Libraries\inc\stm8l15x_aes.h</file>
-      <file>$PROJ_DIR$\Libraries\inc\stm8l15x_clk.h</file>
-      <file>$PROJ_DIR$\user_src\stm8l15x_it.h</file>
-      <file>$PROJ_DIR$\Libraries\inc\stm8l15x_rtc.h</file>
-      <file>$PROJ_DIR$\user_src\ADF7030_1.c</file>
-      <file>$PROJ_DIR$\user_src\eeprom.c</file>
-      <file>$PROJ_DIR$\user_src\ID_Decode.c</file>
-      <file>$PROJ_DIR$\user_src\Initial.c</file>
-      <file>$PROJ_DIR$\user_src\main.c</file>
-      <file>$PROJ_DIR$\user_src\ram.c</file>
-      <file>$PROJ_DIR$\user_src\spi.c</file>
-      <file>$PROJ_DIR$\user_src\stm8l15x_it.c</file>
-      <file>$PROJ_DIR$\user_src\Timer.c</file>
-      <file>$PROJ_DIR$\user_src\uart.c</file>
-      <file>$PROJ_DIR$\Libraries\inc\stm8l15x_syscfg.h</file>
-      <file>$PROJ_DIR$\Libraries\inc\stm8l15x_beep.h</file>
-      <file>$PROJ_DIR$\Libraries\inc\stm8l15x_flash.h</file>
-      <file>$TOOLKIT_DIR$\inc\c\ycheck.h</file>
-      <file>$PROJ_DIR$\Debug\Obj\ID_Decode.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\ADF7030_1.o</file>
-      <file>$PROJ_DIR$\user_src\ID_Decode.h</file>
-      <file>$TOOLKIT_DIR$\inc\c\ysizet.h</file>
       <file>$PROJ_DIR$\Debug\Obj\main.o</file>
       <file>$PROJ_DIR$\Debug\Obj\Initial.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\ID_Decode.o</file>
+      <file>$PROJ_DIR$\Debug\Exe\project.out</file>
+      <file>$PROJ_DIR$\Debug\Obj\spi.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\stm8l15x_it.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\ID_Decode.pbi</file>
       <file>$PROJ_DIR$\Debug\Obj\Initial.pbi</file>
-      <file>$TOOLKIT_DIR$\inc\io_macros.h</file>
-      <file>$TOOLKIT_DIR$\lib\dlstm8mmn.a</file>
-      <file>$PROJ_DIR$\Debug\Obj\uart.__cstat.et</file>
-      <file>$TOOLKIT_DIR$\lib\dbgstm8mmd.a</file>
-      <file>$TOOLKIT_DIR$\config\math_small.xcl</file>
-      <file>$TOOLKIT_DIR$\config\lnkstm8l151g6.icf</file>
-      <file>$PROJ_DIR$\Debug\List\project.map</file>
-      <file>$TOOLKIT_DIR$\inc\c\intrinsics.h</file>
-      <file>$PROJ_DIR$\Debug\Obj\Initial.__cstat.et</file>
-      <file>$PROJ_DIR$\Debug\Obj\ID_Decode.__cstat.et</file>
-      <file>$PROJ_DIR$\user_src\eeprom.h</file>
-      <file>$PROJ_DIR$\user_src\Settings_ADF7030-1_4dot8k.cfg</file>
-      <file>$TOOLKIT_DIR$\inc\c\stdbool.h</file>
-      <file>$PROJ_DIR$\Libraries\inc\stm8l15x_iwdg.h</file>
-      <file>$PROJ_DIR$\Libraries\inc\stm8l15x_irtim.h</file>
-      <file>$PROJ_DIR$\Libraries\inc\stm8l15x_comp.h</file>
-      <file>$PROJ_DIR$\Libraries\inc\stm8l15x_exti.h</file>
-      <file>$PROJ_DIR$\Libraries\inc\stm8l15x_dac.h</file>
-      <file>$PROJ_DIR$\Libraries\inc\stm8l15x_tim3.h</file>
-      <file>$PROJ_DIR$\Libraries\inc\stm8l15x_dma.h</file>
-      <file>$PROJ_DIR$\Libraries\inc\stm8l15x_tim2.h</file>
       <file>$PROJ_DIR$\Debug\Obj\main.pbi</file>
       <file>$PROJ_DIR$\Debug\Obj\ram.pbi</file>
       <file>$PROJ_DIR$\Debug\Obj\spi.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\stm8l15x_it.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\Timer.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\uart.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\project.pbd</file>
       <file>$PROJ_DIR$\Debug\Exe\Bunka STM8L151 RX Ver.hex</file>
-      <file>$PROJ_DIR$\Libraries\inc\stm8l15x_itc.h</file>
-      <file>$PROJ_DIR$\Libraries\inc\stm8l15x_tim4.h</file>
-      <file>$PROJ_DIR$\Libraries\inc\stm8l15x_tim5.h</file>
-      <file>$PROJ_DIR$\Libraries\inc\stm8l15x_usart.h</file>
-      <file>$PROJ_DIR$\Libraries\inc\stm8l15x_wfe.h</file>
-      <file>$PROJ_DIR$\Libraries\inc\stm8l15x_wwdg.h</file>
-      <file>$PROJ_DIR$\user_src\ram.h</file>
       <file>$PROJ_DIR$\user_src\uart.h</file>
-      <file>$TOOLKIT_DIR$\inc\c\DLib_Defaults.h</file>
       <file>$PROJ_DIR$\user_src\initial.h</file>
->>>>>>> EGA-5.3T
+      <file>$PROJ_DIR$\user_src\ID_Decode.h</file>
+      <file>$PROJ_DIR$\user_src\Timer.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\stdbool.h</file>
+      <file>$PROJ_DIR$\user_src\ram.h</file>
+      <file>$PROJ_DIR$\user_src\Pin_define.h</file>
+      <file>$PROJ_DIR$\user_src\eeprom.h</file>
+      <file>$PROJ_DIR$\user_src\ADF7030_1.h</file>
+      <file>$TOOLKIT_DIR$\inc\io_macros.h</file>
+      <file>$PROJ_DIR$\user_src\type_def.h</file>
+      <file>$TOOLKIT_DIR$\inc\iostm8l151g4.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\intrinsics.h</file>
+      <file>$TOOLKIT_DIR$\config\math_small.xcl</file>
+      <file>$PROJ_DIR$\Debug\List\project.map</file>
+      <file>$TOOLKIT_DIR$\config\lnkstm8l151g6.icf</file>
+      <file>$TOOLKIT_DIR$\lib\dbgstm8mmd.a</file>
+      <file>$TOOLKIT_DIR$\lib\dlstm8mmn.a</file>
     </outputs>
     <file>
       <name>[ROOT_NODE]</name>
       <outputs>
         <tool>
           <name>ILINK</name>
-<<<<<<< HEAD
-          <file> 89 49</file>
-=======
-          <file> 11 78</file>
->>>>>>> EGA-5.3T
+          <file> 20 47</file>
         </tool>
       </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\Debug\Exe\project.out</name>
-      <outputs>
-        <tool>
-          <name>ILINK</name>
-          <file> 78</file>
-        </tool>
-        <tool>
-          <name>OBJCOPY</name>
-          <file> 96</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>ILINK</name>
-          <file> 76 77 66 8 10 70 69 9 17 15 16 18 73 75</file>
-        </tool>
-      </inputs>
     </file>
     <file>
       <name>$PROJ_DIR$\user_src\ADF7030_1.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
-<<<<<<< HEAD
-          <file> 97</file>
+          <file> 3</file>
         </tool>
         <tool>
           <name>ICCSTM8</name>
-          <file> 37</file>
-        </tool>
-        <tool>
-          <name>__cstat</name>
           <file> 0</file>
-=======
-          <file> 19</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 66</file>
-        </tool>
-        <tool>
-          <name>__cstat</name>
-          <file> 29</file>
->>>>>>> EGA-5.3T
         </tool>
       </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-<<<<<<< HEAD
-          <file> 39 35 38 90 91 92 55 74 75 76 78 79 77 80 6 81 5 7 8 9 10 11 43 50</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 6 35 90 76 9 10 8 78 39 7 80 55 92 11 43 91 50 81 79 74 77 5 38 75</file>
-=======
-          <file> 39 12 67 64 40 14 37 84 103 104 36 38 72 1 106 2 35 3 34 13 68 105 0 79</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 35 64 12 105 38 39 37 0 68 36 2 84 14 40 72 13 79 3 1 103 106 34 67 104</file>
->>>>>>> EGA-5.3T
-        </tool>
-      </inputs>
     </file>
     <file>
       <name>$PROJ_DIR$\user_src\eeprom.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
-<<<<<<< HEAD
-          <file> 98</file>
+          <file> 1</file>
         </tool>
         <tool>
           <name>ICCSTM8</name>
-          <file> 86</file>
-        </tool>
-        <tool>
-          <name>__cstat</name>
-          <file> 104</file>
-=======
-          <file> 20</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 8</file>
-        </tool>
-        <tool>
-          <name>__cstat</name>
-          <file> 26</file>
->>>>>>> EGA-5.3T
+          <file> 15</file>
         </tool>
       </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-<<<<<<< HEAD
-          <file> 53 75 77 81 74 38 43 50 11 79 91 55</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 11 43 81 79 91 55 50 77 74 53 38 75</file>
-=======
-          <file> 82 104 106 3 103 67 72 79 40 1 13 84</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 40 72 3 1 13 84 79 106 103 82 67 104</file>
->>>>>>> EGA-5.3T
-        </tool>
-      </inputs>
     </file>
     <file>
       <name>$PROJ_DIR$\user_src\ID_Decode.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
-<<<<<<< HEAD
-          <file> 36</file>
+          <file> 23</file>
         </tool>
         <tool>
           <name>ICCSTM8</name>
-          <file> 88</file>
-        </tool>
-        <tool>
-          <name>__cstat</name>
-          <file> 52</file>
-=======
-          <file> 65</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 10</file>
-        </tool>
-        <tool>
-          <name>__cstat</name>
-          <file> 81</file>
->>>>>>> EGA-5.3T
+          <file> 19</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>BICOMP</name>
-<<<<<<< HEAD
-          <file> 38 77 75 79 55 74 81 53 5 43 91 11 50</file>
+          <file> 35 34 33 36 37 38 39 40 41 42 43 44 45</file>
         </tool>
         <tool>
           <name>ICCSTM8</name>
-          <file> 11 43 81 79 91 55 50 77 74 38 53 75 5</file>
-=======
-          <file> 67 106 104 1 84 103 3 82 34 72 13 40 79</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 40 72 3 1 13 84 79 106 103 67 82 104 34</file>
->>>>>>> EGA-5.3T
+          <file> 44 42 39 36 43 37 45 34 38 35 40 33 41</file>
         </tool>
       </inputs>
     </file>
@@ -376,346 +121,108 @@
       <outputs>
         <tool>
           <name>BICOMP</name>
-<<<<<<< HEAD
-          <file> 42</file>
+          <file> 24</file>
         </tool>
         <tool>
           <name>ICCSTM8</name>
-          <file> 41</file>
-        </tool>
-        <tool>
-          <name>__cstat</name>
-          <file> 51</file>
-=======
-          <file> 71</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 70</file>
-        </tool>
-        <tool>
-          <name>__cstat</name>
-          <file> 80</file>
->>>>>>> EGA-5.3T
+          <file> 18</file>
         </tool>
       </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-<<<<<<< HEAD
-          <file> 50 74 90 10 35 81 75 7 8 9 11 77 5 79 39 76 78 43 91 6 55</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 6 35 90 76 9 10 8 78 39 7 11 43 81 79 91 55 50 77 74 5 75</file>
-=======
-          <file> 79 103 12 39 64 3 104 36 37 38 40 106 34 1 68 105 0 72 13 35 84</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 35 64 12 105 38 39 37 0 68 36 40 72 3 1 13 84 79 106 103 34 104</file>
->>>>>>> EGA-5.3T
-        </tool>
-      </inputs>
     </file>
     <file>
       <name>$PROJ_DIR$\user_src\main.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
-<<<<<<< HEAD
-          <file> 64</file>
+          <file> 25</file>
         </tool>
         <tool>
           <name>ICCSTM8</name>
-          <file> 40</file>
-        </tool>
-        <tool>
-          <name>__cstat</name>
-          <file> 2</file>
-=======
-          <file> 93</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 69</file>
-        </tool>
-        <tool>
-          <name>__cstat</name>
-          <file> 31</file>
->>>>>>> EGA-5.3T
+          <file> 17</file>
         </tool>
       </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-<<<<<<< HEAD
-          <file> 75 5 77 38 43 50 74 81 79 53 91 11 55</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 11 43 81 79 91 55 50 77 74 5 38 53 75</file>
-=======
-          <file> 104 34 106 67 72 79 103 3 1 82 13 40 84</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 40 72 3 1 13 84 79 106 103 34 67 82 104</file>
->>>>>>> EGA-5.3T
-        </tool>
-      </inputs>
     </file>
     <file>
       <name>$PROJ_DIR$\user_src\ram.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
-<<<<<<< HEAD
-          <file> 65</file>
+          <file> 26</file>
         </tool>
         <tool>
           <name>ICCSTM8</name>
-          <file> 87</file>
-        </tool>
-        <tool>
-          <name>__cstat</name>
-          <file> 82</file>
-=======
-          <file> 94</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 9</file>
-        </tool>
-        <tool>
-          <name>__cstat</name>
-          <file> 4</file>
->>>>>>> EGA-5.3T
+          <file> 16</file>
         </tool>
       </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-<<<<<<< HEAD
-          <file> 35 76 78 55 39 90 50 80 91 83 12 54 7 8 6 9 10</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 6 35 90 76 9 10 8 78 39 7 80 55 91 50 83 12 54</file>
-=======
-          <file> 64 105 0 84 68 12 79 2 13 5 41 83 36 37 35 38 39</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 35 64 12 105 38 39 37 0 68 36 2 84 13 79 5 41 83</file>
->>>>>>> EGA-5.3T
-        </tool>
-      </inputs>
     </file>
     <file>
       <name>$PROJ_DIR$\user_src\spi.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
-<<<<<<< HEAD
-          <file> 66</file>
+          <file> 27</file>
         </tool>
         <tool>
           <name>ICCSTM8</name>
-          <file> 95</file>
-        </tool>
-        <tool>
-          <name>__cstat</name>
-          <file> 85</file>
-=======
-          <file> 95</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 17</file>
-        </tool>
-        <tool>
-          <name>__cstat</name>
-          <file> 7</file>
->>>>>>> EGA-5.3T
+          <file> 21</file>
         </tool>
       </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-<<<<<<< HEAD
-          <file> 43 11 50 5 91 74 92 55 77</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 92 11 43 91 55 50 5 74 77</file>
-=======
-          <file> 72 40 79 34 13 103 14 84 106</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 14 40 72 13 84 79 34 103 106</file>
->>>>>>> EGA-5.3T
-        </tool>
-      </inputs>
     </file>
     <file>
       <name>$PROJ_DIR$\user_src\stm8l15x_it.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
-<<<<<<< HEAD
-          <file> 84</file>
+          <file> 28</file>
         </tool>
         <tool>
           <name>ICCSTM8</name>
-          <file> 93</file>
-        </tool>
-        <tool>
-          <name>__cstat</name>
-          <file> 1</file>
-=======
-          <file> 6</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 15</file>
-        </tool>
-        <tool>
-          <name>__cstat</name>
-          <file> 30</file>
->>>>>>> EGA-5.3T
+          <file> 22</file>
         </tool>
       </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-<<<<<<< HEAD
-          <file> 19 105 32 57 73 79 59 16 69 50 75 77 99 18 60 13 56 21 63 71 81 74 38 106 33 58 62 34 100 68 17 15 4 14 61 70 72 20 91 55</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 20 105 99 106 18 33 19 58 60 62 59 34 13 100 57 68 56 17 16 15 21 4 32 14 63 61 69 70 71 72 73 50 81 79 91 55 77 74 38 75</file>
-=======
-          <file> 48 27 61 86 102 1 88 45 98 79 104 106 21 47 89 42 85 50 92 100 3 103 67 28 62 87 91 63 22 97 46 44 33 43 90 99 101 49 13 84</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 49 27 21 28 47 62 48 87 89 91 88 63 42 22 86 97 85 46 45 44 50 33 61 43 92 90 98 99 100 101 102 79 3 1 13 84 106 103 67 104</file>
->>>>>>> EGA-5.3T
-        </tool>
-      </inputs>
     </file>
     <file>
       <name>$PROJ_DIR$\user_src\Timer.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
-<<<<<<< HEAD
-          <file> 102</file>
+          <file> 29</file>
         </tool>
         <tool>
           <name>ICCSTM8</name>
-          <file> 94</file>
-        </tool>
-        <tool>
-          <name>__cstat</name>
-          <file> 101</file>
-=======
-          <file> 24</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 16</file>
-        </tool>
-        <tool>
-          <name>__cstat</name>
-          <file> 23</file>
->>>>>>> EGA-5.3T
+          <file> 2</file>
         </tool>
       </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-<<<<<<< HEAD
-          <file> 79 75 55 77 43 81 74 91 11 50</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 11 43 81 79 91 55 50 77 74 75</file>
-=======
-          <file> 1 104 84 106 72 3 103 13 40 79</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 40 72 3 1 13 84 79 106 103 104</file>
->>>>>>> EGA-5.3T
-        </tool>
-      </inputs>
     </file>
     <file>
       <name>$PROJ_DIR$\user_src\uart.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
-<<<<<<< HEAD
-          <file> 103</file>
+          <file> 30</file>
         </tool>
         <tool>
           <name>ICCSTM8</name>
-          <file> 96</file>
-        </tool>
-        <tool>
-          <name>__cstat</name>
-          <file> 45</file>
-=======
-          <file> 25</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 18</file>
-        </tool>
-        <tool>
-          <name>__cstat</name>
-          <file> 74</file>
->>>>>>> EGA-5.3T
+          <file> 4</file>
         </tool>
       </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-<<<<<<< HEAD
-          <file> 53 75 77 38 91 81 74 43 50 11 79 55</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 11 43 81 79 91 55 50 77 74 53 75 38</file>
-        </tool>
-      </inputs>
     </file>
     <file>
       <name>$PROJ_DIR$\Debug\Exe\project.out</name>
       <outputs>
         <tool>
           <name>ILINK</name>
-          <file> 49</file>
+          <file> 47</file>
         </tool>
         <tool>
           <name>OBJCOPY</name>
-          <file> 67</file>
+          <file> 32</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>ILINK</name>
-          <file> 47 48 37 86 88 41 40 87 95 93 94 96 44 46</file>
-=======
-          <file> 82 104 106 67 72 13 3 103 79 40 1 84</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 40 72 3 1 13 84 79 106 103 82 104 67</file>
->>>>>>> EGA-5.3T
+          <file> 46 48 0 15 19 18 17 16 21 22 2 4 50 49</file>
         </tool>
       </inputs>
     </file>
