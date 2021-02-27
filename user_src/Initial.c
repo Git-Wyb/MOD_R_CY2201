@@ -380,7 +380,7 @@ void RF_test_mode(void)
     u8 Flag_TP4 = 0;
     u8 test_time_Base10ms = 0;
     //UINT8 Boot_i;
-	 Receiver_LED_OUT = 1;
+	// Receiver_LED_OUT = 1;
 	 /*for (Boot_i = 0; Boot_i < 4; Boot_i++)
 	 {
 		 for (time_3sec = 0; time_3sec < 6000; time_3sec++)
