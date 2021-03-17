@@ -541,9 +541,9 @@ void BEEP_Module(UINT16 time_beepON, UINT16 time_beepOFF)
 			//BEEP_CSR2_BEEPEN = 1;
             TIM3_init();
         }
-		Delayus(250); //80us
-		Delayus(250); //80us
-		Delayus(250); //80us
+		Delayus_With_UartACK(250); //80us
+		Delayus_With_UartACK(250); //80us
+		Delayus_With_UartACK(250); //80us
 		ClearWDT();   // Service the WDT
 	}
 	for (i = 0; i < time_beepOFF; i++)
@@ -556,10 +556,10 @@ void BEEP_Module(UINT16 time_beepON, UINT16 time_beepOFF)
 			//BEEP_CSR2_BEEPEN = 0;
             Tone_OFF();
         }
-		//Delayus(240);
-		Delayus(250); //80us
-		Delayus(250); //80us
-		Delayus(250); //80us
+		//Delayus_With_UartACK(240);
+		Delayus_With_UartACK(250); //80us
+		Delayus_With_UartACK(250); //80us
+		Delayus_With_UartACK(250); //80us
 		ClearWDT();   // Service the WDT
 	}
 

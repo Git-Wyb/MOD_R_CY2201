@@ -39,6 +39,7 @@ extern UINT8 FLAG_testNo91SendUart;
 void ReceiveFrame(UINT8 Cache);
 void OprationFrame(void);
 void TranmissionACK(void);
+void Uart_TX_Data(void);
 typedef union {
     unsigned char Data[4];
     struct

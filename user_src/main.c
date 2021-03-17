@@ -96,7 +96,8 @@ void main(void)
     		  //if(Scan_step==2)
 			  	SCAN_RECEIVE_PACKET(); //É¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿?
         }
-        TranmissionACK();
+        TranmissionACK();  //note:Don't move
+        Uart_TX_Data();
         //        READ_RSSI_avg();
 
         if (FG_Receiver_LED_RX == 1)

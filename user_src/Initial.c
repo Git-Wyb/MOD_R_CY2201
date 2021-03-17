@@ -124,7 +124,7 @@ void beep_init(void)
 }
 
 //===================Delayus()延时===============//    Crystal: 16M HSI
-void Delayus(unsigned char timer)
+void Delayus_With_UartACK(unsigned char timer)
 {
     unsigned char x; //延时T=((timer-1)*0.313+2 us
     unsigned char timer_cache;
@@ -133,6 +133,16 @@ void Delayus(unsigned char timer)
     {
         __asm("nop");
         TranmissionACK();
+    }
+}
+void Delayus(unsigned char timer)
+{
+    unsigned char x; //延时T=((timer-1)*0.313+2 us
+    unsigned char timer_cache;
+    timer_cache = timer / 3;
+    for (x = 0; x < timer_cache; x++)
+    {
+        __asm("nop");
     }
 }
 void Receiver_OUT_GPIO_Init(void)

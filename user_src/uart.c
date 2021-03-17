@@ -44,7 +44,6 @@ UINT8 FLAG_testBEEP=0;
 UINT8 FLAG_testNo91_step=0;
 UINT8 FLAG_testNo91SendUart=0;
 
-void Receiver_OUT_change_UART(void);
 //********************************************
 void UART1_INIT(void)
 {
@@ -571,70 +570,27 @@ void OprationFrame(void)
 	}
 }
 
-UINT8 Receiver_OUT_value;
+UINT8 Receiver_OUT_value=0xff;
 UINT8 Receiver_OUT_value_last;
 UINT8 Receiver_OUT_uart[5] = {0x02, 0x05, 0x11, 0xB1, 0x00};
-UINT8 Flag_Receiver_OUT_SendUart;
 UINT8 Flag_SendUart_Receiver_LED_OUT;
-void Receiver_OUT_change_UART(void)
+void Uart_TX_Data(void)
 {
-	if (Receiver_OUT_OPEN == 1)
-		Receiver_OUT_value = Receiver_OUT_value | 0x01;
-	else
-		Receiver_OUT_value = Receiver_OUT_value & 0xfe;
-	if (Receiver_OUT_STOP == 1)
-		Receiver_OUT_value = Receiver_OUT_value | 0x02;
-	else
-		Receiver_OUT_value = Receiver_OUT_value & 0xfd;
-	if (Receiver_OUT_CLOSE == 1)
-		Receiver_OUT_value = Receiver_OUT_value | 0x04;
-	else
-		Receiver_OUT_value = Receiver_OUT_value & 0xfb;
-	if (Receiver_OUT_VENT == 1)
-		Receiver_OUT_value = Receiver_OUT_value | 0x08;
-	else
-		Receiver_OUT_value = Receiver_OUT_value & 0xf7;
+	Receiver_OUT_value = Receiver_OUT_OPEN + (Receiver_OUT_STOP <<1) + (Receiver_OUT_CLOSE <<2) + (Receiver_OUT_VENT <<3) + (Receiver_LED_OUT <<7); 
 	if(Receiver_LED_OUT==1)
-	{
-		Receiver_OUT_value = Receiver_OUT_value | 0x80;
 		Flag_SendUart_Receiver_LED_OUT = 1;
-	}
-	else
-		Receiver_OUT_value = Receiver_OUT_value & 0x7f;
 	if (Receiver_OUT_value_last != Receiver_OUT_value)
 	{
 		Receiver_OUT_value_last = Receiver_OUT_value;
 		Receiver_OUT_uart[4] = Receiver_OUT_value;
 		if ((Receiver_OUT_value)||((Receiver_OUT_value==0)&&(Flag_SendUart_Receiver_LED_OUT==1)))
 		{
-			Flag_Receiver_OUT_SendUart = 1;
 			if (Receiver_OUT_value)FLAG_APP_TX_fromUART = 1;
 			Flag_SendUart_Receiver_LED_OUT = 0;
+			Send_Data(Receiver_OUT_uart, 5);
+			TIME_Receiver_OUT_SendUart = Uart_Resend_Time;
+			COUNT_Receiver_OUT_SendUart = Uart_Resend_Count;
 		}
-	}
-}
-
-void TranmissionACK(void)
-{
-	if (u1InitCompleteFlag)
-	{
-		if ((U1Statues == ReceiveDoneStatues) && (U1AckTimer == 0))
-		{
-			U1Busy_OUT = 1;
-			U1Statues = ACKingStatues;
-			Send_Data(ACKBack, 3);
-			U1Statues = IdelStatues;
-			U1Busy_OUT = 1;
-		}
-	}
-
-	Receiver_OUT_change_UART();
-	if(Flag_Receiver_OUT_SendUart==1)
-	{
-		Flag_Receiver_OUT_SendUart = 0;
-		Send_Data(Receiver_OUT_uart, 5);
-		TIME_Receiver_OUT_SendUart = Uart_Resend_Time;
-		COUNT_Receiver_OUT_SendUart = Uart_Resend_Count;
 	}
 	else if ((TIME_Receiver_OUT_SendUart==0)&&(COUNT_Receiver_OUT_SendUart))
 	{
@@ -648,6 +604,22 @@ void TranmissionACK(void)
 		Send_Data(Send_err_com, 7);
 		Flag_ERROR_Read_once_again=0;
 		TIME_ERROR_Read_once_again=0;
+	}
+}
+
+
+void TranmissionACK(void)  //note:Don't move, Don't append code here
+{
+	if (u1InitCompleteFlag)
+	{
+		if ((U1Statues == ReceiveDoneStatues) && (U1AckTimer == 0))
+		{
+			U1Busy_OUT = 1;
+			U1Statues = ACKingStatues;
+			Send_Data(ACKBack, 3);
+			U1Statues = IdelStatues;
+			U1Busy_OUT = 1;
+		}
 	}
 
 }
