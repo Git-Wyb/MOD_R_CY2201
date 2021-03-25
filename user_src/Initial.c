@@ -359,7 +359,8 @@ void RF_BRE_Check(void)
         ADF7030_Clear_IRQ();
         WaitForADF7030_FIXED_DATA(); //等待芯片空闲/可接受CMD状�??
         DELAY_30U();
-        ADF7030_Wait_GPIO3();
+        while (ADF7030_GPIO3 == 1)
+            ;
         WaitForADF7030_FIXED_DATA(); //等待芯片空闲/可接受CMD状�??
         DELAY_30U();
         ADF7030_CHANGE_STATE(STATE_PHY_ON);

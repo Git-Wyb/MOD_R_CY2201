@@ -447,16 +447,6 @@ u32 ADF7030_GET_MISC_FW(void) //??MISC_FW?????
     return 0;
 }
 
-void ADF7030_Wait_GPIO3(void)
-{
-    u16 count = 0;
-
-    while ((ADF7030_GPIO3 == 1)&&(count < 5000)) //清中�? GPIO3被置�?
-    {
-        // count++;
-        // ClearWDT();
-    }
-}
 void ADF7030_WRITING_PROFILE_FROM_POWERON(void)
 {
 /*
@@ -509,7 +499,8 @@ void ADF7030_WRITING_PROFILE_FROM_POWERON(void)
     ADF7030_CHANGE_STATE(STATE_PHY_OFF);
     WaitForADF7030_FIXED_DATA(); //等待芯片空闲/可接受CMD状�??
     DELAY_30U();
-    ADF7030_Wait_GPIO3();
+    while (ADF7030_GPIO3 == 1) //清中�? GPIO3被置�?
+        ;
 }
 
 void ADF7030_TRANSMITTING_FROM_POWEROFF(void)
@@ -552,7 +543,6 @@ void ADF7030_TRANSMITTING_FROM_POWEROFF(void)
 /*RECEIVE A SINGLE PACKET FROM POWER OFF*/
 void ADF7030_RECEIVING_FROM_POWEROFF(void)
 {
-    u16 while_count = 0;
     CG2214M6_USE_R;
     while (GET_STATUE_BYTE().CMD_READY == 0)
         ;
@@ -563,20 +553,17 @@ void ADF7030_RECEIVING_FROM_POWEROFF(void)
     ADF7030_Clear_IRQ();
     GET_STATUE_BYTE();
     DELAY_30U();
-    ADF7030_Wait_GPIO3();
+    while (ADF7030_GPIO3 == 1) //清中�? GPIO3被置�? 等待回位
+        ;
     ADF7030_CHANGE_STATE(STATE_PHY_RX);
     while (GET_STATUE_BYTE().FW_STATUS == 0)
         ;
-    while ((GET_STATUE_BYTE().FW_STATUS != 1)&&(while_count<5000))
-    {
-        // while_count++;
-        // ClearWDT();
-    }
+    while (GET_STATUE_BYTE().FW_STATUS != 1)
+        ;
     DELAY_30U();
 }
 void ADF7030_RECEIVING_FROM_POWEROFF_testMode(void)
 {
-    u16 while_count = 0;
     CG2214M6_USE_R;
     while (GET_STATUE_BYTE().CMD_READY == 0)
         ;
@@ -592,15 +579,13 @@ void ADF7030_RECEIVING_FROM_POWEROFF_testMode(void)
     ADF7030_Clear_IRQ();
     GET_STATUE_BYTE();
     DELAY_30U();
-    ADF7030_Wait_GPIO3();
+    while (ADF7030_GPIO3 == 1) //���ж� GPIO3���ø� �ȴ���λ
+        ;
     ADF7030_CHANGE_STATE(STATE_PHY_RX);
     while (GET_STATUE_BYTE().FW_STATUS == 0)
         ;
-    while ((GET_STATUE_BYTE().FW_STATUS != 1)&&(while_count<5000))
-        {
-            // while_count++;
-            // ClearWDT();
-        }
+    while (GET_STATUE_BYTE().FW_STATUS != 1)
+        ;
     DELAY_30U();
 }
 
@@ -680,7 +665,8 @@ void SCAN_RECEIVE_PACKET(void)
         DELAY_30U();
         Memory_Read_Block_Pointer_Long_Address(PNTR_CUSTOM2_ADDR, PAYLOAD_SIZE);
         RX_ANALYSIS(); //处理数据
-        ADF7030_Wait_GPIO3();
+        while (ADF7030_GPIO3 == 1)
+            ;
         WaitForADF7030_FIXED_DATA(); //等待芯片空闲/可接受CMD状�??
         DELAY_30U();
         ADF7030_CHANGE_STATE(STATE_PHY_ON);
@@ -722,14 +708,14 @@ void SCAN_RECEIVE_PACKET(void)
 **/
 void WaitForADF7030_FIXED_DATA(void)
 {
-    u16 count = 0;
+    u8 count = 0;
     do
     {
         DELAY_30U();
         ADF7030_FIXED_DATA();
-        // ClearWDT();
-        // count++;
-    } while ((((ADF7030_Read_OneByte & 0x20) != 0x20) || ((ADF7030_Read_OneByte & 0x06) != 0x04)) && (count < 5000));
+        //ClearWDT();
+        //count++;
+    } while ((((ADF7030_Read_OneByte & 0x20) != 0x20) || ((ADF7030_Read_OneByte & 0x06) != 0x04)) && (count < 200));
 }
 /**
 ****************************************************************************
@@ -1029,7 +1015,6 @@ void TestFunV2(u8 KeyVel)
 **/
 void ADF7030_TX(u8 mode)
 {
-    u16 while_count = 0;
     GENERIC_PKT_TEST_MODES0_32bit_20000548 &= 0xfff8ffff;
     GENERIC_PKT_TEST_MODES0_32bit_20000548 |= ((u32)mode << 16);
     ADF7030_WRITING_PROFILE_FROM_POWERON();
@@ -1051,11 +1036,8 @@ void ADF7030_TX(u8 mode)
     ADF7030_CHANGE_STATE(STATE_PHY_TX);
     while (GET_STATUE_BYTE().FW_STATUS == 0)
         ;
-    while ((GET_STATUE_BYTE().FW_STATUS != 1)&&(while_count<5000))
-        {
-            // while_count++;
-            // ClearWDT();
-        }
+    while (GET_STATUE_BYTE().FW_STATUS != 1)
+        ;
 }
 /**
  ****************************************************************************
