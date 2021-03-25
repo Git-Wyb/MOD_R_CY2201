@@ -6,13 +6,16 @@
   <configuration>
     <name>Debug</name>
     <outputs>
-      <file>$TOOLKIT_DIR$\inc\c\ystdio.h</file>
-      <file>$TOOLKIT_DIR$\lib\dlstm8mmn.h</file>
-      <file>$TOOLKIT_DIR$\inc\c\stdlib.h</file>
-      <file>$TOOLKIT_DIR$\inc\c\stdio.h</file>
-      <file>$TOOLKIT_DIR$\inc\c\ysizet.h</file>
-      <file>$TOOLKIT_DIR$\inc\c\DLib_Defaults.h</file>
-      <file>$TOOLKIT_DIR$\inc\c\DLib_Threads.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\main.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\ram.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\spi.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\stm8l15x_it.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\Timer.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\uart.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\project.pbd</file>
+      <file>$PROJ_DIR$\Debug\Exe\Bunka STM8L151 RX Ver.hex</file>
+      <file>$PROJ_DIR$\user_src\uart.h</file>
+      <file>$PROJ_DIR$\user_src\initial.h</file>
       <file>$PROJ_DIR$\user_src\ADF7030_1.c</file>
       <file>$PROJ_DIR$\user_src\eeprom.c</file>
       <file>$PROJ_DIR$\user_src\ID_Decode.c</file>
@@ -23,9 +26,40 @@
       <file>$PROJ_DIR$\user_src\stm8l15x_it.c</file>
       <file>$PROJ_DIR$\user_src\Timer.c</file>
       <file>$PROJ_DIR$\user_src\uart.c</file>
+      <file>$PROJ_DIR$\user_src\ID_Decode.h</file>
+      <file>$PROJ_DIR$\user_src\Timer.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\stdbool.h</file>
+      <file>$PROJ_DIR$\user_src\Settings_ADF7030-1_load.cfg</file>
+      <file>$PROJ_DIR$\user_src\Settings_ADF7030-1_4dot8k.cfg</file>
+      <file>$PROJ_DIR$\user_src\Settings_ADF7030-1.cfg</file>
+      <file>$PROJ_DIR$\user_src\ADF7030_1.h</file>
+      <file>$PROJ_DIR$\user_src\eeprom.h</file>
+      <file>$PROJ_DIR$\user_src\Pin_define.h</file>
+      <file>$PROJ_DIR$\user_src\ram.h</file>
+      <file>$TOOLKIT_DIR$\inc\io_macros.h</file>
+      <file>$PROJ_DIR$\user_src\type_def.h</file>
+      <file>$TOOLKIT_DIR$\inc\iostm8l151g4.h</file>
+      <file>$TOOLKIT_DIR$\lib\dbgstm8mmd.a</file>
+      <file>$TOOLKIT_DIR$\inc\c\DLib_Product.h</file>
+      <file>$TOOLKIT_DIR$\lib\dlstm8mmn.a</file>
+      <file>$TOOLKIT_DIR$\config\lnkstm8l151g6.icf</file>
+      <file>$PROJ_DIR$\Debug\List\project.map</file>
+      <file>$TOOLKIT_DIR$\config\math_small.xcl</file>
+      <file>$TOOLKIT_DIR$\inc\c\intrinsics.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\ystdio.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\stdlib.h</file>
+      <file>$TOOLKIT_DIR$\lib\dlstm8mmn.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\xencoding_limits.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\yvals.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\ycheck.h</file>
+      <file>$PROJ_DIR$\user_src\spi.h</file>
       <file>$PROJ_DIR$\Debug\Obj\ADF7030_1.o</file>
-      <file>$PROJ_DIR$\Debug\Obj\eeprom.pbi</file>
       <file>$PROJ_DIR$\Debug\Obj\Timer.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\eeprom.pbi</file>
+      <file>$TOOLKIT_DIR$\inc\c\DLib_Threads.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\DLib_Defaults.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\ysizet.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\stdio.h</file>
       <file>$PROJ_DIR$\Debug\Obj\eeprom.o</file>
       <file>$PROJ_DIR$\Debug\Obj\ADF7030_1.pbi</file>
       <file>$PROJ_DIR$\Debug\Obj\uart.o</file>
@@ -38,44 +72,13 @@
       <file>$PROJ_DIR$\Debug\Obj\stm8l15x_it.o</file>
       <file>$PROJ_DIR$\Debug\Obj\ID_Decode.pbi</file>
       <file>$PROJ_DIR$\Debug\Obj\Initial.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\main.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\ram.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\spi.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\stm8l15x_it.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\Timer.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\uart.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\project.pbd</file>
-      <file>$PROJ_DIR$\Debug\Exe\Bunka STM8L151 RX Ver.hex</file>
-      <file>$PROJ_DIR$\user_src\uart.h</file>
-      <file>$PROJ_DIR$\user_src\initial.h</file>
-      <file>$PROJ_DIR$\user_src\ID_Decode.h</file>
-      <file>$PROJ_DIR$\user_src\Timer.h</file>
-      <file>$TOOLKIT_DIR$\inc\c\stdbool.h</file>
-      <file>$PROJ_DIR$\user_src\ram.h</file>
-      <file>$PROJ_DIR$\user_src\Pin_define.h</file>
-      <file>$PROJ_DIR$\user_src\eeprom.h</file>
-      <file>$PROJ_DIR$\user_src\ADF7030_1.h</file>
-      <file>$TOOLKIT_DIR$\inc\io_macros.h</file>
-      <file>$PROJ_DIR$\user_src\type_def.h</file>
-      <file>$TOOLKIT_DIR$\inc\iostm8l151g4.h</file>
-      <file>$TOOLKIT_DIR$\inc\c\intrinsics.h</file>
-      <file>$TOOLKIT_DIR$\config\math_small.xcl</file>
-      <file>$PROJ_DIR$\Debug\List\project.map</file>
-      <file>$TOOLKIT_DIR$\config\lnkstm8l151g6.icf</file>
-      <file>$TOOLKIT_DIR$\lib\dbgstm8mmd.a</file>
-      <file>$TOOLKIT_DIR$\lib\dlstm8mmn.a</file>
-      <file>$TOOLKIT_DIR$\inc\c\DLib_Product.h</file>
-      <file>$PROJ_DIR$\user_src\spi.h</file>
-      <file>$TOOLKIT_DIR$\inc\c\ycheck.h</file>
-      <file>$TOOLKIT_DIR$\inc\c\yvals.h</file>
-      <file>$TOOLKIT_DIR$\inc\c\xencoding_limits.h</file>
     </outputs>
     <file>
       <name>[ROOT_NODE]</name>
       <outputs>
         <tool>
           <name>ILINK</name>
-          <file> 27 54</file>
+          <file> 61 37</file>
         </tool>
       </outputs>
     </file>
@@ -84,21 +87,21 @@
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 21</file>
+          <file> 55</file>
         </tool>
         <tool>
           <name>ICCSTM8</name>
-          <file> 17</file>
+          <file> 47</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 58 61 42 60 51 59 62 44 45 40 0 1 49 52 50 2 3 46 48 4 5 6 43 41</file>
+          <file> 34 44 20 45 32 46 43 22 29 8 40 42 30 39 31 41 53 28 26 52 51 50 21 9</file>
         </tool>
         <tool>
           <name>ICCSTM8</name>
-          <file> 3 60 61 5 1 58 62 6 4 0 2 44 59 51 49 50 52 46 43 45 41 48 42 40</file>
+          <file> 53 45 44 51 42 34 43 50 52 40 41 22 46 32 30 31 39 28 21 29 9 26 20 8</file>
         </tool>
       </inputs>
     </file>
@@ -107,11 +110,11 @@
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 18</file>
+          <file> 49</file>
         </tool>
         <tool>
           <name>ICCSTM8</name>
-          <file> 20</file>
+          <file> 54</file>
         </tool>
       </outputs>
     </file>
@@ -120,21 +123,21 @@
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 30</file>
+          <file> 64</file>
         </tool>
         <tool>
           <name>ICCSTM8</name>
-          <file> 25</file>
+          <file> 59</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 40 42 41 50 45 46 47 48 49 52 51 43 44</file>
+          <file> 8 20 9 31 29 28 27 26 30 39 32 21 22</file>
         </tool>
         <tool>
           <name>ICCSTM8</name>
-          <file> 51 49 46 43 50 44 52 41 45 42 47 40 48</file>
+          <file> 32 30 28 21 31 22 39 9 29 20 27 8 26</file>
         </tool>
       </inputs>
     </file>
@@ -143,21 +146,21 @@
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 31</file>
+          <file> 65</file>
         </tool>
         <tool>
           <name>ICCSTM8</name>
-          <file> 24</file>
+          <file> 58</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 0 62 60 45 1 61 46 40 58 43 44 41 51 48 4 5 6 49 50 3 52</file>
+          <file> 29 44 34 45 28 8 40 43 42 21 22 9 32 26 52 51 50 30 31 53 39</file>
         </tool>
         <tool>
           <name>ICCSTM8</name>
-          <file> 3 60 61 5 1 58 62 6 4 0 51 49 46 43 50 44 52 41 45 48 40</file>
+          <file> 53 45 44 51 42 34 43 50 52 40 32 30 28 21 31 22 39 9 29 26 8</file>
         </tool>
       </inputs>
     </file>
@@ -166,21 +169,21 @@
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 32</file>
+          <file> 0</file>
         </tool>
         <tool>
           <name>ICCSTM8</name>
-          <file> 26</file>
+          <file> 60</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 40 48 41 42 49 50 45 46 43 47 52 51 44</file>
+          <file> 8 26 9 20 30 31 29 28 21 27 39 32 22</file>
         </tool>
         <tool>
           <name>ICCSTM8</name>
-          <file> 51 49 46 43 50 44 52 41 45 48 42 47 40</file>
+          <file> 32 30 28 21 31 22 39 9 29 26 20 27 8</file>
         </tool>
       </inputs>
     </file>
@@ -189,24 +192,34 @@
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 33</file>
+          <file> 1</file>
         </tool>
         <tool>
           <name>ICCSTM8</name>
-          <file> 23</file>
+          <file> 57</file>
         </tool>
       </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 45 51 50 22 52 44 39 41 31 25 23 24 40 43 53 42 34</file>
+        </tool>
+        <tool>
+          <name>ICCSTM8</name>
+          <file> 53 45 44 51 42 34 43 50 52 40 41 22 31 39 25 23 24</file>
+        </tool>
+      </inputs>
     </file>
     <file>
       <name>$PROJ_DIR$\user_src\spi.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 34</file>
+          <file> 2</file>
         </tool>
         <tool>
           <name>ICCSTM8</name>
-          <file> 28</file>
+          <file> 62</file>
         </tool>
       </outputs>
     </file>
@@ -215,11 +228,11 @@
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 35</file>
+          <file> 3</file>
         </tool>
         <tool>
           <name>ICCSTM8</name>
-          <file> 29</file>
+          <file> 63</file>
         </tool>
       </outputs>
     </file>
@@ -228,11 +241,11 @@
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 36</file>
+          <file> 4</file>
         </tool>
         <tool>
           <name>ICCSTM8</name>
-          <file> 19</file>
+          <file> 48</file>
         </tool>
       </outputs>
     </file>
@@ -241,21 +254,21 @@
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 37</file>
+          <file> 5</file>
         </tool>
         <tool>
           <name>ICCSTM8</name>
-          <file> 22</file>
+          <file> 56</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 47 41 42 49 50 46 45 40 43 44 51 52</file>
+          <file> 27 9 20 30 31 28 29 8 21 22 32 39</file>
         </tool>
         <tool>
           <name>ICCSTM8</name>
-          <file> 51 49 46 43 50 44 52 41 45 47 40 42</file>
+          <file> 32 30 28 21 31 22 39 9 29 27 8 20</file>
         </tool>
       </inputs>
     </file>
@@ -264,17 +277,17 @@
       <outputs>
         <tool>
           <name>ILINK</name>
-          <file> 54</file>
+          <file> 37</file>
         </tool>
         <tool>
           <name>OBJCOPY</name>
-          <file> 39</file>
+          <file> 7</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>ILINK</name>
-          <file> 53 55 17 20 25 24 26 23 28 29 19 22 57 56</file>
+          <file> 38 36 47 54 59 58 60 57 62 63 48 56 35 33</file>
         </tool>
       </inputs>
     </file>

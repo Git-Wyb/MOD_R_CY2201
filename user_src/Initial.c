@@ -132,7 +132,7 @@ void Delayus_With_UartACK(unsigned char timer)
     for (x = 0; x < timer_cache; x++)
     {
         __asm("nop");
-        TranmissionACK();
+        //TranmissionACK();
     }
 }
 void Delayus(unsigned char timer)
