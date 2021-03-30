@@ -82,11 +82,11 @@ extern volatile uFLAG FLAG3;
 #define FLAG3_BYTE FLAG3.BYTE
 //------------------------------------------------
 #define Flag_ERROR_Read FLAG3.BIT.Bit0
-//#define  FLAG3.BIT.Bit1
+#define FLAG_POWERON  FLAG3.BIT.Bit1
 #define Flag_shutter_stopping FLAG3.BIT.Bit2 
 #define FLAG_APP_TX_fromUART_err_read FLAG3.BIT.Bit3
 #define FLAG_Uart_WirelessLogin  FLAG3.BIT.Bit4
-//#define  FLAG3.BIT.Bit5
+#define FLAG_WORK_TEST  FLAG3.BIT.Bit5
 //#define  FLAG3.BIT.Bit6
 //#define  FLAG3.BIT.Bit7
 

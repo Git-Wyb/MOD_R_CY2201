@@ -68,22 +68,33 @@ void DELAY_XX(void)
 **/
 void ADF7030Init(void)
 {
-    SPI_conf();             //初始化spi
-                            //    ADF7030_GPIO_INIT();
+    u8 char_x;
+
     ADF7030ParameterInit(); //参数初始�?
-    ADF7030_REST = 0;       //ADF7030芯片初始�?
-    Delayus(50);
-    ClearWDT();
-    ADF7030_REST = 1; //ADF7030芯片初始化完�?
-    ADF7030_CHANGE_STATE(STATE_PHY_ON);
-    WaitForADF7030_FIXED_DATA(); //等待芯片空闲/可接受CMD状�??
-    ADF7030_CHANGE_STATE(STATE_PHY_OFF);
-    WaitForADF7030_FIXED_DATA(); //等待芯片空闲/可接受CMD状�??
+    if(FLAG_POWERON==1)
+        SPI_conf();             //初始化spi
+    if((FLAG_APP_RXstart==1)||(FLAG_POWERON==1))
+    {
+        ADF7030_REST = 0;       //ADF7030芯片初始�?
+        Delayus(50);
+        ClearWDT();
+        ADF7030_REST = 1; //ADF7030芯片初始化完�?
+        ADF7030_CHANGE_STATE(STATE_PHY_ON);
+        WaitForADF7030_FIXED_DATA(); //等待芯片空闲/可接受CMD状�??
+        for (char_x = 0; char_x < 200; char_x++)
+        {
+            Delayus(50);  //practical testing 12us
+            ClearWDT();
+        }    
+        ADF7030_CHANGE_STATE(STATE_PHY_OFF);
+        WaitForADF7030_FIXED_DATA(); //等待芯片空闲/可接受CMD状�??
+    }
+    FLAG_POWERON=0;
 
     ClearWDT(); // Service the WDT
     ADF7030_WRITING_PROFILE_FROM_POWERON();
     ClearWDT(); // Service the WDT
-    if (WORK_TEST == 1)
+    if (FLAG_WORK_TEST == 1)
         ADF7030_RECEIVING_FROM_POWEROFF();
     ClearWDT(); // Service the WDT
     CONFIGURING_THE_POINTERS_FOR_POINTER_BASED_ACCESSES();
@@ -468,7 +479,7 @@ void ADF7030_WRITING_PROFILE_FROM_POWERON(void)
     WaitForADF7030_FIXED_DATA(); //等待芯片空闲/可接受CMD状�??
     DELAY_30U();
     //PROFILE_CH_FREQ_32bit_200002EC = 426075000;
-    if (WORK_TEST == 0)
+    if (FLAG_WORK_TEST == 0)
     {
         PROFILE_CH_FREQ_32bit_200002EC = 429175000;
         ADF7030_WRITE_REGISTER_NOPOINTER_LONGADDR_MSB(ADDR_TESTMODE0, GENERIC_PKT_TEST_MODES0_32bit_20000548);
@@ -1324,11 +1335,11 @@ void Select_TX_frequency(void)
 	  }
 	  if((FLAG_APP_RXstart==1)&&(Time_APP_RXstart==0)&&(FLAG_APP_TX_fromUART_err_read==0))
 	  {
+        ADF7030Init();	   //��Ƶ��ʼ�� 
 		  FLAG_APP_RXstart=0;
 		TIMER18ms=0;
 		FLAG_APP_RX=1;	
-		
-		ADF7030Init();	   //��Ƶ��ʼ�� 	 
+			 
 	  }
 
 	  
