@@ -399,6 +399,7 @@ void Tone_OFF(void)
 
 void BEEP_function(void)
 {
+    if(FG_beep_on)return;  //BEEP flag for login mode
     if (TIME_BEEP_on)
     {
         if (TIME_BEEP_on < 0xfff0) //??0xfff0?????
@@ -490,7 +491,17 @@ void _ReqBuzzer(UINT16 d_BEEP_on, UINT16 d_BEEP_off, UINT16 d_BEEP_freq)
     BASE_TIME_BEEP_off = d_BEEP_off / 10;
     TIME_BEEP_on = BASE_TIME_BEEP_on;
     TIME_BEEP_off = BASE_TIME_BEEP_off;
-    TIME_BEEP_freq = d_BEEP_freq - 1;
+    if (d_BEEP_freq)
+        BASE_TIME_BEEP_freq = d_BEEP_freq - 1;
+    else
+        BASE_TIME_BEEP_freq = 0;
+    TIME_BEEP_freq = BASE_TIME_BEEP_freq;
+}
+void _ClearBuzzer(void)
+{
+    TIME_BEEP_on = 0;
+    TIME_BEEP_off = 100; //Stop BEEP for 1000ms
+    TIME_BEEP_freq = 0;
 }
 void _ReqBuzzer_2(UINT16 d_BEEP_on1, UINT16 d_BEEP_off1, UINT16 d_BEEP_freq1, UINT16 d_BEEP_on2, UINT16 d_BEEP_off2, UINT16 d_BEEP_freq2)
 {
@@ -568,7 +579,9 @@ void BEEP_Module(UINT16 time_beepON, UINT16 time_beepOFF)
 void BEEP_and_LED(void)
 {
     Receiver_LED_OUT = 1;
-    BEEP_Module(2300,1);
+    Uart_TX_Data();
+    BEEP_Module(7000,1);
+    _ClearBuzzer();
     FG_beep_on = 0;
     TIME_Receiver_LED_OUT = 60; //185;
 }

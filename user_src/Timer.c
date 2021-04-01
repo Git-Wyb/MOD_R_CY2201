@@ -11,6 +11,7 @@
 #include "initial.h"      // 初始�? 预定�?
 #include "ram.h"          // RAM定义
 #include "uart.h"
+#include "ID_Decode.h"
 u16 ErrStateTimeer = 1;
 u16 StateReadTimer = 500;
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Timer 4 start   1ms
@@ -43,6 +44,7 @@ void TIM4_UPD_OVF(void)
     { // 10mS FLAG
         TIME_10ms = 10;
         FG_10ms = 1;
+        BEEP_function();
         if (TIME_auto_useful)
             --TIME_auto_useful;
         if (TIME_auto_out)
