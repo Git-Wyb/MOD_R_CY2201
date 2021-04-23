@@ -46,7 +46,7 @@
   * @param  None
   * @retval None
   */
-unsigned char Soft_Version[7]="Ver0.40";
+unsigned char Soft_Version[7]="Ver0.41";
 
 void main(void)
 {
@@ -66,6 +66,10 @@ void main(void)
     PROFILE_RADIO_AFC_CFG1_32bit_2000031C = 0x0005005A;  
     PROFILE_RADIO_DATA_RATE_32bit_200002FC = 0x6400000C;
     PROFILE_GENERIC_PKT_FRAME_CFG1_32bit_20000500 = 0x0000100C;	
+    if(WORK_TEST==1)
+      FLAG_WORK_TEST= 1;
+    else FLAG_WORK_TEST= 0;
+    FLAG_POWERON=1;
     ADF7030Init();     //…‰∆µ≥ı ºªØ
     
     UART1_INIT();      // UART1 for PC Software

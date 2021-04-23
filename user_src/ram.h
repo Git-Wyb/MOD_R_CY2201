@@ -69,7 +69,8 @@ extern volatile uFLAG FLAG2;
 #define FLAG_APP_TX_fromUART FLAG2.BIT.Bit1
 #define FLAG_APP_RXstart FLAG2.BIT.Bit2
 #define FLAG_ID_Login_FromUART FLAG2.BIT.Bit3
-
+#define FLAG_POWERON FLAG2.BIT.Bit4
+#define FLAG_WORK_TEST FLAG2.BIT.Bit5
 //************************************************
 
 

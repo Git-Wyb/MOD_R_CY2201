@@ -571,9 +571,9 @@ if (TIMER18ms == 0)
 		ADF7030Init();	   //…‰∆µ≥ı ºªØ	
 
 		if(Radio_Date_Type==1)
-		  TIMER18ms = 18;
+		  TIMER18ms = 28;
 		else if(Radio_Date_Type==2)
-		  TIMER18ms = 18; 
+		  TIMER18ms = 28; 
 
 		Flag_FREQ_Scan = 0;
 	}
