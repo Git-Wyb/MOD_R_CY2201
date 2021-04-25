@@ -84,8 +84,8 @@ void main(void)
     Power_ON_sendVer();
 
 	FLAG_Freq_Select_429or426MHz=Freq_Select_429or426MHz;
-	if(FLAG_Freq_Select_429or426MHz==0)FLAG_ID_Login_FromUART=1;
-	else FLAG_ID_Login_FromUART=0;
+	// if(FLAG_Freq_Select_429or426MHz==0)FLAG_ID_Login_FromUART=1;
+	// else FLAG_ID_Login_FromUART=0;
     while (1)
     {
         if(FLAG_Freq_Select_429or426MHz!=Freq_Select_429or426MHz)while(1);
