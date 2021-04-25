@@ -92,7 +92,6 @@ void ADF7030Init(void)
         ADF7030_CHANGE_STATE(STATE_PHY_OFF);
         WaitForADF7030_FIXED_DATA(); //等待芯片空闲/可接受CMD状�??
     }
-    FLAG_POWERON=0;
 
     ClearWDT(); // Service the WDT
     ADF7030_WRITING_PROFILE_FROM_POWERON();
@@ -467,9 +466,22 @@ void ADF7030_WRITING_PROFILE_FROM_POWERON(void)
     ADF7030_CHANGE_STATE(STATE_PHY_OFF);
     WaitForADF7030_FIXED_DATA(); //等待芯片空闲/可接受CMD状�??
     DELAY_30U();
-    ADF7030_WRITE_REGISTER_NOPOINTER_LONGADDR_CFGFILE_MSB(ADF7030Cfg_pointer, CFG_SIZE());
-    WaitForADF7030_FIXED_DATA(); //等待芯片空闲/可接受CMD状�??
-    DELAY_30U();
+    if((FLAG_APP_RXstart==1)||(FLAG_POWERON==1))
+    { 
+        ADF7030_WRITE_REGISTER_NOPOINTER_LONGADDR_CFGFILE_MSB(ADF7030Cfg_pointer, CFG_SIZE());
+        WaitForADF7030_FIXED_DATA(); //等待芯片空闲/可接受CMD状�??
+        DELAY_30U();
+    }
+    else 
+    {
+        ADF7030_WRITE_REGISTER_NOPOINTER_LONGADDR_OFFSET_MSB(ADF7030Cfg_pointer, CFG_SIZE(), ADDR_PROFILE_START, 0, 40);
+        WaitForADF7030_FIXED_DATA(); //等待芯片空闲/可接受CMD状�??
+        DELAY_30U();
+        ADF7030_WRITE_REGISTER_NOPOINTER_LONGADDR_OFFSET_MSB(ADF7030Cfg_pointer, CFG_SIZE(), ADDR_GENERIC_START, 0, 40);
+        WaitForADF7030_FIXED_DATA(); //等待芯片空闲/可接受CMD状�??
+        DELAY_30U();
+    }
+    FLAG_POWERON=0;
     ADF7030_Clear_IRQ();
     WaitForADF7030_FIXED_DATA(); //等待芯片空闲/可接受CMD状�??
     DELAY_30U();
