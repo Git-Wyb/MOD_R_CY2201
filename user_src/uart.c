@@ -539,7 +539,9 @@ void wireless_Receive_SendUart(void)
 	        data[2] = 0x81;
 			
 			if(Struct_DATA_Packet_Contro.Fno_Type.UN.type==1)
-				length=3;
+				length=3;			
+			else if(Struct_DATA_Packet_Contro.Fno_Type.UN.type==3)
+				length=4;
 			else length=8;
 	        data[3] = length+6;
 			
