@@ -403,7 +403,7 @@ void OprationFrame(void)
 	{
 		if (Databits_t.ID_No == 146) //0x92
 		{
-			//FLAG_APP_TX_fromUART = 1;
+			FLAG_APP_TX_fromUART = 1;
 			if (TIMER1s)
 				;
 			else
@@ -585,7 +585,7 @@ void Uart_TX_Data(void)
 		Receiver_OUT_uart[4] = Receiver_OUT_value;
 		if ((Receiver_OUT_value)||((Receiver_OUT_value==0)&&(Flag_SendUart_Receiver_LED_OUT==1)))
 		{
-			if (Receiver_OUT_value)FLAG_APP_TX_fromUART = 1;
+			//if (Receiver_OUT_value)FLAG_APP_TX_fromUART = 1;
 			Flag_SendUart_Receiver_LED_OUT = 0;
 			Send_Data(Receiver_OUT_uart, 5);
 			TIME_Receiver_OUT_SendUart = Uart_Resend_Time;
