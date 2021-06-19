@@ -814,15 +814,15 @@ void ID_Decode_OUT(void)
                                     TIMER250ms_STOP=((TIMER_Semi_close+1)*1000/107)*100;
                                 }
                       }
-					if((DATA_Packet_Control==0x7F)&&(Flag_ERROR_Read==0)&&(Flag_shutter_stopping==0))
-					{
-					   Flag_ERROR_Read=1;
-					   FLAG_APP_TX_fromUART_err_read=0;
-					  Send_Data(Send_err_com, 7);
-					  Flag_ERROR_Read_once_again=1;
-					  TIME_ERROR_Read_once_again=17;
-					  Time_error_read_timeout=100;
-					}
+//					if((DATA_Packet_Control==0x7F)&&(Flag_ERROR_Read==0)&&(Flag_shutter_stopping==0))
+//					{
+//					   Flag_ERROR_Read=1;
+//					   FLAG_APP_TX_fromUART_err_read=0;
+//					  Send_Data(Send_err_com, 7);
+//					  Flag_ERROR_Read_once_again=1;
+//					  TIME_ERROR_Read_once_again=17;
+//					  Time_error_read_timeout=100;
+//					}
          }	
 		if((FLAG__Semi_open_T==1)||(FLAG__Semi_close_T==1)){
 					 if((DATA_Packet_Control==0x02)||(DATA_Packet_Control==0x04)||(DATA_Packet_Control==0x08)||(DATA_Packet_Control==0x01)||(DATA_Packet_Control==0x20)||(DATA_Packet_Control==0x40)
@@ -939,6 +939,7 @@ void Freq_Scanning(void)
 					return;
 				}
 			}
+			else if(Flag_FREQ_Scan==1) FLAG_POWERON=1;  //ADF7030 Reset
 	
 			ADF7030_Change_Channel();
 			ADF7030Init();	   //��Ƶ��ʼ�� 
