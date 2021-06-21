@@ -505,34 +505,50 @@ void _ClearBuzzer(void)
 }
 void _ReqBuzzer_2(UINT16 d_BEEP_on1, UINT16 d_BEEP_off1, UINT16 d_BEEP_freq1, UINT16 d_BEEP_on2, UINT16 d_BEEP_off2, UINT16 d_BEEP_freq2)
 {
-    if ((d_BEEP_on1 < 10)&&(d_BEEP_on1))
-        d_BEEP_on1 = 10;
-    if (d_BEEP_on1!=0xffff)
-        BASE_TIME_BEEP_on = d_BEEP_on1 / 10;
-    if ((d_BEEP_off1 < 10) && (d_BEEP_off1))
-        d_BEEP_off1 = 10;
-    BASE_TIME_BEEP_off = d_BEEP_off1/10;
-    TIME_BEEP_on = BASE_TIME_BEEP_on;
-    TIME_BEEP_off = BASE_TIME_BEEP_off;
-    if (d_BEEP_freq1)
-        BASE_TIME_BEEP_freq = d_BEEP_freq1 - 1;
-    else
-        BASE_TIME_BEEP_freq = 0;
-    TIME_BEEP_freq = BASE_TIME_BEEP_freq;
+    if((d_BEEP_on1==0xffff)&&(d_BEEP_off1==0xffff)&&(d_BEEP_freq1==0xffff)&&(d_BEEP_on2==0xffff)&&(d_BEEP_off2==0xffff)&&(d_BEEP_freq2==0xffff))
+        FLAG_BEEP_OFF=0;
+    else 
+    {
+        if((d_BEEP_on1==0)&&(d_BEEP_off1==0)&&(d_BEEP_freq1==0)&&(d_BEEP_on2==0)&&(d_BEEP_off2==0)&&(d_BEEP_freq2==0))
+        {
+            FLAG_BEEP_OFF=1;
+            d_BEEP_on1=0;
+            d_BEEP_off1=1;
+            d_BEEP_freq1=0;
+            d_BEEP_on2=0;
+            d_BEEP_off2=0;        
+            d_BEEP_freq2=0;
+        }
+                
+        if ((d_BEEP_on1 < 10)&&(d_BEEP_on1))
+            d_BEEP_on1 = 10;
+        if (d_BEEP_on1!=0xffff)
+            BASE_TIME_BEEP_on = d_BEEP_on1 / 10;
+        if ((d_BEEP_off1 < 10) && (d_BEEP_off1))
+            d_BEEP_off1 = 10;
+        BASE_TIME_BEEP_off = d_BEEP_off1/10;
+        TIME_BEEP_on = BASE_TIME_BEEP_on;
+        TIME_BEEP_off = BASE_TIME_BEEP_off;
+        if (d_BEEP_freq1)
+            BASE_TIME_BEEP_freq = d_BEEP_freq1 - 1;
+        else
+            BASE_TIME_BEEP_freq = 0;
+        TIME_BEEP_freq = BASE_TIME_BEEP_freq;
 
-    if ((d_BEEP_on2 < 10) && (d_BEEP_on2))
-        d_BEEP_on2 = 10;
-    if (d_BEEP_on2 != 0xffff)
-        BASE_TIME_BEEP_on2 = d_BEEP_on2 / 10;
-    if ((d_BEEP_off2 < 10) && (d_BEEP_off2))
-        d_BEEP_off2 = 10;
-    BASE_TIME_BEEP_off2 = d_BEEP_off2/10;
-    TIME_BEEP_on2 = BASE_TIME_BEEP_on2;
-    TIME_BEEP_off2 = BASE_TIME_BEEP_off2;
-    if (d_BEEP_freq2)
-        TIME_BEEP_freq2 = d_BEEP_freq2 - 1;
-    else
-        TIME_BEEP_freq2 = 0;
+        if ((d_BEEP_on2 < 10) && (d_BEEP_on2))
+            d_BEEP_on2 = 10;
+        if (d_BEEP_on2 != 0xffff)
+            BASE_TIME_BEEP_on2 = d_BEEP_on2 / 10;
+        if ((d_BEEP_off2 < 10) && (d_BEEP_off2))
+            d_BEEP_off2 = 10;
+        BASE_TIME_BEEP_off2 = d_BEEP_off2/10;
+        TIME_BEEP_on2 = BASE_TIME_BEEP_on2;
+        TIME_BEEP_off2 = BASE_TIME_BEEP_off2;
+        if (d_BEEP_freq2)
+            TIME_BEEP_freq2 = d_BEEP_freq2 - 1;
+        else
+            TIME_BEEP_freq2 = 0;
+    }
 }
 
 /*
@@ -550,7 +566,7 @@ void BEEP_Module(UINT16 time_beepON, UINT16 time_beepOFF)
 			FG_beep_on = 1;
 			FG_beep_off = 0;
 			//BEEP_CSR2_BEEPEN = 1;
-            TIM3_init();
+            if(FLAG_BEEP_OFF==0)TIM3_init();
         }
 		Delayus_With_UartACK(250); //80us
 		Delayus_With_UartACK(250); //80us

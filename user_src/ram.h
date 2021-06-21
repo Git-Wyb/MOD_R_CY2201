@@ -87,7 +87,7 @@ extern volatile uFLAG FLAG3;
 #define FLAG_APP_TX_fromUART_err_read FLAG3.BIT.Bit3
 #define FLAG_Uart_WirelessLogin  FLAG3.BIT.Bit4
 #define FLAG_WORK_TEST  FLAG3.BIT.Bit5
-//#define  FLAG3.BIT.Bit6
+#define FLAG_BEEP_OFF  FLAG3.BIT.Bit6
 //#define  FLAG3.BIT.Bit7
 
 //************************************************
