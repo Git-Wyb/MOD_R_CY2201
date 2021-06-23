@@ -955,7 +955,7 @@ void Freq_Scanning(void)
 					return;
 				}
 			}
-			else if(Flag_FREQ_Scan==1) FLAG_POWERON=1;  //ADF7030 Reset
+			else if(Flag_FREQ_Scan==1) {while (1);} //Reset
 	
 			ADF7030_Change_Channel();
 			ADF7030Init();	   //��Ƶ��ʼ�� 
