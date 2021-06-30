@@ -948,7 +948,7 @@ void Freq_Scanning(void)
 					 
 					Flag_FREQ_Scan = 1;
 					if(Radio_Date_Type==1)
-					  {TIMER18ms = 82;TIMER300ms = 600; }
+					  {TIMER18ms = 550;TIMER300ms = 600; }
 					else if(Radio_Date_Type==2)
 					  {TIMER18ms = 130; TIMER300ms = 100;  }
 	
