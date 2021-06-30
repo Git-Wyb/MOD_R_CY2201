@@ -25,6 +25,7 @@ extern u8 LED_Cache;
 #define Receiver_LED_RX_CR1 PB_CR1_C13    // Output   受信机受信指示  高电平有效
 #define Receiver_LED_RX_CR2 PB_CR2_C23    //输出频率
 
+#define Receiver_LED_OUT_IDR PA_IDR_IDR3 
 #define Receiver_LED_OUT PA_ODR_ODR3        //PB_ODR_ODR1              // Output   受信机继电器动作输出  高电平有效
 #define Receiver_LED_OUT_direc PA_DDR_DDR3 // Output   受信机继电器动作输出  高电平有效
 #define Receiver_LED_OUT_CR1 PA_CR1_C13    // Output   受信机继电器动作输出  高电平有效
@@ -157,18 +158,22 @@ extern u8 LED_Cache;
 #define PIN_BEEP_direc PB_DDR_DDR1 // Output   蜂鸣器
 #define PIN_BEEP_CR1 PB_CR1_C11    // Output   蜂鸣器
 
+#define Receiver_OUT_OPEN_IDR PD_IDR_IDR3
 #define Receiver_OUT_OPEN PD_ODR_ODR3       // Output   受信机继电器OPEN  高电平有效
 #define Receiver_OUT_OPEN_direc PD_DDR_DDR3 // Output   受信机继电器OPEN  高电平有效
 #define Receiver_OUT_OPEN_CR1 PD_CR1_C13    // Output   受信机继电器OPEN  高电平有效
 
+#define Receiver_OUT_CLOSE_IDR PD_IDR_IDR2
 #define Receiver_OUT_CLOSE PD_ODR_ODR2       // Output   受信机继电器close  高电平有效
 #define Receiver_OUT_CLOSE_direc PD_DDR_DDR2 // Output   受信机继电器close  高电平有效
 #define Receiver_OUT_CLOSE_CR1 PD_CR1_C12    // Output   受信机继电器close  高电平有效
 
+#define Receiver_OUT_STOP_IDR PD_IDR_IDR1 
 #define Receiver_OUT_STOP PD_ODR_ODR1       // Output   受信机继电器stop  高电平有效
 #define Receiver_OUT_STOP_direc PD_DDR_DDR1 // Output   受信机继电器stop  高电平有效
 #define Receiver_OUT_STOP_CR1 PD_CR1_C11    // Output   受信机继电器stop  高电平有效
 
+#define Receiver_OUT_VENT_IDR PA_IDR_IDR4
 #define Receiver_OUT_VENT PA_ODR_ODR4       // Output   受信机继电器VENT  高电平有效
 #define Receiver_OUT_VENT_direc PA_DDR_DDR4 // Output 受信机继电器VENT  高电平有效
 #define Receiver_OUT_VENT_CR1 PA_CR1_C14    // Output 受信机继电器VENT  高电平有效

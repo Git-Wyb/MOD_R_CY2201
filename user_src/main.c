@@ -84,6 +84,7 @@ void main(void)
     FLAG_testNo91=0;
 	FLAG_testBEEP=0;
   FLAG_Uart_WirelessLogin = 1;
+  Flag_SendUart_Receiver_LED_OUT = 1;
   while (1)
   {
     ClearWDT(); // Service the WDT

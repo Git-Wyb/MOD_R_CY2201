@@ -571,13 +571,12 @@ void OprationFrame(void)
 }
 
 UINT8 Receiver_OUT_value=0xff;
-UINT8 Receiver_OUT_value_last;
+UINT8 Receiver_OUT_value_last=0xff;
 UINT8 Receiver_OUT_uart[5] = {0x02, 0x05, 0x11, 0xB1, 0x00};
-UINT8 Flag_SendUart_Receiver_LED_OUT;
 void Uart_TX_Data(void)
 {
-	Receiver_OUT_value = Receiver_OUT_OPEN + (Receiver_OUT_STOP <<1) + (Receiver_OUT_CLOSE <<2) + (Receiver_OUT_VENT <<3) + (Receiver_LED_OUT <<7); 
-	if(Receiver_LED_OUT==1)
+	Receiver_OUT_value = Receiver_OUT_OPEN_IDR + (Receiver_OUT_STOP_IDR <<1) + (Receiver_OUT_CLOSE_IDR <<2) + (Receiver_OUT_VENT_IDR <<3) + (Receiver_LED_OUT_IDR <<7); 
+	if(Receiver_LED_OUT_IDR==1)
 		Flag_SendUart_Receiver_LED_OUT = 1;
 	if (Receiver_OUT_value_last != Receiver_OUT_value)
 	{

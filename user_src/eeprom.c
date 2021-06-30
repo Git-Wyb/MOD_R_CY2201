@@ -153,6 +153,7 @@ void InitialFlashReg(void)
 //  �? 2�?密钥的操作序列�?�好相反
 void UnlockFlash(unsigned char Type)
 { // 解锁flash
+	USART1_CR2_bit.REN = 0;
     if (Type == UNLOCK_FLASH_TYPE)
     { // 解锁程序�?
         FLASH_DUKR = SECOND_SECURITY_KEY;
@@ -175,6 +176,7 @@ void LockFlash(unsigned char Type)
     {
         FLASH_IAPSR &= ~(1 << DUL);
     }
+	USART1_CR2_bit.REN = 1;
 }
 //------------------------------------------------
 uchar ReadByteEEPROM(ulong Addr)
