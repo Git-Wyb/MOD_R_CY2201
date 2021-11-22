@@ -25,7 +25,7 @@
 #include "Pin_define.h"   // 管脚定义
 #include "initial.h"      // 初始�?  预定�?
 #include "ram.h"          // RAM定义
-#include "ADF7030_1.h"    // 初始化ADF7021
+#include "ML7345.h"    // 初始化ADF7021
 #include "Timer.h"        // 定时�?
 #include "ID_Decode.h"    // ID_Decode处理
 #include "eeprom.h"       // eeprom
@@ -59,51 +59,42 @@ void main(void)
     InitialFlashReg(); //flash EEPROM
     eeprom_sys_load(); //ID载入
     TIM4_Init();       // 定时�?
-    //beep_init();       // 蜂鸣�?
     ClearWDT();        // Service the WDT
-
+    SPI_Config_Init();
     PROFILE_CH_FREQ_32bit_200002EC = 426075000;
-    PROFILE_RADIO_AFC_CFG1_32bit_2000031C = 0x0005005A;
-    PROFILE_RADIO_DATA_RATE_32bit_200002FC = 0x6400000C;
-    //PROFILE_GENERIC_PKT_FRAME_CFG1_32bit_20000500 = 0x0000100C;
-    if(WORK_TEST==1)
-      FLAG_WORK_TEST= 1;
-    else FLAG_WORK_TEST= 0;
-    FLAG_POWERON=1;
-    ADF7030Init();     //射频初始�?
-
+    RF_ML7345_Init(Fre_426_075,0x55,12);
     UART1_INIT();      // UART1 for PC Software
-
     _EI();             // 允许中断
     TIME_power_led=500;
     ClearWDT();        // Service the WDT
-    RF_test_mode();
+    ML7345D_RF_test_mode();
     FLAG_APP_RX = 1;
     FG_Receiver_LED_RX = 0;
     TIME_EMC = 10;
     FLAG_testNo91=0;
 	FLAG_testBEEP=0;
-  FLAG_Uart_WirelessLogin = 1;
-  Flag_SendUart_Receiver_LED_OUT = 1;
-  while (1)
-  {
-    ClearWDT(); // Service the WDT
-    if (FLAG_testBEEP != 0)
-      TEST_beep();
+    FLAG_Uart_WirelessLogin = 1;
+    Flag_SendUart_Receiver_LED_OUT = 1;
+    ML7345_SetAndGet_State(RX_ON);
+    CG2214M6_USE_R;
 
-    if (time_Login_exit_256 == 0)
-      ID_Decode_OUT();
-    ID_learn();
-		if((ID_SCX1801_DATA!=0)&&(Receiver_426MHz_mode==0))APP_TX_PACKET();
+    while (1)
+    {
+        ClearWDT(); // Service the WDT
+        if (FLAG_testBEEP != 0)
+            TEST_beep();
+
+        if (time_Login_exit_256 == 0)
+            ID_Decode_OUT();
+        ID_learn();
+        if((ID_SCX1801_DATA!=0) && (Receiver_426MHz_mode==0)) APP_TX_PACKET();
         if(FLAG_APP_RX==1)
         {
-    		  Freq_Scanning();
-    		  //if(Scan_step==2)
-			  	SCAN_RECEIVE_PACKET(); //ɨ���������?
+            ML7345D_Freq_Scanning();
+            SCAN_RECEIVE_PACKET();
         }
         TranmissionACK();  //note:Don't move
         Uart_TX_Data();
-        //        READ_RSSI_avg();
 
         if (FG_Receiver_LED_RX == 1)
             Receiver_LED_RX = 1;

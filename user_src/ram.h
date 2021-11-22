@@ -69,8 +69,8 @@ extern volatile uFLAG FLAG2;
 #define FLAG2_BYTE FLAG2.BYTE
 //------------------------------------------------
 #define FLAG_ID_SCX1801_Login FLAG2.BIT.Bit0   //用于与集中�?�信机�?�信的ID，只有一个ID
-#define FG_ID_SCX1801_Login_BEEP FLAG2.BIT.Bit1 
-#define FLAG_APP_TX_fromUART FLAG2.BIT.Bit2 
+#define FG_ID_SCX1801_Login_BEEP FLAG2.BIT.Bit1
+#define FLAG_APP_TX_fromUART FLAG2.BIT.Bit2
 #define FLAG_APP_TX_fromOUT FLAG2.BIT.Bit3
 #define FLAG_APP_TX FLAG2.BIT.Bit4
 #define FLAG_APP_RXstart FLAG2.BIT.Bit5
@@ -83,7 +83,7 @@ extern volatile uFLAG FLAG3;
 //------------------------------------------------
 #define Flag_ERROR_Read FLAG3.BIT.Bit0
 #define FLAG_POWERON  FLAG3.BIT.Bit1
-#define Flag_shutter_stopping FLAG3.BIT.Bit2 
+#define Flag_shutter_stopping FLAG3.BIT.Bit2
 #define FLAG_APP_TX_fromUART_err_read FLAG3.BIT.Bit3
 #define FLAG_Uart_WirelessLogin  FLAG3.BIT.Bit4
 #define FLAG_WORK_TEST  FLAG3.BIT.Bit5
@@ -95,6 +95,7 @@ extern volatile uFLAG FLAG3;
 
 extern u16 X_COUNT;
 extern u16 X_ERR; //记录错误的个�?
+extern u8  X_ERR_CNT;
 extern u16 X_ERRTimer;
 
 extern u8 SIO_cnt;
@@ -226,6 +227,43 @@ extern u8 ERROR_Read_sendTX_count;
 extern u8 ERROR_Read_sendTX_packet;
 extern u8 Flag_ERROR_Read_once_again;
 extern u8 Flag_SendUart_Receiver_LED_OUT;
+extern u16 Time_rf_init;
+
+
+//-----------------------------------------------------------------------------------------------
+typedef union{
+    u8 un_var;
+    struct{
+        u8 un_var_bit0 : 1;
+        u8 un_var_bit1 : 1;
+        u8 un_var_bit2 : 1;
+        u8 un_var_bit3 : 1;
+        u8 un_var_bit4 : 1;
+        u8 un_var_bit5 : 1;
+        u8 un_var_bit6 : 1;
+        u8 un_var_bit7 : 1;
+    };
+}Mark_Un;
+
+extern Mark_Un mark0_stu;
+
+#define key_sta     mark0_stu.un_var_bit0
+#define Key1_press  1
+#define Key2_press  2
+#define Key3_press  3
+#define Flag_FREQ_Scan   mark0_stu.un_var_bit1
+#define Flag_rx_pream    mark0_stu.un_var_bit2
+#define Flag_set_freq    mark0_stu.un_var_bit3
+#define Flag_rx_data     mark0_stu.un_var_bit4
+#define Flag_tx_en       mark0_stu.un_var_bit5
+#define Flag_TxDone      mark0_stu.un_var_bit6
+#define Flag_RxDone      mark0_stu.un_var_bit7
+
+extern Mark_Un mark1_stu;
+#define Flag_test_mode   mark1_stu.un_var_bit0
+#define Flag_test_fm     mark1_stu.un_var_bit1
+#define Flag_test_rssi   mark1_stu.un_var_bit2
+#define Flag_test_pc     mark1_stu.un_var_bit3
 
 
 

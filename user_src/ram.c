@@ -4,8 +4,10 @@
 #include <stdbool.h> /* For true/false definition                      */
 //#include "initial.h"		// ?????  ?????
 #include "type_def.h"
+#include "ram.h"
 
-
+Mark_Un mark0_stu = {0};
+Mark_Un mark1_stu = {0};
 
 u8 DEF_APP_TX_freq=3;
 
@@ -22,12 +24,14 @@ volatile uFLAG FLAG3;
 
 u16 X_COUNT = 0;
 u16 X_ERR = 0; //记录错误的个�?
+u8 X_ERR_CNT = 0;
 u16 X_ERRTimer = 0;
 
 u8 SIO_cnt = 0;
 u8 SIO_buff[16] = {0};
 u8 SIO_DATA[16] = {0};
 u8 Tx_Rx_mode = 0;
+u16 Time_rf_init = 0;
 
 u8 TIME_10ms = 0;
 u16 TIME_auto_useful = 0;

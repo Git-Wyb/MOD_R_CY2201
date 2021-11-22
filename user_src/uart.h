@@ -63,7 +63,7 @@ typedef union {
         unsigned char SWorOUT : 8;
         unsigned char prep1 : 8;
         unsigned char prep2 : 8;
-    };	
+    };
 
 } __Databits_t;
 typedef enum {
@@ -86,5 +86,6 @@ void Send_String(unsigned char *string);
 void Send_Data(unsigned char *P_data, unsigned int length);
 void UART1_end(void);
 void PC_PRG(void);
+void UART1_INIT_TestMode(void);
 
 #endif

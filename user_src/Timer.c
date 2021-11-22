@@ -14,6 +14,7 @@
 #include "ID_Decode.h"
 u16 ErrStateTimeer = 1;
 u16 StateReadTimer = 500;
+u16 Time_Tx_Out = 0;
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Timer 4 start   1ms
 void TIM4_Init(void)
 {
@@ -48,16 +49,16 @@ void TIM4_UPD_OVF(void)
         if (TIME_auto_useful)
             --TIME_auto_useful;
         if (TIME_auto_out)
-            --TIME_auto_out;            
+            --TIME_auto_out;
         if (FREQ_auto_useful_continuous)
             --FREQ_auto_useful_continuous;
     }
     if (U1AckTimer)
         U1AckTimer--;
     if (Time_APP_RXstart)
-      --Time_APP_RXstart;	
+      --Time_APP_RXstart;
     if(Time_APP_blank_TX)
-       --Time_APP_blank_TX;  	
+       --Time_APP_blank_TX;
     if (Flag_RSSI_Read_Timer)
         Flag_RSSI_Read_Timer--;
     if (X_ERRTimer)
@@ -65,5 +66,24 @@ void TIM4_UPD_OVF(void)
 	if (TIME_ID_SCX1801_Login)
 		--TIME_ID_SCX1801_Login;
 
+    if(Time_Tx_Out)  --Time_Tx_Out;
+    if(Time_rf_init) --Time_rf_init;
+
     TIM4_SR1_bit.UIF = 0; // 清除中断标记
+}
+
+//----------------------------------------------------------------------------------------------------
+void system_delay_us(u32 n) //1: 10us; 10: 49us; 20: 93us
+{
+    while(n--) {
+        _NOP(); _NOP(); _NOP(); _NOP();
+    }
+}
+
+void system_delay(u32 n) //1: 308us; 5: 1.42ms; 10: 2.84ms
+{
+    u32 nDelayUsCnt = n*20;
+
+    while(nDelayUsCnt--)
+        system_delay_us(1);
 }

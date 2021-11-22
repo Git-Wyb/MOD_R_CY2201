@@ -59,4 +59,5 @@ void ClearWDT(void);
 void RF_BRE_Check(void);
 void BerExtiInit(void);
 void BerExtiUnInit(void);
+void OUT_VENT_Init(void);
 #endif

@@ -11,7 +11,7 @@
 #include "Pin_define.h" // 管脚定义
 #include "initial.h"    // 初始�? 预定�?
 #include "ram.h"        // RAM定义
-#include "ADF7030_1.h"
+#include "ML7345.h"
 #include "uart.h" // uart
 #include "Timer.h"
 uFLAG YellowLedFlag, RedLedFalg;
@@ -65,9 +65,21 @@ void VHF_GPIO_INIT(void) // CPU端口设置
     PIN_BEEP = 0;
 
     LED_GPIO_Init();
-    ADF7030_GPIO_INIT();
     CG2214M6_GPIO_Init();
     Receiver_OUT_GPIO_Init(); // Output   受信机继电器
+
+    ML7345_INT_GPIO2_DDR = 0;   //输入
+    ML7345_INT_GPIO2_CR1 = 1;
+    ML7345_INT_GPIO2_CR2 = 1;   //开启中断 ; ML7345D接收中断
+    EXTI_CR2 &= (~MASK_EXTI_CR2_P5IS);
+    EXTI_CR2 |= 0x08;   //下降沿触发
+
+    /* ML7345D硬件复位脚 */
+    ML7345_RESETN_DDR = 1;
+    ML7345_RESETN_CR1 = 1;
+    ML7345_RESETN_CR2 = 1;
+
+    Ber_PinExit_Init();
 }
 //============================================================================================
 void SysClock_Init(void)
@@ -337,184 +349,6 @@ void OUT_VENT_Init(void)    //????????????????TP3????
 {
     Receiver_OUT_VENT_direc = Output;
     Receiver_OUT_VENT_CR1 = 1;
-    Receiver_OUT_VENT = FG_NOT_allow_out;    
+    Receiver_OUT_VENT = FG_NOT_allow_out;
 }
-/**
- ****************************************************************************
- * @Function : void RF_BRE_Check(void)
- * @File     : Initial.c
- * @Program  :
- * @Created  : 2017/5/5 by Xiaowine
- * @Brief    :
- * @Version  : V1.0
-**/
-void RF_BRE_Check(void)
-{
-    char errbuff[10];
-    ClearWDT(); // Service the WDT
-    if (ADF7030_GPIO3 == 1)
-    {
-        WaitForADF7030_FIXED_DATA(); //等待芯片空闲/可接受CMD状�??
-        DELAY_30U();
-        ADF7030_Clear_IRQ();
-        WaitForADF7030_FIXED_DATA(); //等待芯片空闲/可接受CMD状�??
-        DELAY_30U();
-        while (ADF7030_GPIO3 == 1)
-            ;
-        WaitForADF7030_FIXED_DATA(); //等待芯片空闲/可接受CMD状�??
-        DELAY_30U();
-        ADF7030_CHANGE_STATE(STATE_PHY_ON);
-        WaitForADF7030_FIXED_DATA(); //等待芯片空闲/可接受CMD状�??
-        ADF7030_RECEIVING_FROM_POWEROFF();
-    }
 
-    if (X_COUNT >= 1000)
-    {
-        if (X_ERR >= 50)
-            Receiver_LED_RX = 0;
-        else
-            Receiver_LED_RX = 1;
-        sprintf(errbuff, "%d\r\n", X_ERR);
-        //s((u8 *)errbuff);
-        //for (j = 0; j < 4; j++)
-        //lcd    display_map_xy(70 + j * 6, 45, 5, 8, char_Small + (CacheData[3 - j] - ' ') * 5);
-        //        display_map_58_6(70,45,4,CacheData);
-        X_ERR = 0;
-        X_COUNT = 0;
-        X_ERRTimer = 1250;
-    }
-    if (X_ERRTimer == 0)
-        Receiver_LED_RX = 0;
-}
-void RF_test_mode(void)
-{
-    u8 Flag_TP4 = 0;
-    u8 test_time_Base10ms = 0;
-    //UINT8 Boot_i;
-	// Receiver_LED_OUT = 1;
-	 /*for (Boot_i = 0; Boot_i < 4; Boot_i++)
-	 {
-		 for (time_3sec = 0; time_3sec < 6000; time_3sec++)
-		 {
-			 Delayus(250); //80us
-			 ClearWDT();   // Service the WDT
-						   // Send_char(0x05);
-		 }
-		 Receiver_LED_OUT = !Receiver_LED_OUT;
-	 } 
-    Receiver_LED_OUT = 0; */
-    while (Receiver_test == 0)
-    {
-        ClearWDT();   // Service the WDT
-        if((TP4 == 0)&&(Flag_TP4==0))   //不使用TP3，因为测试模式TP3与工作模式换气输出有冲突，冲突为三极管导致TP3的高电平只有0.8V
-        {
-            if (FG_10ms==1)
-            {
-                FG_10ms = 0;
-                test_time_Base10ms++;
-                if (test_time_Base10ms>5)
-                {
-                    test_time_Base10ms = 5;
-                    Flag_TP4 = 1;
-                    Tx_Rx_mode++;
-                    if (Tx_Rx_mode == 2)
-                        Tx_Rx_mode = 3; //屏蔽mode 2，mode 2暂时不使用
-                    if (Tx_Rx_mode == 3)
-                        X_COUNT = 0;   //切换成mode3时，RX误码率有时会亮
-                    if (Tx_Rx_mode > 3)
-                        Tx_Rx_mode = 0;
-                }
-            }
-        }
-        else if(TP4 == 1)
-        {
-            Flag_TP4 = 0;
-            test_time_Base10ms = 0;
-        }
-
-        if ((Tx_Rx_mode == 0) || (Tx_Rx_mode == 1))
-        {
-            CG2214M6_USE_T;
-            FG_test_rx = 0;
-            Receiver_LED_RX = 0;
-            FG_test_tx_off = 0;
-            if (Tx_Rx_mode == 0) //发载波，无调制信�?
-            {
-                Receiver_LED_OUT = 1;
-                FG_test_mode = 0;
-                FG_test_tx_1010 = 0;
-                if (FG_test_tx_on == 0)
-                {
-                    FG_test_tx_on = 1;
-                    ADF7030_TX(TestTXCarrier);
-                    //7021_DATA_ ADF7021_DATA_direc = Input;
-                    //ttset dd_set_TX_mode_carrier();
-                }
-            }
-            else //发载波，有调制信�?
-            {
-                if (TIMER1s == 0)
-                {
-                    TIMER1s = 500;
-                    Receiver_LED_OUT = !Receiver_LED_OUT;
-                }
-                FG_test_mode = 1;
-                FG_test_tx_on = 0;
-                if (FG_test_tx_1010 == 0)
-                {
-                    ADF7030_TX(TestTx_PreamblePattern);
-                    FG_test_tx_1010 = 1;
-
-                    //7021_DATA_ ADF7021_DATA_direc = Output;
-                    //ttset dd_set_TX_mode_1010pattern();
-                }
-            }
-        }
-        //else  {           //test ADF7021 RX
-        if ((Tx_Rx_mode == 2) || (Tx_Rx_mode == 3))
-        {
-            CG2214M6_USE_R;
-            FG_test_rx = 1;
-            Receiver_LED_OUT = 0;
-            FG_test_mode = 0;
-            FG_test_tx_on = 0;
-            FG_test_tx_1010 = 0;
-            if (FG_test_tx_off == 0)
-            {
-                ADF7030_RECEIVING_FROM_POWEROFF_testMode();
-                FG_test_tx_off = 1;
-            }
-            if (Tx_Rx_mode == 2) //packet usart out put RSSI
-            {
-                if (TIMER1s == 0)
-                {
-                    TIMER1s = 500;
-                    Receiver_LED_RX = !Receiver_LED_RX;
-                }
-                SCAN_RECEIVE_PACKET(); //扫描接收数据
-            }
-            if (Tx_Rx_mode == 3) //packet usart out put BER
-            {
-                RF_BRE_Check();
-            }
-        }
-        //PC_PRG(); // PC控制
-        //	if((ADF7021_DATA_CLK==1)&&(FG_test_mode==1)&&(FG_test1==0)){
-        //           ADF7021_DATA_tx=!ADF7021_DATA_tx;
-        //           FG_test1=1;
-        //        }
-        //       if(ADF7021_DATA_CLK==0)FG_test1=0;
-    }
-    OUT_VENT_Init();
-    BerExtiUnInit();
-    FG_test_rx = 0;
-    TIMER1s = 0;
-    Receiver_LED_TX = 0;
-    Receiver_LED_RX = 0;
-    FG_Receiver_LED_RX = 0;
-    //Receiver_LED_OUT = 0;
-
-    FLAG_APP_RX = 1;
-    TIME_Fine_Calibration = 900;
-    TIME_EMC = 10;
-}
