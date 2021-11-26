@@ -27,16 +27,16 @@ u8 u1InitCompleteFlag = 0;
 UINT8 UartStatus = FrameHeadSataus;
 UINT8 UartLen = 0;
 UINT8 UartCount = 0;
-UINT8 Flag_Uart_Receive_ACK;
+UINT8 Flag_Uart_Receive_ACK = 0;
 UINT8 UART_DATA_buffer[41] = {FrameHead};
 UINT8 UART_DATA_format[3] = {0};
 UINT8 UART_DATA_ID98[41] = {0};
 UINT16 Uart_Receive_checksum = 0;
-UINT8 Flag_Uart_Receive_checksum;
-UINT8 LogDebug_UartLen;
+UINT8 Flag_Uart_Receive_checksum = 0;
+UINT8 LogDebug_UartLen = 0;
 
 __Databits_t Databits_t;
-__U1Statues U1Statues;
+__U1Statues U1Statues = IdelStatues;
 UINT8 ACKBack[3] = {0x02, 0x03, 0x00};
 unsigned int U1AckTimer = 0;
 
@@ -121,7 +121,7 @@ void UART1_end(void)
 //--------------------------------------------
 void UART1_RX_RXNE(void)
 { // RXD中断服务程序
-	unsigned char dat;
+	unsigned char dat = 0;
 	if(USART1_SR_bit.RXNE == 1) dat = USART1_DR; // 接收数据
 
 	if(Flag_test_mode == 0) ReceiveFrame(dat);
@@ -769,6 +769,10 @@ void Uart_TX_Data(void)
 		{
 			//if (Receiver_OUT_value)FLAG_APP_TX_fromUART = 1;
 			Flag_SendUart_Receiver_LED_OUT = 0;
+            Receiver_OUT_uart[0] = 0x02;
+            Receiver_OUT_uart[1] = 0x05;
+            Receiver_OUT_uart[2] = 0x11;
+            Receiver_OUT_uart[3] = 0xB1;
 			Send_Data(Receiver_OUT_uart, 5);
 			TIME_Receiver_OUT_SendUart = Uart_Resend_Time;
 			COUNT_Receiver_OUT_SendUart = Uart_Resend_Count;
