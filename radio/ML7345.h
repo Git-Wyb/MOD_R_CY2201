@@ -10,8 +10,6 @@
 
 #define TX_PACKET_COUNT 3
 
-#define	Receiver_426MHz_mode   0              //????  1=RX      0=TX and RX
-
 #define FREQ_PLL     12000000 //Extern TCXO / 2 = 24MHz / 2
 #define CONST_COEFF  1048576  //常数2^20
 #define VCO_LowerLimit_FREQ 400000  //400kHz

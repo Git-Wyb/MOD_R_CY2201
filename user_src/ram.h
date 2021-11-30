@@ -91,7 +91,13 @@ extern volatile uFLAG FLAG3;
 //#define  FLAG3.BIT.Bit7
 
 //************************************************
+extern volatile uFLAG FLAG4;
+#define FLAG4_BYTE FLAG4.BYTE
+//------------------------------------------------
+#define FLAG_UART_DipSwitch5 FLAG4.BIT.Bit0
+#define FLAG_UART_EEPROM_ID_Erase  FLAG4.BIT.Bit1
 
+//************************************************
 
 extern u16 X_COUNT;
 extern u16 X_ERR; //记录错误的个�?
@@ -228,7 +234,7 @@ extern u8 ERROR_Read_sendTX_packet;
 extern u8 Flag_ERROR_Read_once_again;
 extern u8 Flag_SendUart_Receiver_LED_OUT;
 extern u16 Time_rf_init;
-
+extern u8 Receiver_429MHz_mode;
 
 //-----------------------------------------------------------------------------------------------
 typedef union{

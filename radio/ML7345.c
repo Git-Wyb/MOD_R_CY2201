@@ -428,7 +428,7 @@ void APP_TX_PACKET(void)
         if(TX_Scan_step==1) TX_Scan_step=2;
 		   if(TX_Scan_step==2)
 		   {
-				if(APP_TX_freq==0 && Flag_tx_en == 0)
+				if(APP_TX_freq==0)// && Flag_tx_en == 0)
 				{
                     Flag_tx_en = 1;
                     TIMER18ms = 300;
@@ -595,7 +595,7 @@ void ML7345D_RF_test_mode(void)
                 }
             }
         }
-        //PC_PRG();
+        PC_PRG();
     }
     if(Flag_test_mode == 1)
     {
@@ -624,7 +624,7 @@ void ML7345D_RF_test_mode(void)
 
 void ML7345d_Change_Channel(void)
 {
-    if ((FLAG_ID_Erase_Login == 1) || (FLAG_ID_Login == 1) ||(FLAG_ID_SCX1801_Login==1) || (Receiver_426MHz_mode==1))
+    if ((FLAG_ID_Erase_Login == 1) || (FLAG_ID_Login == 1) ||(FLAG_ID_SCX1801_Login==1) || (Receiver_429MHz_mode==0))
     {
         PROFILE_CH_FREQ_32bit_200002EC = 426075000;
         Radio_Date_Type=1;

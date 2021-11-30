@@ -20,7 +20,7 @@ volatile uFLAG FLAG1;
 volatile uFLAG FLAG_test;
 volatile uFLAG FLAG2;
 volatile uFLAG FLAG3;
-
+volatile uFLAG FLAG4;
 
 u16 X_COUNT = 0;
 u16 X_ERR = 0; //记录错误的个�?
@@ -178,7 +178,7 @@ u8 ERROR_Read_sendTX_count=0;
 u8 ERROR_Read_sendTX_packet=0;
 u8 Flag_ERROR_Read_once_again=0;
 u8 Flag_SendUart_Receiver_LED_OUT;
-
+u8 Receiver_429MHz_mode=0; //1=ON   0=OFF
 
 
 

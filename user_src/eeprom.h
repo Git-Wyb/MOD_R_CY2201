@@ -30,6 +30,7 @@ void ID_EEPROM_write_0x00(void);
 void ID_Login_EXIT_Initial(void);
 void ID_learn(void);
 void eeprom_write_byte(u16 addr,u8 data);
+void EEPROM_write_For_UART(void);
 /************************************************/
 
 #define UNLOCK_FLASH_TYPE ((unsigned char)0x00)
@@ -39,6 +40,6 @@ void eeprom_write_byte(u16 addr,u8 data);
 //%                  EEPROM MAP                  %
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #define addr_eeprom_sys 0x1000 // SYS=0x4000~0x400F
-#define Addr_rf_offset 0x3FA
+#define Addr_rf_offset 0x3F9
 
 #endif

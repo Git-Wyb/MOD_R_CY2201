@@ -15,7 +15,7 @@
 #include "eeprom.h"     // eeprom
 #include "ID_Decode.h"
 #include "uart.h"         // uart
-
+#include "ML7345.h"
 /***********************************************************************/
 /*                    FLASH & EEPROM 寄存器及控制�?                   */
 /***********************************************************************/
@@ -223,16 +223,40 @@ u32 ID_Receiver_DATA_READ(u8 *address)
 
     return xn.IDL;
 }
+
+void EEPROM_write_For_UART(void)
+{
+    if(FLAG_UART_DipSwitch5==1)
+    {
+        FLAG_UART_DipSwitch5=0;
+        UnlockFlash(UNLOCK_EEPROM_TYPE);
+        WriteByteToFLASH(addr_eeprom_sys + 0x3FA, Receiver_429MHz_mode);
+        LockFlash(UNLOCK_EEPROM_TYPE);
+    }
+    if(FLAG_UART_EEPROM_ID_Erase==1)
+    {
+        FLAG_UART_EEPROM_ID_Erase=0;
+        ID_DATA_PCS = 0;
+        ALL_ID_EEPROM_Erase();
+        ID_SCX1801_DATA = 0;
+        ID_SCX1801_EEPROM_write(0x00);
+    }
+}
+
 void eeprom_sys_load(void)
 {
     //unsigned char	i;
     //for (i=0;i<0X1F;i++)
     //	eeprom_sys_buff[i] = ReadByteEEPROM( addr_eeprom_sys+i );
     //--------------------------------------
-
+    UINT8 offset = 0;
     UINT16 i, j, q, p;
     UINT8 xm[3] = {0};
     uni_rom_id xn;
+
+    xm[0] = ReadByteEEPROM(addr_eeprom_sys + 0x3FA);
+	if (xm[0] == 1)Receiver_429MHz_mode = 1;
+	else Receiver_429MHz_mode = 0;
 
 	xm[0] = ReadByteEEPROM(addr_eeprom_sys + 0x3FB);
 	xm[1] = ReadByteEEPROM(addr_eeprom_sys + 0x3FC);
@@ -278,7 +302,46 @@ void eeprom_sys_load(void)
             break;
         ClearWDT(); // Service the WDT
     }
+    offset = ReadByteEEPROM(addr_eeprom_sys + Addr_rf_offset);
+    if(0 < offset && offset <= 10)
+    {
+        rf_offset = offset;
+        PROFILE_CH_FREQ_32bit_200002EC = 426075000 + 150 * offset;
+        ML7345_Frequency_Calcul(PROFILE_CH_FREQ_32bit_200002EC,Fre_426_075);
 
+        PROFILE_CH_FREQ_32bit_200002EC = 426750000 + 150 * offset;
+        ML7345_Frequency_Calcul(PROFILE_CH_FREQ_32bit_200002EC,Fre_426_750);
+
+        PROFILE_CH_FREQ_32bit_200002EC = 429175000 + 150 * offset;
+        ML7345_Frequency_Calcul(PROFILE_CH_FREQ_32bit_200002EC,Fre_429_175);
+
+        PROFILE_CH_FREQ_32bit_200002EC = 429350000 + 150 * offset;
+        ML7345_Frequency_Calcul(PROFILE_CH_FREQ_32bit_200002EC,Fre_429_350);
+
+        PROFILE_CH_FREQ_32bit_200002EC = 429550000 + 150 * offset;
+        ML7345_Frequency_Calcul(PROFILE_CH_FREQ_32bit_200002EC,Fre_429_550);
+    }
+    else if(10 < offset && offset <= 20)
+    {
+        rf_offset = offset;
+        offset = offset - 10;
+        PROFILE_CH_FREQ_32bit_200002EC = 426075000 - 150 * offset;
+        ML7345_Frequency_Calcul(PROFILE_CH_FREQ_32bit_200002EC,Fre_426_075);
+
+        PROFILE_CH_FREQ_32bit_200002EC = 426750000 - 150 * offset;
+        ML7345_Frequency_Calcul(PROFILE_CH_FREQ_32bit_200002EC,Fre_426_750);
+
+        PROFILE_CH_FREQ_32bit_200002EC = 429175000 - 150 * offset;
+        ML7345_Frequency_Calcul(PROFILE_CH_FREQ_32bit_200002EC,Fre_429_175);
+
+        PROFILE_CH_FREQ_32bit_200002EC = 429350000 - 150 * offset;
+        ML7345_Frequency_Calcul(PROFILE_CH_FREQ_32bit_200002EC,Fre_429_350);
+
+        PROFILE_CH_FREQ_32bit_200002EC = 429550000 - 150 * offset;
+        ML7345_Frequency_Calcul(PROFILE_CH_FREQ_32bit_200002EC,Fre_429_550);
+    }
+    else {}
+    /*
     for (i = 1; i < 2; i++)
     {
         j = 0x380 + i * 4;
@@ -288,7 +351,7 @@ void eeprom_sys_load(void)
         ROM_adf7030_value[i].byte[3] = ReadByteEEPROM(addr_eeprom_sys + j + 3);
         if ((ROM_adf7030_value[i].whole_reg == 0) || (ROM_adf7030_value[i].whole_reg == 0xFFFFFFFF))
             ROM_adf7030_value[i] = Default_adf7030_value[i];
-    }
+    } */
 }
 
 void ALL_ID_EEPROM_Erase(void)

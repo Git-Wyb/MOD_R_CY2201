@@ -691,6 +691,21 @@ void OprationFrame(void)
 			else
 				FLAG_Uart_WirelessLogin = 1; //Key release
 		}
+        else if (Databits_t.ID_No == 195) //0xc3 Wireless_DipSwitch5
+		{
+			ACKBack[2] = 0;
+			FLAG_UART_DipSwitch5=1;
+			if (UART_DATA_buffer[4])
+				Receiver_429MHz_mode = 1; //Wireless 429MHz ON
+			else
+				Receiver_429MHz_mode = 0; //Wireless 429MHz OFF
+		}
+		else if (Databits_t.ID_No == 241) //0xF1 Wireless EEPROM ID Erase
+		{
+			ACKBack[2] = 0;
+			if (UART_DATA_buffer[4])
+				FLAG_UART_EEPROM_ID_Erase = 1;
+		}
 		else if (Databits_t.ID_test_No91or93 == 145) //0x91
 		{
 			if ((ID_DATA_PCS == 0) && (ID_SCX1801_DATA == 0))
