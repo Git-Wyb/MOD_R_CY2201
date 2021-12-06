@@ -563,17 +563,17 @@ void ReceiveFrame(UINT8 Cache)
 			return;
 		}
 		//add Opration function
-		OprationFrame();
-		UartStatus = 0;
-		UartCount = 0;
-		//        Receiver_LED_OUT_INV = !Receiver_LED_OUT_INV;
-		if((Databits_t.ID_No == 147)||(Databits_t.ID_No == 152)) U1Statues = IdelStatues;
-		else
-		{
-			U1Statues = ReceiveDoneStatues;
-		    U1AckTimer = U1AckDelayTime;
-		    U1Busy_OUT = 1;
-		}
+        OprationFrame();
+        UartStatus = 0;
+        UartCount = 0;
+        //        Receiver_LED_OUT_INV = !Receiver_LED_OUT_INV;
+        if((Databits_t.ID_No == 147)||(Databits_t.ID_No == 152)) U1Statues = IdelStatues;
+        else
+        {
+            U1Statues = ReceiveDoneStatues;
+            U1AckTimer = U1AckDelayTime;
+            U1Busy_OUT = 1;
+        }
 
 	}
 }
@@ -720,7 +720,7 @@ void OprationFrame(void)
 			FLAG_testNo91SendUart=0;
 			TIME_TestNo91=1000;
 	    	}
-		else
+            else
 			{
 			ACKBack[2] = 1;
 			FLAG_testNo91=2;
@@ -777,7 +777,7 @@ UINT8 Receiver_OUT_uart[5] = {0x02, 0x05, 0x11, 0xB1, 0x00};
 void Uart_TX_Data(void)
 {
 	Receiver_OUT_value = (Receiver_OUT_OPEN_IDR + (Receiver_OUT_STOP_IDR << 1) + (Receiver_OUT_CLOSE_IDR << 2) + (Receiver_OUT_VENT_IDR << 3) + (Receiver_LED_OUT_IDR << 7));
-	if(Receiver_LED_OUT_IDR==1)
+    if(Receiver_LED_OUT_IDR==1)
 		Flag_SendUart_Receiver_LED_OUT = 1;
 	if (Receiver_OUT_value_last != Receiver_OUT_value)
 	{
@@ -805,6 +805,8 @@ void Uart_TX_Data(void)
 	}
 	else if((Flag_ERROR_Read_once_again==1)&&(TIME_ERROR_Read_once_again==0))
 	{
+        Send_err_com[0] = 0x02;Send_err_com[1] = 0x07;Send_err_com[2] = 0x11;Send_err_com[3] = 0x98;Send_err_com[4] = 0x09;
+        Send_err_com[5] = 0x52;Send_err_com[6] = 0x46;
 		Send_Data(Send_err_com, 7);
 		Flag_ERROR_Read_once_again=0;
 		TIME_ERROR_Read_once_again=0;
@@ -820,6 +822,8 @@ void TranmissionACK(void)  //note:Don't move, Don't append code here
 		{
 			U1Busy_OUT = 1;
 			U1Statues = ACKingStatues;
+            ACKBack[0] = 0x02;
+            ACKBack[1] = 0x03;
 			Send_Data(ACKBack, 3);
 			U1Statues = IdelStatues;
 			U1Busy_OUT = 1;

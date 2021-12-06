@@ -77,7 +77,7 @@ extern __U1Statues U1Statues;
 extern unsigned int U1AckTimer;
 #define U1AckDelayTime 2
 #define Uart_Resend_Time 6
-#define Uart_Resend_Count 5
+#define Uart_Resend_Count 4
 
 void UART1_INIT(void);
 void UART1_RX_RXNE(void);
