@@ -14,6 +14,7 @@
 extern u8 LED_Cache;
 #define LED_ON 1
 #define LED_OFF 0
+#define SRX1332A 0  //1用于SRX1332A-DC，0用于CY2201
 
 #define Receiver_LED_TX PB_ODR_ODR2       //PC_ODR_ODR1       // Output   受信机送信指示  高电平有效
 #define Receiver_LED_TX_direc PB_DDR_DDR2 // Output   受信机送信指示  高电平有效
@@ -71,6 +72,18 @@ extern u8 LED_Cache;
 #define CG2214M6_VC2_CR1 PB_CR1_C10//PC_CR1_C10  //模式MODE
 #define CG2214M6_VC2_CR2 PB_CR2_C20//PC_CR2_C20  //输出频率或者中断控制
 
+#if (SRX1332A == 1)
+#define CG2214M6_RF1_USE  \
+    {                     \
+        CG2214M6_VC1 = 1; \
+        CG2214M6_VC2 = 0; \
+    }
+#define CG2214M6_RF2_USE  \
+    {                     \
+        CG2214M6_VC1 = 0; \
+        CG2214M6_VC2 = 1; \
+    }
+#else
 #define CG2214M6_RF1_USE  \
     {                     \
         CG2214M6_VC1 = 0; \
@@ -81,6 +94,7 @@ extern u8 LED_Cache;
         CG2214M6_VC1 = 1; \
         CG2214M6_VC2 = 0; \
     }
+#endif
 #define CG2214M6_USE_T CG2214M6_RF1_USE
 #define CG2214M6_USE_R CG2214M6_RF2_USE
 /******************以下是KEY寄存器*******输入*****************************/
