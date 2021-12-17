@@ -28,16 +28,16 @@ UINT8 UartStatus = FrameHeadSataus;
 UINT8 UartLen = 0;
 UINT8 UartCount = 0;
 UINT8 Flag_Uart_Receive_ACK = 0;
-UINT8 UART_DATA_buffer[41] = {FrameHead};
-UINT8 UART_DATA_format[3] = {0};
-UINT8 UART_DATA_ID98[41] = {0};
+UINT8 UART_DATA_buffer[42] = {FrameHead};
+UINT8 UART_DATA_format[4] = {0};
+UINT8 UART_DATA_ID98[42] = {0};
 UINT16 Uart_Receive_checksum = 0;
 UINT8 Flag_Uart_Receive_checksum = 0;
 UINT8 LogDebug_UartLen = 0;
 
 __Databits_t Databits_t;
 __U1Statues U1Statues = IdelStatues;
-UINT8 ACKBack[3] = {0x02, 0x03, 0x00};
+UINT8 ACKBack[5] = {0x02, 0x03, 0x00};
 unsigned int U1AckTimer = 0;
 
 UINT8 FLAG_testNo91=0;
@@ -124,7 +124,7 @@ void UART1_RX_RXNE(void)
 	unsigned char dat = 0;
 	if(USART1_SR_bit.RXNE == 1) dat = USART1_DR; // 接收数据
 
-	if(Flag_test_mode == 0) ReceiveFrame(dat);
+    if(Flag_test_mode == 0) ReceiveFrame(dat);
     else
     {
         if(dat == '(') SIO_cnt = 0;
@@ -773,7 +773,7 @@ void OprationFrame(void)
 
 UINT8 Receiver_OUT_value=0xff;
 UINT8 Receiver_OUT_value_last=0xff;
-UINT8 Receiver_OUT_uart[5] = {0x02, 0x05, 0x11, 0xB1, 0x00};
+UINT8 Receiver_OUT_uart[10] = {0x02, 0x05, 0x11, 0xB1, 0x00};
 void Uart_TX_Data(void)
 {
 	Receiver_OUT_value = (Receiver_OUT_OPEN_IDR + (Receiver_OUT_STOP_IDR << 1) + (Receiver_OUT_CLOSE_IDR << 2) + (Receiver_OUT_VENT_IDR << 3) + (Receiver_LED_OUT_IDR << 7));

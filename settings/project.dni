@@ -2,7 +2,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
-Checksum=1878467542
+Checksum=1427017801
 =======
 Checksum=-9081019
 >>>>>>> EGA-5.3T
@@ -77,11 +77,12 @@ Fmt2=uni_i-ui	4	0
 Fmt0=u32_t[6]	4	0
 Fmt1=u32_t[7]	4	0
 Fmt2=u8_t[2]	4	0
-Fmt3=unsigned char[3]	4	0
-Fmt4=unsigned char[41]	4	0
-Fmt5=unsigned char[4]	4	0
-Fmt6=unsigned char[5]	4	0
-Fmt7=unsigned char[9]	4	0
+Fmt3=u8_t[3]	4	0
+Fmt4=unsigned char[3]	4	0
+Fmt5=unsigned char[41]	4	0
+Fmt6=unsigned char[4]	4	0
+Fmt7=unsigned char[5]	4	0
+Fmt8=unsigned char[9]	4	0
 [watch_formats]
 Fmt0={W}0:COUNT_Receiver_Login	3	0
 Fmt1={W}0:RAM_rssi_AVG	3	0
@@ -105,8 +106,14 @@ LogEnabled=0
 GraphEnabled=0
 ShowTimeLog=1
 [Breakpoints]
-Bp0=_ "STD_CODE" "{$PROJ_DIR$\user_src\main.c}.59.5" 1 0 0 0 "" 0 ""
-Count=1
+Bp0=_ "STD_CODE" "{$PROJ_DIR$\user_src\eeprom.c}.374.9" 1 0 0 0 "" 0 ""
+Bp1=_ "STD_CODE" "{$PROJ_DIR$\user_src\eeprom.c}.401.5" 1 0 0 0 "" 0 ""
+Bp2=_ "STD_CODE" "{$PROJ_DIR$\user_src\eeprom.c}.475.17" 1 0 0 0 "" 0 ""
+Bp3=_ "STD_CODE" "{$PROJ_DIR$\user_src\eeprom.c}.233.9" 1 0 0 0 "" 0 ""
+Bp4=_ "STD_CODE" "{$PROJ_DIR$\user_src\eeprom.c}.240.9" 1 0 0 0 "" 0 ""
+Bp5=_ "STD_CODE" "{$PROJ_DIR$\user_src\uart.c}.808.9" 1 0 0 0 "" 0 ""
+Bp6=_ "STD_CODE" "{$PROJ_DIR$\user_src\main.c}.61.5" 1 0 0 0 "" 0 ""
+Count=7
 [Log file]
 LoggingEnabled=_ 0
 LogFile=_ ""

@@ -23,12 +23,12 @@ extern u8 u1busyCache;
 extern UINT8 UartStatus;
 extern UINT8 UartLen;
 extern UINT8 UartCount;
-extern UINT8 UART_DATA_buffer[41];
-extern UINT8 UART_DATA_ID98[41];
+extern UINT8 UART_DATA_buffer[42];
+extern UINT8 UART_DATA_ID98[42];
 
 extern u8 u1InitCompleteFlag;
 
-extern UINT8 ACKBack[3];
+extern UINT8 ACKBack[5];
 extern UINT8 FLAG_testNo91;
 extern UINT8 FLAG_testBEEP;
 extern UINT8 FLAG_testNo91_step;
