@@ -63,9 +63,7 @@ void main(void)
     SPI_Config_Init();
     PROFILE_CH_FREQ_32bit_200002EC = 426075000;
     RF_ML7345_Init(Fre_426_075,0x55,12);
-#if (SRX1332A == 0)
     UART1_INIT();      // UART1 for PC Software
-#endif
     _EI();             // 允许中断
     TIME_power_led=500;
     ClearWDT();        // Service the WDT
@@ -102,11 +100,9 @@ void main(void)
             SCAN_RECEIVE_PACKET();
         }
 
-#if (SRX1332A == 0)
         TranmissionACK();  //note:Don't move
         Uart_TX_Data();
         EEPROM_write_For_UART();
-#endif
 
         if (FG_Receiver_LED_RX == 1)
             Receiver_LED_RX = 1;

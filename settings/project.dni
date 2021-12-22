@@ -2,7 +2,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
-Checksum=2021808575
+Checksum=577223024
 =======
 Checksum=-9081019
 >>>>>>> EGA-5.3T
@@ -106,12 +106,8 @@ LogEnabled=0
 GraphEnabled=0
 ShowTimeLog=1
 [Breakpoints]
-Bp0=_ "STD_CODE" "{$PROJ_DIR$\user_src\eeprom.c}.374.9" 1 0 0 0 "" 0 ""
-Bp1=_ "STD_CODE" "{$PROJ_DIR$\user_src\eeprom.c}.401.5" 1 0 0 0 "" 0 ""
-Bp2=_ "STD_CODE" "{$PROJ_DIR$\user_src\eeprom.c}.475.17" 1 0 0 0 "" 0 ""
-Bp3=_ "STD_CODE" "{$PROJ_DIR$\user_src\eeprom.c}.233.9" 1 0 0 0 "" 0 ""
-Bp4=_ "STD_CODE" "{$PROJ_DIR$\user_src\eeprom.c}.240.9" 1 0 0 0 "" 0 ""
-Count=5
+Bp0=_ "STD_CODE" "{$PROJ_DIR$\user_src\eeprom.c}.475.17" 1 0 0 0 "" 0 ""
+Count=1
 [Log file]
 LoggingEnabled=_ 0
 LogFile=_ ""

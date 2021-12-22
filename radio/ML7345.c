@@ -605,9 +605,7 @@ void ML7345D_RF_test_mode(void)
     }
     if(Flag_test_mode == 1)
     {
-#if (SRX1332A == 0)
         UART1_INIT();
-#endif
         ML7345_SetAndGet_State(Force_TRX_OFF);
         RF_ML7345_Init(Fre_426_075,0x55,12);
     }
