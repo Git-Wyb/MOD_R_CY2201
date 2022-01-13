@@ -257,9 +257,9 @@
         </option>
         <option>
           <name>CCIncludePath2</name>
-          <state>D:\My Project\MOD_R_CY2201\CY2201 for ML7345D Scan Project Verx.xx\Libraries\inc</state>
-          <state>D:\My Project\MOD_R_CY2201\CY2201 for ML7345D Scan Project Verx.xx\user_src</state>
-          <state>D:\My Project\MOD_R_CY2201\CY2201 for ML7345D Scan Project Verx.xx\radio</state>
+          <state>$PROJ_DIR$\Libraries\inc</state>
+          <state>$PROJ_DIR$\user_src</state>
+          <state>$PROJ_DIR$\radio</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
