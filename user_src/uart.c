@@ -28,7 +28,7 @@ UINT8 UartStatus = FrameHeadSataus;
 UINT8 UartLen = 0;
 UINT8 UartCount = 0;
 UINT8 Flag_Uart_Receive_ACK = 0;
-UINT8 UART_DATA_buffer[42] = {FrameHead};
+UINT8 UART_DATA_buffer[UartBuff_MaxLength] = {FrameHead};
 UINT8 UART_DATA_format[4] = {0};
 UINT8 UART_DATA_ID98[42] = {0};
 UINT16 Uart_Receive_checksum = 0;
@@ -502,6 +502,7 @@ void ReceiveFrame(UINT8 Cache)
 			UART_DATA_buffer[1] = UART_DATA_format[1];
 			UART_DATA_buffer[2] = UART_DATA_format[2];
 			UartLen = UART_DATA_buffer[1];
+            if(UartLen >= (UartBuff_MaxLength - 1))    UartStatus = FrameHeadSataus;  //overflow
 			Uart_Receive_checksum = UART_DATA_buffer[0] + UART_DATA_buffer[1] + UART_DATA_buffer[2];
 			if (UART_DATA_buffer[2] == Uart_Ack)
 				Flag_Uart_Receive_ACK = 1;
