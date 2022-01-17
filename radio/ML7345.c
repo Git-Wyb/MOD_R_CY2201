@@ -622,7 +622,7 @@ void ML7345D_RF_test_mode(void)
     Receiver_LED_RX = 0;
     FG_Receiver_LED_RX = 0;
     //Receiver_LED_OUT = 0;
-    Time_rf_init = 1000;
+    Time_rf_init = 100;
     FLAG_APP_RX = 1;
     TIME_Fine_Calibration = 900;
     TIME_EMC = 10;
