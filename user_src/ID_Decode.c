@@ -144,9 +144,9 @@ void ID_Decode_IDCheck(void)
                                     FREQ_auto_useful = 0;
                                     FG_auto_manual_mode = 1;
                                     if(TIME_auto_out==0)
-                                        TIME_auto_out = 5502; //time*90; time=60s
-                                    else if(TIME_auto_out<900)
-                                        TIME_auto_out = 900; //time*90; time=10s
+                                        TIME_auto_out = 7300; //time*90; time=80s
+                                    else if(TIME_auto_out<2700)
+                                        TIME_auto_out = 2700; //time*90; time=30s
                                     if (FG_First_auto == 0)
                                     {
                                         FG_First_auto = 1;
