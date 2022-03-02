@@ -446,7 +446,7 @@ void PC_PRG(void) // 串口命令
                 case 'P':
                     if(SIO_DATA[2]=='H' && SIO_DATA[6]==')')
                     {
-                        if(SIO_DATA[3]=='B' && SIO_DATA[4]=='0' && SIO_DATA[5]=='1')         {Receiver_LED_OUT = 1;  uart_send_dat(send_ok,4);}
+                        if(SIO_DATA[3]=='A' && SIO_DATA[4]=='0' && SIO_DATA[5]=='3')         {Receiver_LED_OUT = 1;  uart_send_dat(send_ok,4);}
                         else if(SIO_DATA[3]=='B' && SIO_DATA[4]=='0' && SIO_DATA[5]=='2')    {Receiver_LED_TX = 1;   uart_send_dat(send_ok,4);}
                         else if(SIO_DATA[3]=='B' && SIO_DATA[4]=='0' && SIO_DATA[5]=='3')    {Receiver_LED_RX = 1;   uart_send_dat(send_ok,4);}
                         else if(SIO_DATA[3]=='D' && SIO_DATA[4]=='0' && SIO_DATA[5]=='1')    {Receiver_OUT_STOP = 1; uart_send_dat(send_ok,4);}
@@ -455,7 +455,7 @@ void PC_PRG(void) // 串口命令
                     }
                     else if(SIO_DATA[2]=='L' && SIO_DATA[6]==')')
                     {
-                        if(SIO_DATA[3]=='B' && SIO_DATA[4]=='0' && SIO_DATA[5]=='1')         {Receiver_LED_OUT = 0;  uart_send_dat(send_ok,4);}
+                        if(SIO_DATA[3]=='A' && SIO_DATA[4]=='0' && SIO_DATA[5]=='3')         {Receiver_LED_OUT = 0;  uart_send_dat(send_ok,4);}
                         else if(SIO_DATA[3]=='B' && SIO_DATA[4]=='0' && SIO_DATA[5]=='2')    {Receiver_LED_TX = 0;   uart_send_dat(send_ok,4);}
                         else if(SIO_DATA[3]=='B' && SIO_DATA[4]=='0' && SIO_DATA[5]=='3')    {Receiver_LED_RX = 0;   uart_send_dat(send_ok,4);}
                         else if(SIO_DATA[3]=='D' && SIO_DATA[4]=='0' && SIO_DATA[5]=='1')    {Receiver_OUT_STOP = 0; uart_send_dat(send_ok,4);}
