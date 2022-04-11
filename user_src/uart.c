@@ -293,6 +293,8 @@ void PC_PRG(void) // 串口命令
                         Receiver_OUT_STOP = 0;
                         Receiver_OUT_CLOSE = 0;
                         Receiver_OUT_OPEN = 0;
+                        Receiver_OUT_VENT = 0;
+                        PIN_BEEP = 0;
                         X_COUNT = 0;
                         X_ERR = 0;
                         X_ERR_CNT = 0;
@@ -452,6 +454,15 @@ void PC_PRG(void) // 串口命令
                         else if(SIO_DATA[3]=='D' && SIO_DATA[4]=='0' && SIO_DATA[5]=='1')    {Receiver_OUT_STOP = 1; uart_send_dat(send_ok,4);}
                         else if(SIO_DATA[3]=='D' && SIO_DATA[4]=='0' && SIO_DATA[5]=='2')    {Receiver_OUT_CLOSE = 1;uart_send_dat(send_ok,4);}
                         else if(SIO_DATA[3]=='D' && SIO_DATA[4]=='0' && SIO_DATA[5]=='3')    {Receiver_OUT_OPEN = 1; uart_send_dat(send_ok,4);}
+                        else if(SIO_DATA[3]=='B' && SIO_DATA[4]=='0' && SIO_DATA[5]=='1')    {PIN_BEEP = 1;          uart_send_dat(send_ok,4);}
+                        else if(SIO_DATA[3]=='A' && SIO_DATA[4]=='0' && SIO_DATA[5]=='4')
+                        {
+#if (SRX1332A == 1)
+                            OUT_VENT_Init();
+                            Receiver_OUT_VENT = 1;
+                            uart_send_dat(send_ok,4);
+#endif
+                        }
                     }
                     else if(SIO_DATA[2]=='L' && SIO_DATA[6]==')')
                     {
@@ -461,6 +472,15 @@ void PC_PRG(void) // 串口命令
                         else if(SIO_DATA[3]=='D' && SIO_DATA[4]=='0' && SIO_DATA[5]=='1')    {Receiver_OUT_STOP = 0; uart_send_dat(send_ok,4);}
                         else if(SIO_DATA[3]=='D' && SIO_DATA[4]=='0' && SIO_DATA[5]=='2')    {Receiver_OUT_CLOSE = 0;uart_send_dat(send_ok,4);}
                         else if(SIO_DATA[3]=='D' && SIO_DATA[4]=='0' && SIO_DATA[5]=='3')    {Receiver_OUT_OPEN = 0; uart_send_dat(send_ok,4);}
+                        else if(SIO_DATA[3]=='B' && SIO_DATA[4]=='0' && SIO_DATA[5]=='1')    {PIN_BEEP = 0;          uart_send_dat(send_ok,4);}
+                        else if(SIO_DATA[3]=='A' && SIO_DATA[4]=='0' && SIO_DATA[5]=='4')
+                        {
+#if (SRX1332A == 1)
+                            OUT_VENT_Init();
+                            Receiver_OUT_VENT = 0;
+                            uart_send_dat(send_ok,4);
+#endif
+                        }
                     }
                     break;
                 case 'W':
