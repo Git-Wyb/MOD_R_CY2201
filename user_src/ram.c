@@ -32,6 +32,9 @@ u8 SIO_buff[16] = {0};
 u8 SIO_DATA[16] = {0};
 u8 Tx_Rx_mode = 0;
 u16 Time_rf_init = 0;
+u16 timeout_cnt = 0;
+u16 time_cnt = 0;
+u8 retx_cnt = 0;
 
 u8 TIME_10ms = 0;
 u16 TIME_auto_useful = 0;

@@ -235,6 +235,9 @@ extern u8 Flag_ERROR_Read_once_again;
 extern u8 Flag_SendUart_Receiver_LED_OUT;
 extern u16 Time_rf_init;
 extern u8 Receiver_429MHz_mode;
+extern u16 timeout_cnt;
+extern u8 retx_cnt;
+extern u16 time_cnt;
 
 //-----------------------------------------------------------------------------------------------
 typedef union{

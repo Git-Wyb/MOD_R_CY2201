@@ -467,6 +467,7 @@ void APP_TX_PACKET(void)
 				   Receiver_LED_TX = 0;
 				   FLAG_APP_TX_once=0;
                    Flag_tx_en = 0;
+                   retx_cnt = 0;
 				}
 		   }
     }
@@ -482,6 +483,13 @@ void APP_TX_PACKET(void)
         ML7345_GPIO2TxDoneInt_Enable();
         ML7345_AutoTx_Data(CONST_TXPACKET_DATA_20000AF0,28);
         Time_Tx_Out = 100;
+        if(retx_cnt++ >= 2)
+        {
+            retx_cnt = 0;
+            Flag_tx_en = 0;
+            FLAG_APP_RX = 1;
+            Receiver_LED_TX = 0;
+        }
     }
 }
 
