@@ -154,11 +154,13 @@ const ADF70XX_REG_T Default_adf7030_value[16] = {
 	u32 PROFILE_GENERIC_PKT_FRAME_CFG1_32bit_20000500 = 0x0000100C;
 const u32 PROFILE_CH1_FREQ_32bit_429HighSpeed=429350000;//429350000;//429225000;
 const u32 PROFILE_CH2_FREQ_32bit_429HighSpeed=429550000;//429550000;//429237500;
+const u32 PROFILE_CH3_FREQ_32bit_429LowSpeed=429175000;
+const u32 PROFILE_CH4_FREQ_32bit_429LowSpeed=429200000;
 u8 Channels=1;
 
 
-Wireless_Body Struct_DATA_Packet_Contro,Struct_DATA_Packet_Contro_buf;
-Wireless_Body Uart_Struct_DATA_Packet_Contro,Last_Uart_Struct_DATA_Packet_Contro;
+Wireless_Body Struct_DATA_Packet_Contro = {0},Struct_DATA_Packet_Contro_buf = {0};
+Wireless_Body Uart_Struct_DATA_Packet_Contro = {0},Last_Uart_Struct_DATA_Packet_Contro = {0};
 u8 Struct_DATA_Packet_Contro_fno=0;
 u16 TIMER_Semi_open;
 u16 TIMER_Semi_close;
