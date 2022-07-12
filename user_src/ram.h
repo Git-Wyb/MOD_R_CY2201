@@ -289,6 +289,7 @@ extern Mark_Un mark2_stu;
 #define Flag_normal_stat    mark2_stu.un_var_bit0
 #define Flag_beepon_stat        mark2_stu.un_var_bit1
 #define Flag_beepon_manual        mark2_stu.un_var_bit2
+#define Flag_beepon_auto        mark2_stu.un_var_bit3
 
 /* 自动下降时间设定 */
 #define CLOSE_AUTO_DECLINE  0x90  //不执行自动下降

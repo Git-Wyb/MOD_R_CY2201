@@ -176,7 +176,7 @@ void ID_Decode_IDCheck(void)
                                 TIME_auto_useful = 0;
                                 FREQ_auto_useful_continuous = 0;
                                 TIME_auto_out = 0;
-                                if(Flag_beepon_stat == 1)   Flag_beepon_manual = 1;
+                                if(Flag_beepon_stat == 1 || Flag_beepon_auto == 1)   Flag_beepon_manual = 1;
 
 		                        if (FG_auto_manual_mode == 1)      //Manual_override_TIMER=13500;   //2�?0秒自动无�?
                                 {
@@ -1177,6 +1177,7 @@ void ID_Decode_OUT(void)
 
 void Action_Signal_Detection(void)
 {
+    if(Struct_DATA_Packet_Contro_fno == Tx_Setting_Status)  return;
     if(Manual_override_TIMER)
 	{
         switch (Struct_DATA_Packet_Contro_fno)
@@ -1234,11 +1235,12 @@ void Beep_Action_On(void)
                 case Tx_Open_StatusNG:
                 case Tx_Close_StatusNG:
                 case Tx_Open_Action_StatusNG:
-                    if(Flag_beepon_stat == 1)
+                    if(Flag_beepon_stat == 1 || Flag_beepon_auto == 1)
                     {
                         Flag_beepon_stat = 0;
                         Flag_beepon_manual = 0;
-                        _ReqBuzzer_2(0,10,0,0,0,0);
+                        Flag_beepon_auto = 0;
+                        _ReqBuzzer_2(0,10,0,0,10,0);
                     }
                     break;
                 default:
@@ -1246,10 +1248,11 @@ void Beep_Action_On(void)
             }
         }
     }
-    if(Flag_beepon_manual == 1 && TIMER1s == 0)
+    if(Flag_beepon_manual == 1)
     {
         Flag_beepon_manual = 0;
+        Flag_beepon_auto = 0;
         Flag_beepon_stat = 0;
-        _ReqBuzzer_2(0,10,0,0,0,0);
+        _ReqBuzzer_2(0,10,0,0,10,0);
     }
 }

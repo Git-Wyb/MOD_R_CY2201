@@ -9,8 +9,31 @@
       <file>$PROJ_DIR$\radio\ML7345.h</file>
       <file>$PROJ_DIR$\radio\ML7345.c</file>
       <file>$PROJ_DIR$\radio\ML7345_defs.h</file>
+      <file>$PROJ_DIR$\Libraries\src\stm8l15x_beep.c</file>
+      <file>$PROJ_DIR$\Libraries\src\stm8l15x_exti.c</file>
+      <file>$PROJ_DIR$\Libraries\src\stm8l15x_comp.c</file>
+      <file>$PROJ_DIR$\Libraries\src\stm8l15x_irtim.c</file>
+      <file>$PROJ_DIR$\Libraries\src\stm8l15x_rtc.c</file>
+      <file>$PROJ_DIR$\Libraries\src\stm8l15x_clk.c</file>
+      <file>$PROJ_DIR$\Libraries\src\stm8l15x_dma.c</file>
+      <file>$PROJ_DIR$\Libraries\src\stm8l15x_gpio.c</file>
+      <file>$PROJ_DIR$\Libraries\src\stm8l15x_adc.c</file>
+      <file>$PROJ_DIR$\Libraries\src\stm8l15x_syscfg.c</file>
+      <file>$PROJ_DIR$\Libraries\src\stm8l15x_i2c.c</file>
+      <file>$PROJ_DIR$\Libraries\src\stm8l15x_itc.c</file>
+      <file>$PROJ_DIR$\Libraries\src\stm8l15x_rst.c</file>
       <file>$PROJ_DIR$\radio\ML7345_HAL.h</file>
       <file>$PROJ_DIR$\radio\ML7345_HAL.c</file>
+      <file>$PROJ_DIR$\Libraries\src\stm8l15x_tim1.c</file>
+      <file>$PROJ_DIR$\Libraries\src\stm8l15x_iwdg.c</file>
+      <file>$PROJ_DIR$\Libraries\src\stm8l15x_dac.c</file>
+      <file>$PROJ_DIR$\Libraries\src\stm8l15x_aes.c</file>
+      <file>$PROJ_DIR$\Libraries\src\stm8l15x_lcd.c</file>
+      <file>$PROJ_DIR$\Libraries\src\stm8l15x_flash.c</file>
+      <file>$PROJ_DIR$\Libraries\src\stm8l15x_spi.c</file>
+      <file>$PROJ_DIR$\Libraries\src\stm8l15x_pwr.c</file>
+      <file>$PROJ_DIR$\Libraries\src\stm8l15x_tim2.c</file>
+      <file>$PROJ_DIR$\Libraries\src\stm8l15x_tim3.c</file>
       <file>$PROJ_DIR$\Libraries\inc\stm8l15x_lcd.h</file>
       <file>$TOOLKIT_DIR$\inc\c\xencoding_limits.h</file>
       <file>$PROJ_DIR$\Debug\Obj\Timer.o</file>
@@ -66,6 +89,11 @@
       <file>$PROJ_DIR$\Libraries\inc\stm8l15x_beep.h</file>
       <file>$PROJ_DIR$\Debug\Obj\Initial.__cstat.et</file>
       <file>$PROJ_DIR$\Debug\Obj\eeprom.__cstat.et</file>
+      <file>$PROJ_DIR$\Libraries\src\stm8l15x_wwdg.c</file>
+      <file>$PROJ_DIR$\Libraries\src\stm8l15x_tim5.c</file>
+      <file>$PROJ_DIR$\Libraries\src\stm8l15x_wfe.c</file>
+      <file>$PROJ_DIR$\Libraries\src\stm8l15x_tim4.c</file>
+      <file>$PROJ_DIR$\Libraries\src\stm8l15x_usart.c</file>
       <file>$TOOLKIT_DIR$\lib\dlstm8mmn.h</file>
       <file>$PROJ_DIR$\Libraries\inc\stm8l15x_itc.h</file>
       <file>$TOOLKIT_DIR$\inc\c\ysizet.h</file>
@@ -127,21 +155,21 @@
       <outputs>
         <tool>
           <name>ICCSTM8</name>
-          <file> 13</file>
+          <file> 36</file>
         </tool>
         <tool>
           <name>BICOMP</name>
-          <file> 25</file>
+          <file> 48</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>ICCSTM8</name>
-          <file> 0 74 104 15 68 72 18 2 3 54 84 98 97 32 77</file>
+          <file> 0 102 132 38 96 100 41 2 16 77 112 126 125 55 105</file>
         </tool>
         <tool>
           <name>BICOMP</name>
-          <file> 74 32 104 15 54 77 3 98 68 2 72 97 0 18 84</file>
+          <file> 102 96 55 132 38 112 77 105 16 126 2 41 0 100 125</file>
         </tool>
       </inputs>
     </file>
@@ -150,21 +178,21 @@
       <outputs>
         <tool>
           <name>ICCSTM8</name>
-          <file> 110</file>
+          <file> 138</file>
         </tool>
         <tool>
           <name>BICOMP</name>
-          <file> 108</file>
+          <file> 136</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>ICCSTM8</name>
-          <file> 3 2 54 84 68 72 18 74 104 15 98 97 0</file>
+          <file> 16 2 77 112 96 100 41 102 132 38 126 125 0</file>
         </tool>
         <tool>
           <name>BICOMP</name>
-          <file> 68 2 97 98 84 74 18 104 15 54 0 72 3</file>
+          <file> 96 2 126 112 102 41 132 38 77 0 100 16 125</file>
         </tool>
       </inputs>
     </file>
@@ -173,17 +201,17 @@
       <outputs>
         <tool>
           <name>ILINK</name>
-          <file> 37</file>
+          <file> 60</file>
         </tool>
         <tool>
           <name>OBJCOPY</name>
-          <file> 24</file>
+          <file> 47</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>ILINK</name>
-          <file> 41 42 8 103 91 10 13 110 113 21 16 7 63 81 73</file>
+          <file> 64 65 31 131 119 33 36 138 141 44 39 30 91 109 101</file>
         </tool>
       </inputs>
     </file>
@@ -192,21 +220,21 @@
       <outputs>
         <tool>
           <name>__cstat</name>
-          <file> 88</file>
+          <file> 116</file>
         </tool>
         <tool>
           <name>BICOMP</name>
-          <file> 89</file>
+          <file> 117</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>ICCSTM8</name>
-          <file> 99 93 14 55 60 87 6 109 62 28 92 72 74 104 15 68 18 54 84 98 97 69 32 77</file>
+          <file> 127 121 37 78 88 115 29 137 90 51 120 100 102 132 38 96 41 77 112 126 125 97 55 105</file>
         </tool>
         <tool>
           <name>BICOMP</name>
-          <file> 62 93 32 14 68 74 72 98 77 55 109 92 99 54 69 28 6 60 87 104 15 18 84 97</file>
+          <file> 90 121 55 37 96 102 100 126 105 78 137 120 127 77 97 51 29 88 115 132 38 41 112 125</file>
         </tool>
       </inputs>
     </file>
@@ -215,25 +243,25 @@
       <outputs>
         <tool>
           <name>ICCSTM8</name>
-          <file> 63</file>
+          <file> 91</file>
         </tool>
         <tool>
           <name>__cstat</name>
-          <file> 114</file>
+          <file> 142</file>
         </tool>
         <tool>
           <name>BICOMP</name>
-          <file> 29</file>
+          <file> 52</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>ICCSTM8</name>
-          <file> 104 15 54 84 68 72 18 97 98 52 77 32 0 74 2 3</file>
+          <file> 132 38 77 112 96 100 41 125 126 75 105 55 0 102 2 16</file>
         </tool>
         <tool>
           <name>BICOMP</name>
-          <file> 18 104 52 68 97 32 74 54 98 77 0 15 84 3 2 72</file>
+          <file> 132 75 125 55 102 77 126 105 0 38 100 16 2 112 96 41</file>
         </tool>
       </inputs>
     </file>
@@ -242,25 +270,25 @@
       <outputs>
         <tool>
           <name>ICCSTM8</name>
-          <file> 103</file>
+          <file> 131</file>
         </tool>
         <tool>
           <name>__cstat</name>
-          <file> 27</file>
+          <file> 50</file>
         </tool>
         <tool>
           <name>BICOMP</name>
-          <file> 85</file>
+          <file> 113</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>ICCSTM8</name>
-          <file> 104 15 54 84 68 72 18 97 98 32 52 77 0 74 2 3</file>
+          <file> 132 38 77 112 96 100 41 125 126 55 75 105 0 102 2 16</file>
         </tool>
         <tool>
           <name>BICOMP</name>
-          <file> 18 104 32 68 97 77 74 54 98 52 0 15 84 3 2 72</file>
+          <file> 132 55 125 105 38 102 77 126 75 0 100 16 2 112 96 41</file>
         </tool>
       </inputs>
     </file>
@@ -269,25 +297,25 @@
       <outputs>
         <tool>
           <name>ICCSTM8</name>
-          <file> 21</file>
+          <file> 44</file>
         </tool>
         <tool>
           <name>__cstat</name>
-          <file> 70</file>
+          <file> 98</file>
         </tool>
         <tool>
           <name>BICOMP</name>
-          <file> 96</file>
+          <file> 124</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>ICCSTM8</name>
-          <file> 74 104 15 68 72 18 0 2 3 54 84 98 97</file>
+          <file> 102 132 38 96 100 41 0 2 16 77 112 126 125</file>
         </tool>
         <tool>
           <name>BICOMP</name>
-          <file> 72 0 68 3 54 97 104 15 74 84 18 2 98</file>
+          <file> 41 96 102 0 132 38 2 126 112 100 16 77 125</file>
         </tool>
       </inputs>
     </file>
@@ -296,25 +324,25 @@
       <outputs>
         <tool>
           <name>ICCSTM8</name>
-          <file> 91</file>
+          <file> 119</file>
         </tool>
         <tool>
           <name>__cstat</name>
-          <file> 58</file>
+          <file> 81</file>
         </tool>
         <tool>
           <name>BICOMP</name>
-          <file> 43</file>
+          <file> 66</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>ICCSTM8</name>
-          <file> 99 93 14 55 60 87 6 109 62 28 104 15 54 84 68 72 18 97 98 0 74 2 3 77</file>
+          <file> 127 121 37 78 88 115 29 137 90 51 132 38 77 112 96 100 41 125 126 0 102 2 16 105</file>
         </tool>
         <tool>
           <name>BICOMP</name>
-          <file> 93 55 109 98 84 54 77 62 14 15 68 104 97 0 28 6 60 87 72 2 99 18 74 3</file>
+          <file> 121 78 137 126 96 112 77 105 90 37 38 125 132 0 51 29 88 115 41 2 127 100 102 16</file>
         </tool>
       </inputs>
     </file>
@@ -323,25 +351,25 @@
       <outputs>
         <tool>
           <name>ICCSTM8</name>
-          <file> 113</file>
+          <file> 141</file>
         </tool>
         <tool>
           <name>__cstat</name>
-          <file> 71</file>
+          <file> 99</file>
         </tool>
         <tool>
           <name>BICOMP</name>
-          <file> 12</file>
+          <file> 35</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>ICCSTM8</name>
-          <file> 99 93 14 55 60 87 6 109 62 28 92 72 68 18 98 97 19 95 78</file>
+          <file> 127 121 37 78 88 115 29 137 90 51 120 100 96 41 126 125 42 123 106</file>
         </tool>
         <tool>
           <name>BICOMP</name>
-          <file> 98 93 72 62 6 14 18 92 68 109 99 19 95 78 28 55 60 87 97</file>
+          <file> 88 126 106 78 37 100 42 51 90 120 96 123 115 121 125 127 29 137 41</file>
         </tool>
       </inputs>
     </file>
@@ -350,25 +378,25 @@
       <outputs>
         <tool>
           <name>ICCSTM8</name>
-          <file> 10</file>
+          <file> 33</file>
         </tool>
         <tool>
           <name>__cstat</name>
-          <file> 56</file>
+          <file> 79</file>
         </tool>
         <tool>
           <name>BICOMP</name>
-          <file> 106</file>
+          <file> 134</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>ICCSTM8</name>
-          <file> 104 15 54 84 68 72 18 97 98 0 74 2 3 32 52 77</file>
+          <file> 132 38 77 112 96 100 41 125 126 0 102 2 16 55 75 105</file>
         </tool>
         <tool>
           <name>BICOMP</name>
-          <file> 77 0 68 97 32 15 84 54 98 52 72 2 104 18 74 3</file>
+          <file> 112 105 0 125 96 55 38 77 126 75 41 2 132 100 102 16</file>
         </tool>
       </inputs>
     </file>
@@ -377,25 +405,25 @@
       <outputs>
         <tool>
           <name>ICCSTM8</name>
-          <file> 16</file>
+          <file> 39</file>
         </tool>
         <tool>
           <name>__cstat</name>
-          <file> 90</file>
+          <file> 118</file>
         </tool>
         <tool>
           <name>BICOMP</name>
-          <file> 67</file>
+          <file> 95</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>ICCSTM8</name>
-          <file> 44 94 83 22 30 57 102 80 33 9 31 65 107 86 64 61 112 5 111 79 105 76 20 66 23 101 82 38 100 50 11 18 54 84 68 72 97 98 32 77</file>
+          <file> 67 122 111 45 53 80 130 108 56 32 54 93 135 114 92 89 140 28 139 107 133 104 43 94 46 129 110 61 128 73 34 41 77 112 96 100 125 126 55 105</file>
         </tool>
         <tool>
           <name>BICOMP</name>
-          <file> 102 94 20 64 11 84 31 111 82 97 77 83 30 33 107 112 105 23 100 54 98 32 18 22 57 80 9 65 86 61 5 79 76 66 101 38 50 68 44 72</file>
+          <file> 130 122 43 92 34 112 54 139 110 125 105 111 53 56 135 140 133 46 128 100 77 126 55 41 45 80 108 32 93 114 89 28 107 104 94 129 61 73 67 96</file>
         </tool>
       </inputs>
     </file>
@@ -404,25 +432,25 @@
       <outputs>
         <tool>
           <name>ICCSTM8</name>
-          <file> 7</file>
+          <file> 30</file>
         </tool>
         <tool>
           <name>__cstat</name>
-          <file> 26</file>
+          <file> 49</file>
         </tool>
         <tool>
           <name>BICOMP</name>
-          <file> 75</file>
+          <file> 103</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>ICCSTM8</name>
-          <file> 104 15 54 84 68 72 18 97 98 77 32</file>
+          <file> 132 38 77 112 96 100 41 125 126 105 55</file>
         </tool>
         <tool>
           <name>BICOMP</name>
-          <file> 77 97 18 68 54 98 32 15 84 104 72</file>
+          <file> 38 105 125 100 77 126 55 132 112 96 41</file>
         </tool>
       </inputs>
     </file>
@@ -431,25 +459,25 @@
       <outputs>
         <tool>
           <name>ICCSTM8</name>
-          <file> 8</file>
+          <file> 31</file>
         </tool>
         <tool>
           <name>__cstat</name>
-          <file> 59</file>
+          <file> 82</file>
         </tool>
         <tool>
           <name>BICOMP</name>
-          <file> 45</file>
+          <file> 68</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>ICCSTM8</name>
-          <file> 104 15 54 84 68 72 18 97 98 52 32 77 0 74 2 3</file>
+          <file> 132 38 77 112 96 100 41 125 126 75 55 105 0 102 2 16</file>
         </tool>
         <tool>
           <name>BICOMP</name>
-          <file> 18 104 52 15 68 97 77 74 54 98 32 0 84 3 2 72</file>
+          <file> 132 75 38 125 105 102 77 126 55 0 100 16 2 112 96 41</file>
         </tool>
       </inputs>
     </file>
@@ -458,7 +486,7 @@
       <outputs>
         <tool>
           <name>ILINK</name>
-          <file> 17 37</file>
+          <file> 40 60</file>
         </tool>
       </outputs>
     </file>
