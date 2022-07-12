@@ -47,6 +47,7 @@ u8 ML7345_SetAndGet_State(RF_StatusSet_ENUM sta)
                 if(Radio_Date_Type == 1)  RF_ML7345_Init(Freq_SetBuff,0x55,12);
                 else    RF_ML7345_Init(Freq_SetBuff,0x55,28);
                 ClearWDT();
+                ML7345_GPIO2RxDoneInt_Enable();
                 ML7345_Write_Reg(ADDR_RF_STATUS,sta);
                 WaitStatus_Complete();
             }

@@ -60,19 +60,19 @@ typedef union {
 }uni_i;
 
 
-typedef struct body    //����ṹ��  
-{  
-	union  
-	{  
-		u8 byte;  
-		struct	
-		{  
-			unsigned char type :5;  
-			unsigned char fno :3;   		 
-		} UN;  
-	}Fno_Type; 
-	
-    uni_i data[4];  //����data      
+typedef struct body    //����ṹ��
+{
+	union
+	{
+		u8 byte;
+		struct
+		{
+			unsigned char type :5;
+			unsigned char fno :3;
+		} UN;
+	}Fno_Type;
+
+    uni_i data[4];  //����data
 }Wireless_Body;  //�ṹ��
 
 
@@ -104,5 +104,20 @@ typedef struct
         };                         /*!< BitSize                                                               */
     };
 } ADF7030_1_STATUS_TYPE;
+
+typedef union
+{
+    u8 Ststus_Sign;
+    struct{
+        u8 Flag_LowerLimit : 1;         /* 下限信号标志,0:有下限; 1:无下限 */
+        u8 Flag_AbnormalSignal : 1;     /* 异常信号标志,0:异常; 1:无异常 */
+        u8 Flag_ActionSignal : 1;       /* 动作中标志,0:动作中; 1:无动作 */
+        u8 Exist_ID : 1;                /* 0:没有ID; 1:存在ID */
+        u8 PROFILE_RxLowSpeed_TYPE : 1; /* 0:频率426MHz; 1:频率429MHz */
+        u8 Receive_SignalType : 1;      /* 0:受信于自动信号; 1:受信于AAP或者遥控器;  */
+        u8 ActionOpenOrClose : 1;       /* 0:闭动作; 1:开动作; 记录受信时接收的是开命令还是关命令*/
+        u8 Buzzer_Switch : 1;           /* 蜂鸣器开关, 0:不允许开蜂鸣器; 1:可以开蜂鸣器*/
+    };
+}Basic_Un;
 
 #endif

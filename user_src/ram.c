@@ -8,6 +8,7 @@
 
 Mark_Un mark0_stu = {0};
 Mark_Un mark1_stu = {0};
+Mark_Un mark2_stu = {0};
 
 u8 DEF_APP_TX_freq=3;
 
@@ -162,6 +163,7 @@ u8 Channels=1;
 Wireless_Body Struct_DATA_Packet_Contro = {0},Struct_DATA_Packet_Contro_buf = {0};
 Wireless_Body Uart_Struct_DATA_Packet_Contro = {0},Last_Uart_Struct_DATA_Packet_Contro = {0};
 u8 Struct_DATA_Packet_Contro_fno=0;
+u8 Struct_DATA_Packet_Contro_Backup = 0;
 u16 TIMER_Semi_open;
 u16 TIMER_Semi_close;
 u8 FLAG__Semi_open_T=0;
@@ -184,6 +186,8 @@ u8 ERROR_Read_sendTX_packet=0;
 u8 Flag_ERROR_Read_once_again=0;
 u8 Flag_SendUart_Receiver_LED_OUT;
 u8 Receiver_429MHz_mode=0; //1=ON   0=OFF
+u8 auto_over_time = 4;
+Basic_Un Status_Un = {0};
 
 
 

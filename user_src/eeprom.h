@@ -40,6 +40,9 @@ void EEPROM_write_For_UART(void);
 //%                  EEPROM MAP                  %
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #define addr_eeprom_sys 0x1000 // SYS=0x4000~0x400F
+#define AddrEeprom_AutoOverTime  0x3F7
+#define AddrEeprom_BuzzerSwitch  0x3F8
 #define Addr_rf_offset 0x3F9
+
 
 #endif

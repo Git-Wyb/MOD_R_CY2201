@@ -72,13 +72,13 @@ void ID_Decode_IDCheck(void)
 			    {
                     if(PROFILE_CH_FREQ_32bit_200002EC == 429175000 || PROFILE_CH_FREQ_32bit_200002EC == 429200000)   // APP
                     {
-                        Flag_PROFILE_RxLowSpeed_TYPE = 1;    // 429
+                        Status_Un.PROFILE_RxLowSpeed_TYPE = 1;    // 429
                     }
                     else if(PROFILE_CH_FREQ_32bit_200002EC == 426075000)   //STX
                     {
-                        Flag_PROFILE_RxLowSpeed_TYPE = 0;
+                        Status_Un.PROFILE_RxLowSpeed_TYPE = 0;
                     }
-                    if(Flag_PROFILE_RxLowSpeed_TYPE == 0)   //426
+                    if(Status_Un.PROFILE_RxLowSpeed_TYPE == 0)   //426
                     {
 		                if (DATA_Packet_ID == 0xFFFFFE)
 		                    DATA_Packet_Control = DATA_Packet_Contro_buf; //2015.3.24修正 Control缓存�?ID判断是否学习过后才能使用
@@ -154,9 +154,9 @@ void ID_Decode_IDCheck(void)
                                     FREQ_auto_useful = 0;
                                     FG_auto_manual_mode = 1;
                                     if(TIME_auto_out==0)
-                                        TIME_auto_out = 7300; //time*90; time=80s
-                                    else if(TIME_auto_out<2700)
-                                        TIME_auto_out = 2700; //time*90; time=30s
+                                        TIME_auto_out = 4600+1000 * (auto_over_time - 1);//7300; //time*90; time=80s
+                                    else if(TIME_auto_out < (1000 * (auto_over_time - 1)))
+                                        TIME_auto_out = 1000 * (auto_over_time - 1);//2700; //time*90; time=30s
                                     if (FG_First_auto == 0)
                                     {
                                         FG_First_auto = 1;
@@ -172,8 +172,19 @@ void ID_Decode_IDCheck(void)
                                 TIME_auto_useful = 0;
                                 TIME_auto_close = 0;
 		                        FG_auto_open_time = 0;
+                                FREQ_auto_useful_count = 0;
+                                TIME_auto_useful = 0;
+                                FREQ_auto_useful_continuous = 0;
+                                TIME_auto_out = 0;
+                                if(Flag_beepon_stat == 1)   Flag_beepon_manual = 1;
+
 		                        if (FG_auto_manual_mode == 1)      //Manual_override_TIMER=13500;   //2�?0秒自动无�?
-		                            Manual_override_TIMER = 25850;//27200;//5 Minutes。24480; //4�?0秒自动无�?
+                                {
+		                            Manual_override_TIMER = 27200;//27200;//5 Minutes。24480; //4�?0秒自动无�?
+                                    Action_Signal_Detection();
+                                    FLAG_APP_TX_fromUART = 1;
+                                }
+                                FG_auto_manual_mode = 0;
 		                        if ((DATA_Packet_Control & 0x14) == 0x14)
 		                        {
 		                            if (TIMER1s == 0)
@@ -187,7 +198,7 @@ void ID_Decode_IDCheck(void)
 		                    FG_Receiver_LED_RX = 1;
 		                }
                     }
-                    else if(Flag_PROFILE_RxLowSpeed_TYPE == 1)  //429低速
+                    else if(Status_Un.PROFILE_RxLowSpeed_TYPE == 1)  //429低速
                     {
                        if(DATA_Packet_Control == 0x02 || DATA_Packet_Control == 0x04 || DATA_Packet_Control == 0x08)
                         {
@@ -202,7 +213,7 @@ void ID_Decode_IDCheck(void)
                             FG_auto_open_time = 0;
 
                             if (FG_auto_manual_mode == 1)      //Manual_override_TIMER=13500;   //2分30秒内自动无效
-                                Manual_override_TIMER = 25850; //约5分钟,5分钟内自动无效
+                                Manual_override_TIMER = 27200; //约5分钟,5分钟内自动无效
                             FG_auto_manual_mode = 0;
                        }
                        if(((DATA_Packet_Control & 0xFF) == 0x02) || ((DATA_Packet_Control & 0xFF) == 0x08))//429M
@@ -415,7 +426,7 @@ void BEEP_function(void)
             FG_beep_on_Motor = 1;
             FG_beep_off_Motor = 0;
             //BEEP_CSR2_BEEPEN = 1;
-            TIM3_init();
+            if(Status_Un.Buzzer_Switch == 1)    TIM3_init();
         }
     }
     else if (TIME_BEEP_off)
@@ -440,7 +451,7 @@ void BEEP_function(void)
             FG_beep_on_Motor = 1;
             FG_beep_off_Motor = 0;
             //BEEP_CSR2_BEEPEN = 1;
-            TIM3_init();
+            if(Status_Un.Buzzer_Switch == 1)    TIM3_init();
         }
     }
 
@@ -453,7 +464,7 @@ void BEEP_function(void)
             FG_beep_on_Motor2 = 1;
             FG_beep_off_Motor2 = 0;
             //BEEP_CSR2_BEEPEN = 1;
-            TIM3_init();
+            if(Status_Un.Buzzer_Switch == 1)    TIM3_init();
         }
     }
     else if (TIME_BEEP_off2)
@@ -481,7 +492,7 @@ void BEEP_function(void)
             FG_beep_on_Motor2 = 1;
             FG_beep_off_Motor2 = 0;
             //BEEP_CSR2_BEEPEN = 1;
-            TIM3_init();
+            if(Status_Un.Buzzer_Switch == 1)    TIM3_init();
         }
     }
 }
@@ -572,7 +583,10 @@ void BEEP_Module(UINT16 time_beepON, UINT16 time_beepOFF)
 			FG_beep_on = 1;
 			FG_beep_off = 0;
 			//BEEP_CSR2_BEEPEN = 1;
-            if(FLAG_BEEP_OFF==0)TIM3_init();
+            if(Status_Un.Buzzer_Switch == 1)
+            {
+                if(FLAG_BEEP_OFF==0)TIM3_init();
+            }
         }
 		Delayus_With_UartACK(250); //80us
 		Delayus_With_UartACK(250); //80us
@@ -699,7 +713,7 @@ void ID_Decode_OUT(void)
             }
             break;
         case 0x40: //自动送信
-            if ((FG_auto_out == 0) && (Manual_override_TIMER == 0)&&(Radio_Date_Type_bak==1))
+            if ((FG_auto_out == 0) && (Manual_override_TIMER == 0)&&(Radio_Date_Type_bak==1)&&Status_Un.PROFILE_RxLowSpeed_TYPE==0)
             {
                 Receiver_LED_OUT = 1;
                 TIMER250ms_STOP = 0;
@@ -717,9 +731,12 @@ void ID_Decode_OUT(void)
                 } //810
                 else
                 {
-                    FG_auto_open_time = 1;
+                    if(auto_over_time != 1) //若设置了自动下降无效，则不执行关闭动作
+                        FG_auto_open_time = 1;
                     Receiver_OUT_STOP = FG_NOT_allow_out;
                     Receiver_OUT_OPEN = FG_allow_out;
+                    Status_Un.Receive_SignalType = 0; //自动受信
+                    Status_Un.ActionOpenOrClose = 1; //开动作中
                 }
             }
             break;
@@ -742,10 +759,38 @@ void ID_Decode_OUT(void)
             break;
         case 0x02: //close
             Receiver_LED_OUT = 1;
-            Receiver_OUT_OPEN = FG_NOT_allow_out;
-            Receiver_OUT_STOP = FG_NOT_allow_out;
-            Receiver_OUT_VENT = FG_NOT_allow_out;
-            Receiver_OUT_CLOSE = FG_allow_out;
+            Status_Un.Receive_SignalType = 1; //受信于手动信号
+            if(Status_Un.PROFILE_RxLowSpeed_TYPE == 0)//426
+            {
+                Receiver_OUT_OPEN = FG_NOT_allow_out;
+                Receiver_OUT_STOP = FG_NOT_allow_out;
+                Receiver_OUT_VENT = FG_NOT_allow_out;
+                Receiver_OUT_CLOSE = FG_allow_out;
+            }
+            else if(Status_Un.PROFILE_RxLowSpeed_TYPE == 1)//429
+            {
+                if (TIMER1s > 2000)
+                {
+                    Receiver_OUT_STOP = FG_allow_out;
+                    Receiver_OUT_OPEN = FG_NOT_allow_out;
+                    Receiver_OUT_CLOSE = FG_NOT_allow_out;
+                    Receiver_OUT_VENT = FG_NOT_allow_out;
+                } //1830
+                else if (TIMER1s > 1000)
+                {
+                    Receiver_OUT_STOP = FG_NOT_allow_out;
+                    Receiver_OUT_OPEN = FG_NOT_allow_out;
+                    Receiver_OUT_CLOSE = FG_NOT_allow_out;
+                    Receiver_OUT_VENT = FG_NOT_allow_out;
+                } //810
+                else
+                {
+                    Receiver_OUT_CLOSE = FG_allow_out;
+                    Receiver_OUT_STOP = FG_NOT_allow_out;
+                    Receiver_OUT_OPEN = FG_NOT_allow_out;
+                    Receiver_OUT_VENT = FG_NOT_allow_out;
+                }
+            }
             break;
         case 0x04: //stop
             Receiver_LED_OUT = 1;
@@ -753,13 +798,42 @@ void ID_Decode_OUT(void)
             Receiver_OUT_CLOSE = FG_NOT_allow_out;
             Receiver_OUT_VENT = FG_NOT_allow_out;
             Receiver_OUT_STOP = FG_allow_out;
+            Status_Un.Receive_SignalType = 1; //受信于手动信号
             break;
         case 0x08: //open
             Receiver_LED_OUT = 1;
-            Receiver_OUT_STOP = FG_NOT_allow_out;
-            Receiver_OUT_CLOSE = FG_NOT_allow_out;
-            Receiver_OUT_VENT = FG_NOT_allow_out;
-            Receiver_OUT_OPEN = FG_allow_out;
+            Status_Un.Receive_SignalType = 1; //受信于手动信号
+            if(Status_Un.PROFILE_RxLowSpeed_TYPE == 0)
+            {
+                Receiver_OUT_STOP = FG_NOT_allow_out;
+                Receiver_OUT_CLOSE = FG_NOT_allow_out;
+                Receiver_OUT_VENT = FG_NOT_allow_out;
+                Receiver_OUT_OPEN = FG_allow_out;
+            }
+            else if(Status_Un.PROFILE_RxLowSpeed_TYPE == 1)//429
+            {
+                if (TIMER1s > 2000)
+                {
+                    Receiver_OUT_STOP = FG_allow_out;
+                    Receiver_OUT_OPEN = FG_NOT_allow_out;
+                    Receiver_OUT_CLOSE = FG_NOT_allow_out;
+                    Receiver_OUT_VENT = FG_NOT_allow_out;
+                } //1830
+                else if (TIMER1s > 1000)
+                {
+                    Receiver_OUT_STOP = FG_NOT_allow_out;
+                    Receiver_OUT_OPEN = FG_NOT_allow_out;
+                    Receiver_OUT_CLOSE = FG_NOT_allow_out;
+                    Receiver_OUT_VENT = FG_NOT_allow_out;
+                } //810
+                else
+                {
+                    Receiver_OUT_OPEN = FG_allow_out;
+                    Receiver_OUT_STOP = FG_NOT_allow_out;
+                    Receiver_OUT_CLOSE = FG_NOT_allow_out;
+                    Receiver_OUT_VENT = FG_NOT_allow_out;
+                }
+            }
             break;
         case 0x0C: //open+stop
             Receiver_LED_OUT = 1;
@@ -767,6 +841,7 @@ void ID_Decode_OUT(void)
             Receiver_OUT_CLOSE = FG_NOT_allow_out;
             Receiver_OUT_VENT = FG_NOT_allow_out;
             Receiver_OUT_STOP = FG_allow_out;
+            Status_Un.Receive_SignalType = 1; //受信于手动信号
             if (FG_OUT_OPEN_CLOSE == 0)
             {
                 FG_OUT_OPEN_CLOSE = 1;
@@ -781,6 +856,7 @@ void ID_Decode_OUT(void)
             Receiver_OUT_OPEN = FG_NOT_allow_out;
             Receiver_OUT_VENT = FG_NOT_allow_out;
             Receiver_OUT_STOP = FG_allow_out;
+            Status_Un.Receive_SignalType = 1; //受信于手动信号
             if (FG_OUT_OPEN_CLOSE == 0)
             {
                 FG_OUT_OPEN_CLOSE = 1;
@@ -795,6 +871,7 @@ void ID_Decode_OUT(void)
             Receiver_OUT_VENT = FG_NOT_allow_out;
             Receiver_OUT_OPEN = FG_allow_out;
             Receiver_OUT_CLOSE = FG_allow_out;
+            Status_Un.Receive_SignalType = 1; //受信于手动信号
             break;
         case 0x09: //vent+OPEN
             Receiver_LED_OUT = 1;
@@ -802,6 +879,7 @@ void ID_Decode_OUT(void)
             Receiver_OUT_CLOSE = FG_NOT_allow_out;
             Receiver_OUT_OPEN = FG_allow_out;
             Receiver_OUT_VENT = FG_allow_out;
+            Status_Un.Receive_SignalType = 1; //受信于手动信号
             break;
         case 0x03: //vent+close
             Receiver_LED_OUT = 1;
@@ -809,6 +887,144 @@ void ID_Decode_OUT(void)
             Receiver_OUT_OPEN = FG_NOT_allow_out;
             Receiver_OUT_CLOSE = FG_allow_out;
             Receiver_OUT_VENT = FG_allow_out;
+            Status_Un.Receive_SignalType = 1; //受信于手动信号
+            break;
+        case CLOSE_AUTO_DECLINE:
+            if(Status_Un.PROFILE_RxLowSpeed_TYPE == 1)    //429M
+            {
+                auto_over_time = 1;
+                save_fall_time_flag = 1;
+                Struct_DATA_Packet_Contro_fno = Tx_Setting_Status;
+                FLAG_APP_TX_fromUART = 1;
+            }
+            break;
+        case AUTO_TIME_10S:
+            if(Status_Un.PROFILE_RxLowSpeed_TYPE == 1)    //429M
+            {
+                auto_over_time = 2;
+                save_fall_time_flag = 1;
+                Struct_DATA_Packet_Contro_fno = Tx_Setting_Status;
+                FLAG_APP_TX_fromUART = 1;
+            }
+            break;
+        case AUTO_TIME_20S:
+            if(Status_Un.PROFILE_RxLowSpeed_TYPE == 1)    //429M
+            {
+                auto_over_time = 3;
+                save_fall_time_flag = 1;
+                Struct_DATA_Packet_Contro_fno = Tx_Setting_Status;
+                FLAG_APP_TX_fromUART = 1;
+            }
+            break;
+        case AUTO_TIME_30S:
+            if(Status_Un.PROFILE_RxLowSpeed_TYPE == 1)    //429M
+            {
+                auto_over_time = 4;
+                save_fall_time_flag = 1;
+                Struct_DATA_Packet_Contro_fno = Tx_Setting_Status;
+                FLAG_APP_TX_fromUART = 1;
+            }
+            break;
+        case AUTO_TIME_40S:
+            if(Status_Un.PROFILE_RxLowSpeed_TYPE == 1)    //429M
+            {
+                auto_over_time = 5;
+                save_fall_time_flag = 1;
+                Struct_DATA_Packet_Contro_fno = Tx_Setting_Status;
+                FLAG_APP_TX_fromUART = 1;
+            }
+            break;
+        case AUTO_TIME_50S:
+            if(Status_Un.PROFILE_RxLowSpeed_TYPE == 1)    //429M
+            {
+                auto_over_time = 6;
+                save_fall_time_flag = 1;
+                Struct_DATA_Packet_Contro_fno = Tx_Setting_Status;
+                FLAG_APP_TX_fromUART = 1;
+            }
+            break;
+        case AUTO_TIME_60S:
+            if(Status_Un.PROFILE_RxLowSpeed_TYPE == 1)    //429M
+            {
+                auto_over_time = 7;
+                save_fall_time_flag = 1;
+                Struct_DATA_Packet_Contro_fno = Tx_Setting_Status;
+                FLAG_APP_TX_fromUART = 1;
+            }
+            break;
+        case AUTO_TIME_70S:
+            if(Status_Un.PROFILE_RxLowSpeed_TYPE == 1)    //429M
+            {
+                auto_over_time = 8;
+                save_fall_time_flag = 1;
+                Struct_DATA_Packet_Contro_fno = Tx_Setting_Status;
+                FLAG_APP_TX_fromUART = 1;
+            }
+            break;
+        case AUTO_TIME_80S:
+            if(Status_Un.PROFILE_RxLowSpeed_TYPE == 1)    //429M
+            {
+                auto_over_time = 9;
+                save_fall_time_flag = 1;
+                Struct_DATA_Packet_Contro_fno = Tx_Setting_Status;
+                FLAG_APP_TX_fromUART = 1;
+            }
+            break;
+        case AUTO_TIME_90S:
+            if(Status_Un.PROFILE_RxLowSpeed_TYPE == 1)    //429M
+            {
+                auto_over_time = 10;
+                save_fall_time_flag = 1;
+                Struct_DATA_Packet_Contro_fno = Tx_Setting_Status;
+                FLAG_APP_TX_fromUART = 1;
+            }
+            break;
+        case AUTO_TIME_100S:
+            if(Status_Un.PROFILE_RxLowSpeed_TYPE == 1)    //429M
+            {
+                auto_over_time = 11;
+                save_fall_time_flag = 1;
+                Struct_DATA_Packet_Contro_fno = Tx_Setting_Status;
+                FLAG_APP_TX_fromUART = 1;
+            }
+            break;
+        case AUTO_TIME_110S:
+            if(Status_Un.PROFILE_RxLowSpeed_TYPE == 1)    //429M
+            {
+                auto_over_time = 12;
+                save_fall_time_flag = 1;
+                Struct_DATA_Packet_Contro_fno = Tx_Setting_Status;
+                FLAG_APP_TX_fromUART = 1;
+            }
+            break;
+        case AUTO_TIME_120S:
+            if(Status_Un.PROFILE_RxLowSpeed_TYPE == 1)    //429M
+            {
+                auto_over_time = 13;
+                save_fall_time_flag = 1;
+                Struct_DATA_Packet_Contro_fno = Tx_Setting_Status;
+                FLAG_APP_TX_fromUART = 1;
+            }
+            break;
+        case BUZZER_OFF_COMMAND:
+            if(Status_Un.PROFILE_RxLowSpeed_TYPE == 1)    //429M
+            {
+                Status_Un.Buzzer_Switch = 0;
+                save_beep_flag = 1;
+                Struct_DATA_Packet_Contro_fno = Tx_Setting_Status;
+                FLAG_APP_TX_fromUART = 1;
+                _ReqBuzzer_2(0,0,0,0,0,0);
+                Flag_beepon_stat = 0;
+            }
+            break;
+        case BUZZER_ON_COMMAND:
+            if(Status_Un.PROFILE_RxLowSpeed_TYPE == 1)    //429M
+            {
+                Status_Un.Buzzer_Switch = 1;
+                save_beep_flag = 1;
+                Struct_DATA_Packet_Contro_fno = Tx_Setting_Status;
+                FLAG_APP_TX_fromUART = 1;
+            }
             break;
         default:
             break;
@@ -855,7 +1071,7 @@ void ID_Decode_OUT(void)
 		 }
 
          if(((DATA_Packet_Control==0x00)||(DATA_Packet_Control==0x02)||(DATA_Packet_Control==0x04)||(DATA_Packet_Control==0x08)||(DATA_Packet_Control==0x01)
-               ||(DATA_Packet_Control==0x20)||(DATA_Packet_Control==0x40)||((FLAG__Semi_open_T==1)||(FLAG__Semi_close_T==1)))&&(FLAG_APP_TX_fromOUT==0)&&(Flag_PROFILE_RxLowSpeed_TYPE==1)&&(FLAG_APP_TX==0)&&(FLAG_APP_TX_once==1))
+               ||(DATA_Packet_Control==0x20)||(DATA_Packet_Control==0x40)||((FLAG__Semi_open_T==1)||(FLAG__Semi_close_T==1)))&&(FLAG_APP_TX_fromOUT==0)&&(Status_Un.PROFILE_RxLowSpeed_TYPE==1)&&(FLAG_APP_TX==0)&&(FLAG_APP_TX_once==1))
          {
              FLAG_APP_TX_fromOUT=1;
 			 if(DATA_Packet_Control==0x00)TIME_APP_TX_fromOUT=35;//15+DEF_APP_TX_freq*8;  //350ms
@@ -895,12 +1111,34 @@ void ID_Decode_OUT(void)
                 Receiver_OUT_CLOSE = FG_allow_out;
                 if (TIME_auto_close <= 1)
                     FG_auto_manual_mode = 0;
+
+                Status_Un.Receive_SignalType = 0; //自动受信
+                Status_Un.ActionOpenOrClose = 0; //闭动作
             }
         }
         else
         {
             Receiver_OUT_CLOSE = FG_NOT_allow_out;
         }
+
+        if(save_fall_time_flag)  //保存自动下降时间
+        {
+            save_fall_time_flag = 0;
+            eeprom_write_byte(AddrEeprom_AutoOverTime,auto_over_time);
+        }
+        if(save_beep_flag)      //保存蜂鸣器开/关
+        {
+            save_beep_flag = 0;
+            if(Status_Un.Buzzer_Switch == 0)
+            {
+                eeprom_write_byte(AddrEeprom_BuzzerSwitch,Save_Disable_Beep);
+            }
+            else
+            {
+                eeprom_write_byte(AddrEeprom_BuzzerSwitch,0x01);
+            }
+        }
+
         FG_First_auto = 0;
         FLAG_Receiver_BEEP = 0;
 		Receiver_OUT_OPEN = FG_NOT_allow_out;
@@ -935,4 +1173,83 @@ void ID_Decode_OUT(void)
     if (TIMER300ms == 0)
         FG_Receiver_LED_RX = 0; //Receiver_LED_RX=0;
 
+}
+
+void Action_Signal_Detection(void)
+{
+    if(Manual_override_TIMER)
+	{
+        switch (Struct_DATA_Packet_Contro_fno)
+        {
+            case Tx_Open_Status:
+            case Tx_Close_Status:
+            case Tx_Open_Action_Status:
+            case Tx_Close_Action_Status:
+                Struct_DATA_Packet_Contro_fno = Struct_DATA_Packet_Contro_fno | 0x08;
+                break;
+            case Tx_Abnormal_Status:
+                Struct_DATA_Packet_Contro_fno = Tx_Abnormal_StatusNG;
+                break;
+            default:
+                break;
+        }
+	}
+	else if(Status_Un.Receive_SignalType == 0)
+	{
+        if(Struct_DATA_Packet_Contro_fno == Tx_Open_Status);
+        else if(Struct_DATA_Packet_Contro_fno == Tx_Close_Status);
+        else
+        {
+            if(Status_Un.ActionOpenOrClose == 1)
+                Struct_DATA_Packet_Contro_fno = Tx_Open_Action_Auto;
+            else
+                Struct_DATA_Packet_Contro_fno = Tx_Close_Action_Auto;
+        }
+	}
+}
+
+void Beep_Action_On(void)
+{
+    if(Struct_DATA_Packet_Contro_fno != Struct_DATA_Packet_Contro_Backup)
+    {
+        Struct_DATA_Packet_Contro_Backup = Struct_DATA_Packet_Contro_fno;
+        if(Status_Un.Buzzer_Switch==1 && Receiver_429MHz_mode==1 && Flag_normal_stat==0 &&
+           (Status_Un.PROFILE_RxLowSpeed_TYPE==1 || Status_Un.Receive_SignalType==0))
+        {
+            switch(Struct_DATA_Packet_Contro_fno)
+            {
+                case Tx_Close_Action_Status:
+                case Tx_Close_Action_Auto:
+                case Tx_Close_Action_StatusNG:
+                    if(Flag_beepon_stat == 0)
+                    {
+                        Flag_beepon_stat = 1;
+                        _ReqBuzzer_2(144,100,2,0,1000,0xffff);
+                    }
+                    break;
+                case Tx_Close_Status:
+                case Tx_Open_Status:
+                case Tx_Open_Action_Status:
+                case Tx_Open_Action_Auto:
+                case Tx_Open_StatusNG:
+                case Tx_Close_StatusNG:
+                case Tx_Open_Action_StatusNG:
+                    if(Flag_beepon_stat == 1)
+                    {
+                        Flag_beepon_stat = 0;
+                        Flag_beepon_manual = 0;
+                        _ReqBuzzer_2(0,10,0,0,0,0);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+    if(Flag_beepon_manual == 1 && TIMER1s == 0)
+    {
+        Flag_beepon_manual = 0;
+        Flag_beepon_stat = 0;
+        _ReqBuzzer_2(0,10,0,0,0,0);
+    }
 }

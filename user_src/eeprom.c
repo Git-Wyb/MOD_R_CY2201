@@ -254,6 +254,19 @@ void eeprom_sys_load(void)
     UINT8 xm[3] = {0};
     uni_rom_id xn;
 
+    auto_over_time = (0xFF & ReadByteEEPROM(addr_eeprom_sys + AddrEeprom_AutoOverTime)); //读取设定的自动下降时间
+    if(auto_over_time < 1 || auto_over_time > 13) auto_over_time = 4;   //The initial default is 30 seconds
+
+    i = (0xFF & ReadByteEEPROM(addr_eeprom_sys + AddrEeprom_BuzzerSwitch)); //读取设定的蜂鸣器开关
+    if(i == Save_Disable_Beep)
+    {
+        Status_Un.Buzzer_Switch = 0;
+    }
+    else
+    {
+        Status_Un.Buzzer_Switch = 1;   //初始默认可以开启蜂鸣器
+    }
+
     xm[0] = ReadByteEEPROM(addr_eeprom_sys + 0x3FA);
 	if (xm[0] == 1)Receiver_429MHz_mode = 1;
 	else Receiver_429MHz_mode = 0;

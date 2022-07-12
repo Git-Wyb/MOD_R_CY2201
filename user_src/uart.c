@@ -620,6 +620,28 @@ void OprationFrame(void)
 
 			for (i = 0; i < 2; i++)
 				Uart_Struct_DATA_Packet_Contro.data[i / 2].uc[i % 2] = Databits_t.Data[i + 1];
+
+            switch (Databits_t.Statues)
+            {
+                case 1:
+                case 5:
+                     Struct_DATA_Packet_Contro_fno = Tx_Open_Status;;
+                     break;
+                case 2:
+                    Struct_DATA_Packet_Contro_fno = Tx_Close_Status;;
+                    break;
+                case 3:
+                    Struct_DATA_Packet_Contro_fno = Tx_Open_Action_Status;;
+                    break;
+                case 4:
+                    Struct_DATA_Packet_Contro_fno = Tx_Close_Action_Status;;
+                    break;
+                default:
+                    Struct_DATA_Packet_Contro_fno = Tx_No_Status;;
+                    break;
+            }
+            if(Databits_t.Abnormal!=0) Struct_DATA_Packet_Contro_fno = Tx_Abnormal_Status;
+
 			if ((Databits_t.Statues == 3) || (Databits_t.Statues == 4))
 				Flag_shutter_stopping = 1;
 			else
@@ -629,11 +651,14 @@ void OprationFrame(void)
 			{
 			case 3:
 			case 4:
+                Flag_normal_stat = 0;
+                break;
 			case 5:
 			case 6:
 			case 7:
 			case 8:
 			case 9:
+                Flag_normal_stat = 1;
 				break;
 			default:
 				ACKBack[2] = 1;
@@ -797,7 +822,8 @@ UINT8 Receiver_OUT_value_last=0xff;
 UINT8 Receiver_OUT_uart[10] = {0x02, 0x05, 0x11, 0xB1, 0x00};
 void Uart_TX_Data(void)
 {
-	Receiver_OUT_value = (Receiver_OUT_OPEN_IDR + (Receiver_OUT_STOP_IDR << 1) + (Receiver_OUT_CLOSE_IDR << 2) + (Receiver_OUT_VENT_IDR << 3) + (Receiver_LED_OUT_IDR << 7));
+	Receiver_OUT_value = (Receiver_OUT_OPEN_IDR + (Receiver_OUT_STOP_IDR << 1) + (Receiver_OUT_CLOSE_IDR << 2) + (Receiver_OUT_VENT_IDR << 3)
+                          + (ResetAsk_State << 6) + (Receiver_LED_OUT_IDR << 7));
     if(Receiver_LED_OUT_IDR==1)
 		Flag_SendUart_Receiver_LED_OUT = 1;
 	if (Receiver_OUT_value_last != Receiver_OUT_value)
@@ -807,6 +833,7 @@ void Uart_TX_Data(void)
 		if ((Receiver_OUT_value)||((Receiver_OUT_value==0)&&(Flag_SendUart_Receiver_LED_OUT==1)))
 		{
 			//if (Receiver_OUT_value)FLAG_APP_TX_fromUART = 1;
+            ResetAsk_State = 0;
 			Flag_SendUart_Receiver_LED_OUT = 0;
             Receiver_OUT_uart[0] = 0x02;
             Receiver_OUT_uart[1] = 0x05;

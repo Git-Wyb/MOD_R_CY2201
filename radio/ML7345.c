@@ -395,7 +395,7 @@ void APP_TX_PACKET(void)
 			Flag_ERROR_Read=0;
 		 }
 
-		 DEF_APP_TX_freq=3;
+		 DEF_APP_TX_freq=4;
 		 FLAG_APP_TX=1;
 		 FLAG_APP_RX=0;
 		 //FLAG_APP_RXstart=0;
@@ -443,6 +443,7 @@ void APP_TX_PACKET(void)
                     Flag_tx_en = 1;
                     TIMER18ms = 550;
 				    Receiver_LED_TX = 1;
+                    Action_Signal_Detection();
 					//TX_DataLoad_HighSpeed(ID_SCX1801_DATA,Last_Uart_Struct_DATA_Packet_Contro, &CONST_TXPACKET_DATA_20000AF0[0]);
                     TX_DataLoad(ID_SCX1801_DATA,Struct_DATA_Packet_Contro_fno, &CONST_TXPACKET_DATA_20000AF0[0]);
                     ML7345_SetAndGet_State(Force_TRX_OFF);
@@ -705,11 +706,13 @@ void ML7345D_Freq_Scanning(void)
         }
         ML7345_SetAndGet_State(RX_ON);
         CG2214M6_USE_R;
-
+        /*
         if(Radio_Date_Type==1)
             TIMER18ms = 18;
         else if(Radio_Date_Type > 1)
-            TIMER18ms = 18;
+            TIMER18ms = 18; */
+        if(PROFILE_CH_FREQ_32bit_200002EC == 426075000) TIMER18ms = 18;
+        else    TIMER18ms = 20;
         Flag_rx_pream = 0;
         Flag_tx_en = 0;
         RSSI_Read_Counter = 0;

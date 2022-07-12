@@ -49,7 +49,14 @@ void TIM4_UPD_OVF(void)
         if (TIME_auto_useful)
             --TIME_auto_useful;
         if (TIME_auto_out)
+        {
             --TIME_auto_out;
+            if(TIME_auto_out == 360)
+            {
+                if(Receiver_429MHz_mode==1 && Status_Un.Buzzer_Switch==1 && auto_over_time!=1)
+                    _ReqBuzzer_2(144,1000,3,1000,10,1);//短音三次，长音一次
+            }
+        }
         if (FREQ_auto_useful_continuous)
             --FREQ_auto_useful_continuous;
     }

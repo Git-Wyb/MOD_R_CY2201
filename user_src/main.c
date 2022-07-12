@@ -77,6 +77,8 @@ void main(void)
     Flag_SendUart_Receiver_LED_OUT = 1;
     ML7345_SetAndGet_State(RX_ON);
     CG2214M6_USE_R;
+    Status_Un.Receive_SignalType = 1;
+    ResetAsk_State = 1;
 
     while (1)
     {
@@ -108,6 +110,8 @@ void main(void)
             Receiver_LED_RX = 1;
         else if (FG_Receiver_LED_RX == 0)
             Receiver_LED_RX = 0;
+
+        Beep_Action_On();
     }
 }
 

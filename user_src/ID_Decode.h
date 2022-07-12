@@ -22,5 +22,7 @@ void BEEP_Module(UINT16 time_beepON, UINT16 time_beepOFF);
 void BEEP_function(void);
 void _ReqBuzzer(UINT16 d_BEEP_on, UINT16 d_BEEP_off, UINT16 d_BEEP_freq);
 void _ReqBuzzer_2(UINT16 d_BEEP_on1, UINT16 d_BEEP_off1, UINT16 d_BEEP_freq1, UINT16 d_BEEP_on2, UINT16 d_BEEP_off2, UINT16 d_BEEP_freq2);
+void Action_Signal_Detection(void);
+void Beep_Action_On(void);
 
 #endif

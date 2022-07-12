@@ -15,6 +15,8 @@ extern u8 DEF_APP_TX_freq;
 
 #define DEF_TX_TIMEOUT  250 //ms
 
+#define Save_Disable_Beep 0xAA
+
 extern uFLAG FLAG_test1;
 //************************************************
 #define FLAG_test1_BYTE FLAG_test1.BYTE
@@ -240,6 +242,9 @@ extern u8 Receiver_429MHz_mode;
 extern u16 timeout_cnt;
 extern u8 retx_cnt;
 extern u16 time_cnt;
+extern u8 auto_over_time;
+extern Basic_Un Status_Un;
+extern u8 Struct_DATA_Packet_Contro_Backup;
 
 //-----------------------------------------------------------------------------------------------
 typedef union{
@@ -275,8 +280,49 @@ extern Mark_Un mark1_stu;
 #define Flag_test_fm     mark1_stu.un_var_bit1
 #define Flag_test_rssi   mark1_stu.un_var_bit2
 #define Flag_test_pc     mark1_stu.un_var_bit3
-#define Flag_PROFILE_RxLowSpeed_TYPE     mark1_stu.un_var_bit4
+#define Beep_Switch      mark1_stu.un_var_bit4
+#define save_fall_time_flag   mark1_stu.un_var_bit5
+#define save_beep_flag        mark1_stu.un_var_bit6
+#define ResetAsk_State     mark1_stu.un_var_bit7
 
+extern Mark_Un mark2_stu;
+#define Flag_normal_stat    mark2_stu.un_var_bit0
+#define Flag_beepon_stat        mark2_stu.un_var_bit1
+#define Flag_beepon_manual        mark2_stu.un_var_bit2
+
+/* 自动下降时间设定 */
+#define CLOSE_AUTO_DECLINE  0x90  //不执行自动下降
+#define AUTO_TIME_10S       0x88  /* 10s */
+#define AUTO_TIME_20S       0x98  /* 20s */
+#define AUTO_TIME_30S       0x84  /* 30s */
+#define AUTO_TIME_40S       0x94  /* 40s */
+#define AUTO_TIME_50S       0x8C  /* 50s */
+#define AUTO_TIME_60S       0x9C  /* 60s */
+#define AUTO_TIME_70S       0x82  /* 70s */
+#define AUTO_TIME_80S       0x92  /* 80s */
+#define AUTO_TIME_90S       0x8A  /* 90s */
+#define AUTO_TIME_100S      0x9A  /* 100s */
+#define AUTO_TIME_110S      0x86  /* 110s */
+#define AUTO_TIME_120S      0x96  /* 120s */
+
+#define BUZZER_OFF_COMMAND  0xD0  /* 不允许打开蜂鸣器 */
+#define BUZZER_ON_COMMAND   0xC8  /* 允许打开蜂鸣器 */
+
+/* 429MHz送信数据 */
+#define Tx_No_Status           0xD0  /* 没有状态 */
+#define Tx_Open_Status         0xD1  /* 开状态 */
+#define Tx_Close_Status        0xD2  /* 闭状态 */
+#define Tx_Open_Action_Status  0xD3  /* 开动作中状态 */
+#define Tx_Close_Action_Status 0xD4  /* 闭动作中状态 */
+#define Tx_Open_Action_Auto    0xD5  /* 开动作中状态(自动受信时) */
+#define Tx_Close_Action_Auto   0xD6  /* 闭动作中状态(自动受信时) */
+#define Tx_Abnormal_Status     0xD7  /* 异常1状态 */
+#define Tx_Setting_Status      0xD8  /* 时间设定和蜂鸣器ON/OFF设定时,送信 */
+#define Tx_Open_StatusNG       0xD9  /* 开状态(无效),自动信号无效的状态 */
+#define Tx_Close_StatusNG      0xDA  /* 闭状态(无效),自动信号无效的状态 */
+#define Tx_Open_Action_StatusNG     0xDB  /* 开动作中(无效),自动信号无效的状态 */
+#define Tx_Close_Action_StatusNG    0xDC  /* 闭动作中(无效),自动信号无效的状态 */
+#define Tx_Abnormal_StatusNG        0xDD  /* 异常1状态(无效),自动信号无效的状态*/
 
 
 #endif
