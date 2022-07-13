@@ -245,6 +245,7 @@ extern u16 time_cnt;
 extern u8 auto_over_time;
 extern Basic_Un Status_Un;
 extern u8 Struct_DATA_Packet_Contro_Backup;
+extern u8 Struct_DATA_Packet_Contro_Last;
 
 //-----------------------------------------------------------------------------------------------
 typedef union{
@@ -290,6 +291,7 @@ extern Mark_Un mark2_stu;
 #define Flag_beepon_stat        mark2_stu.un_var_bit1
 #define Flag_beepon_manual        mark2_stu.un_var_bit2
 #define Flag_beepon_auto        mark2_stu.un_var_bit3
+#define Flag_setting_stat       mark2_stu.un_var_bit4
 
 /* 自动下降时间设定 */
 #define CLOSE_AUTO_DECLINE  0x90  //不执行自动下降

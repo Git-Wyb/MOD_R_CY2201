@@ -473,6 +473,11 @@ void APP_TX_PACKET(void)
 				   FLAG_APP_TX_once=0;
                    Flag_tx_en = 0;
                    retx_cnt = 0;
+                   if(Flag_setting_stat == 1 && Struct_DATA_Packet_Contro_fno == Tx_Setting_Status)
+                   {
+                       Flag_setting_stat = 0;
+                       Struct_DATA_Packet_Contro_fno = Struct_DATA_Packet_Contro_Last;
+                   }
 				}
 		   }
     }
@@ -495,6 +500,7 @@ void APP_TX_PACKET(void)
             FLAG_APP_RX = 1;
             FLAG_APP_TX = 0;
             Receiver_LED_TX = 0;
+            Flag_setting_stat = 0;
         }
     }
 }

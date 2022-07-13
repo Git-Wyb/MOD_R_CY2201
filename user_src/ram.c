@@ -164,6 +164,7 @@ Wireless_Body Struct_DATA_Packet_Contro = {0},Struct_DATA_Packet_Contro_buf = {0
 Wireless_Body Uart_Struct_DATA_Packet_Contro = {0},Last_Uart_Struct_DATA_Packet_Contro = {0};
 u8 Struct_DATA_Packet_Contro_fno=0;
 u8 Struct_DATA_Packet_Contro_Backup = 0;
+u8 Struct_DATA_Packet_Contro_Last = 0;
 u16 TIMER_Semi_open;
 u16 TIMER_Semi_close;
 u8 FLAG__Semi_open_T=0;

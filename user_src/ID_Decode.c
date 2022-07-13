@@ -154,9 +154,9 @@ void ID_Decode_IDCheck(void)
                                     FREQ_auto_useful = 0;
                                     FG_auto_manual_mode = 1;
                                     if(TIME_auto_out==0)
-                                        TIME_auto_out = 4600+1000 * (auto_over_time - 1);//7300; //time*90; time=80s
-                                    else if(TIME_auto_out < (1000 * (auto_over_time - 1)))
-                                        TIME_auto_out = 1000 * (auto_over_time - 1);//2700; //time*90; time=30s
+                                        TIME_auto_out = 4600+900 * (auto_over_time - 1);//7300; //time*90; time=80s
+                                    else if(TIME_auto_out < (900 * (auto_over_time - 1)))
+                                        TIME_auto_out = 900 * (auto_over_time - 1);//2700; //time*90; time=30s
                                     if (FG_First_auto == 0)
                                     {
                                         FG_First_auto = 1;
@@ -894,6 +894,8 @@ void ID_Decode_OUT(void)
             {
                 auto_over_time = 1;
                 save_fall_time_flag = 1;
+                if(Flag_setting_stat == 0)  Struct_DATA_Packet_Contro_Last = Struct_DATA_Packet_Contro_fno;
+                Flag_setting_stat = 1;
                 Struct_DATA_Packet_Contro_fno = Tx_Setting_Status;
                 FLAG_APP_TX_fromUART = 1;
             }
@@ -903,6 +905,8 @@ void ID_Decode_OUT(void)
             {
                 auto_over_time = 2;
                 save_fall_time_flag = 1;
+                if(Flag_setting_stat == 0)  Struct_DATA_Packet_Contro_Last = Struct_DATA_Packet_Contro_fno;
+                Flag_setting_stat = 1;
                 Struct_DATA_Packet_Contro_fno = Tx_Setting_Status;
                 FLAG_APP_TX_fromUART = 1;
             }
@@ -912,6 +916,8 @@ void ID_Decode_OUT(void)
             {
                 auto_over_time = 3;
                 save_fall_time_flag = 1;
+                if(Flag_setting_stat == 0)  Struct_DATA_Packet_Contro_Last = Struct_DATA_Packet_Contro_fno;
+                Flag_setting_stat = 1;
                 Struct_DATA_Packet_Contro_fno = Tx_Setting_Status;
                 FLAG_APP_TX_fromUART = 1;
             }
@@ -921,6 +927,8 @@ void ID_Decode_OUT(void)
             {
                 auto_over_time = 4;
                 save_fall_time_flag = 1;
+                if(Flag_setting_stat == 0)  Struct_DATA_Packet_Contro_Last = Struct_DATA_Packet_Contro_fno;
+                Flag_setting_stat = 1;
                 Struct_DATA_Packet_Contro_fno = Tx_Setting_Status;
                 FLAG_APP_TX_fromUART = 1;
             }
@@ -930,6 +938,8 @@ void ID_Decode_OUT(void)
             {
                 auto_over_time = 5;
                 save_fall_time_flag = 1;
+                if(Flag_setting_stat == 0)  Struct_DATA_Packet_Contro_Last = Struct_DATA_Packet_Contro_fno;
+                Flag_setting_stat = 1;
                 Struct_DATA_Packet_Contro_fno = Tx_Setting_Status;
                 FLAG_APP_TX_fromUART = 1;
             }
@@ -939,6 +949,8 @@ void ID_Decode_OUT(void)
             {
                 auto_over_time = 6;
                 save_fall_time_flag = 1;
+                if(Flag_setting_stat == 0)  Struct_DATA_Packet_Contro_Last = Struct_DATA_Packet_Contro_fno;
+                Flag_setting_stat = 1;
                 Struct_DATA_Packet_Contro_fno = Tx_Setting_Status;
                 FLAG_APP_TX_fromUART = 1;
             }
@@ -948,6 +960,8 @@ void ID_Decode_OUT(void)
             {
                 auto_over_time = 7;
                 save_fall_time_flag = 1;
+                if(Flag_setting_stat == 0)  Struct_DATA_Packet_Contro_Last = Struct_DATA_Packet_Contro_fno;
+                Flag_setting_stat = 1;
                 Struct_DATA_Packet_Contro_fno = Tx_Setting_Status;
                 FLAG_APP_TX_fromUART = 1;
             }
@@ -957,6 +971,8 @@ void ID_Decode_OUT(void)
             {
                 auto_over_time = 8;
                 save_fall_time_flag = 1;
+                if(Flag_setting_stat == 0)  Struct_DATA_Packet_Contro_Last = Struct_DATA_Packet_Contro_fno;
+                Flag_setting_stat = 1;
                 Struct_DATA_Packet_Contro_fno = Tx_Setting_Status;
                 FLAG_APP_TX_fromUART = 1;
             }
@@ -966,6 +982,8 @@ void ID_Decode_OUT(void)
             {
                 auto_over_time = 9;
                 save_fall_time_flag = 1;
+                if(Flag_setting_stat == 0)  Struct_DATA_Packet_Contro_Last = Struct_DATA_Packet_Contro_fno;
+                Flag_setting_stat = 1;
                 Struct_DATA_Packet_Contro_fno = Tx_Setting_Status;
                 FLAG_APP_TX_fromUART = 1;
             }
@@ -975,6 +993,8 @@ void ID_Decode_OUT(void)
             {
                 auto_over_time = 10;
                 save_fall_time_flag = 1;
+                if(Flag_setting_stat == 0)  Struct_DATA_Packet_Contro_Last = Struct_DATA_Packet_Contro_fno;
+                Flag_setting_stat = 1;
                 Struct_DATA_Packet_Contro_fno = Tx_Setting_Status;
                 FLAG_APP_TX_fromUART = 1;
             }
@@ -984,6 +1004,8 @@ void ID_Decode_OUT(void)
             {
                 auto_over_time = 11;
                 save_fall_time_flag = 1;
+                if(Flag_setting_stat == 0)  Struct_DATA_Packet_Contro_Last = Struct_DATA_Packet_Contro_fno;
+                Flag_setting_stat = 1;
                 Struct_DATA_Packet_Contro_fno = Tx_Setting_Status;
                 FLAG_APP_TX_fromUART = 1;
             }
@@ -993,6 +1015,8 @@ void ID_Decode_OUT(void)
             {
                 auto_over_time = 12;
                 save_fall_time_flag = 1;
+                if(Flag_setting_stat == 0)  Struct_DATA_Packet_Contro_Last = Struct_DATA_Packet_Contro_fno;
+                Flag_setting_stat = 1;
                 Struct_DATA_Packet_Contro_fno = Tx_Setting_Status;
                 FLAG_APP_TX_fromUART = 1;
             }
@@ -1002,6 +1026,8 @@ void ID_Decode_OUT(void)
             {
                 auto_over_time = 13;
                 save_fall_time_flag = 1;
+                if(Flag_setting_stat == 0)  Struct_DATA_Packet_Contro_Last = Struct_DATA_Packet_Contro_fno;
+                Flag_setting_stat = 1;
                 Struct_DATA_Packet_Contro_fno = Tx_Setting_Status;
                 FLAG_APP_TX_fromUART = 1;
             }
@@ -1011,6 +1037,8 @@ void ID_Decode_OUT(void)
             {
                 Status_Un.Buzzer_Switch = 0;
                 save_beep_flag = 1;
+                if(Flag_setting_stat == 0)  Struct_DATA_Packet_Contro_Last = Struct_DATA_Packet_Contro_fno;
+                Flag_setting_stat = 1;
                 Struct_DATA_Packet_Contro_fno = Tx_Setting_Status;
                 FLAG_APP_TX_fromUART = 1;
                 _ReqBuzzer_2(0,0,0,0,0,0);
@@ -1022,6 +1050,8 @@ void ID_Decode_OUT(void)
             {
                 Status_Un.Buzzer_Switch = 1;
                 save_beep_flag = 1;
+                if(Flag_setting_stat == 0)  Struct_DATA_Packet_Contro_Last = Struct_DATA_Packet_Contro_fno;
+                Flag_setting_stat = 1;
                 Struct_DATA_Packet_Contro_fno = Tx_Setting_Status;
                 FLAG_APP_TX_fromUART = 1;
             }
@@ -1091,7 +1121,6 @@ void ID_Decode_OUT(void)
             FG_auto_out = 0;
             TIME_auto_close = 270;
             Receiver_LED_OUT = 1;
-            TIME_auto_useful = 35100; //35100*10ms=(5min*60+90s)*90
         } //300
         if (TIME_auto_close)
         {
@@ -1109,9 +1138,8 @@ void ID_Decode_OUT(void)
             {
                 Receiver_OUT_STOP = FG_NOT_allow_out;
                 Receiver_OUT_CLOSE = FG_allow_out;
-                if (TIME_auto_close <= 1)
-                    FG_auto_manual_mode = 0;
-
+                FG_auto_manual_mode = 0;
+                TIME_auto_useful = 35100; //35100*10ms=(5min*60+90s)*90
                 Status_Un.Receive_SignalType = 0; //自动受信
                 Status_Un.ActionOpenOrClose = 0; //闭动作
             }
@@ -1197,7 +1225,8 @@ void Action_Signal_Detection(void)
 	}
 	else if(Status_Un.Receive_SignalType == 0)
 	{
-        if(Struct_DATA_Packet_Contro_fno == Tx_Open_Status);
+        if(Struct_DATA_Packet_Contro_fno == Tx_Abnormal_Status);
+        else if(Struct_DATA_Packet_Contro_fno == Tx_Open_Status);
         else if(Struct_DATA_Packet_Contro_fno == Tx_Close_Status);
         else
         {
@@ -1207,6 +1236,23 @@ void Action_Signal_Detection(void)
                 Struct_DATA_Packet_Contro_fno = Tx_Close_Action_Auto;
         }
 	}
+    else
+    {
+        switch(Struct_DATA_Packet_Contro_fno)   //APP查询的时候，如果5分钟计时结束则恢复到有效的状态
+        {
+            case Tx_Open_StatusNG:
+            case Tx_Close_StatusNG:
+            case Tx_Open_Action_StatusNG:
+            case Tx_Close_Action_StatusNG:
+                Struct_DATA_Packet_Contro_fno = Struct_DATA_Packet_Contro_fno & 0xF7;
+                break;
+            case Tx_Abnormal_StatusNG:
+                Struct_DATA_Packet_Contro_fno = Tx_Abnormal_Status;
+                break;
+            default:
+                break;
+        }
+    }
 }
 
 void Beep_Action_On(void)

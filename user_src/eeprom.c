@@ -625,7 +625,10 @@ void ID_learn(void)
         if (TIME_Login_EXIT_Button)
             --TIME_Login_EXIT_Button;
         if (Manual_override_TIMER)
+        {
             --Manual_override_TIMER;
+            if(Manual_override_TIMER == 0)  FLAG_APP_TX_fromUART = 1;   //5minutes计时结束发送一次状态.
+        }
         if (time_Login_exit_256)
             --time_Login_exit_256;
         if (TIME_Fine_Calibration)
@@ -717,6 +720,11 @@ void ID_learn(void)
             TIME_auto_useful = 0;
             TIME_auto_close = 0;
             Manual_override_TIMER = 0;
+            TIME_auto_out = 0;
+
+            FREQ_auto_useful = 0;
+            FREQ_auto_useful_count = 0;
+            FREQ_auto_useful_continuous = 0;
 
             TIME_Receiver_Login_led++;
             if (TIME_Receiver_Login_led >= 46)
