@@ -625,19 +625,19 @@ void OprationFrame(void)
             {
                 case 1:
                 case 5:
-                     Struct_DATA_Packet_Contro_fno = Tx_Open_Status;;
+                     Struct_DATA_Packet_Contro_fno = Tx_Open_Status;
                      break;
                 case 2:
-                    Struct_DATA_Packet_Contro_fno = Tx_Close_Status;;
+                    Struct_DATA_Packet_Contro_fno = Tx_Close_Status;
                     break;
                 case 3:
-                    Struct_DATA_Packet_Contro_fno = Tx_Open_Action_Status;;
+                    Struct_DATA_Packet_Contro_fno = Tx_Open_Action_Status;
                     break;
                 case 4:
-                    Struct_DATA_Packet_Contro_fno = Tx_Close_Action_Status;;
+                    Struct_DATA_Packet_Contro_fno = Tx_Close_Action_Status;
                     break;
                 default:
-                    Struct_DATA_Packet_Contro_fno = Tx_No_Status;;
+                    Struct_DATA_Packet_Contro_fno = Tx_No_Status;
                     break;
             }
             if(Databits_t.Abnormal!=0) Struct_DATA_Packet_Contro_fno = Tx_Abnormal_Status;

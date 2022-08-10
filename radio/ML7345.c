@@ -404,7 +404,7 @@ void APP_TX_PACKET(void)
 		 First_TX_Scan=0;
 
 	  }
-      else if((Flag_FREQ_Scan==0)&&((PROFILE_CH_FREQ_32bit_200002EC == PROFILE_CH3_FREQ_32bit_429LowSpeed)||(PROFILE_CH_FREQ_32bit_200002EC == PROFILE_CH4_FREQ_32bit_429LowSpeed))&&
+      else if((TIMER1s<=500)&&(Flag_FREQ_Scan==0)&&((PROFILE_CH_FREQ_32bit_200002EC == PROFILE_CH3_FREQ_32bit_429LowSpeed)||(PROFILE_CH_FREQ_32bit_200002EC == PROFILE_CH4_FREQ_32bit_429LowSpeed))&&
 	  	  (((FLAG_APP_TX_fromOUT==1)&&(TIME_APP_TX_fromOUT==0))||(FLAG_Key_TP3==1)||
 	  	   //((FLAG_APP_TX_fromUART==1)&&(((TIME_APP_TX_fromOUT==0)&&(Radio_Date_Type_bak==2))||((TIMER300ms==0)&&(Radio_Date_Type_bak==1)))&&(Uart_Struct_DATA_Packet_Contro.data[0].ui!=Last_Uart_Struct_DATA_Packet_Contro.data[0].ui))
 	  	   ((FLAG_APP_TX_fromUART==1)&&(((TIME_APP_TX_fromOUT==0)&&(Radio_Date_Type_bak==2))||((TIMER300ms==0)&&(Radio_Date_Type_bak==1))))

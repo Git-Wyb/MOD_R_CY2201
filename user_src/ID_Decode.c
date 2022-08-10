@@ -80,6 +80,7 @@ void ID_Decode_IDCheck(void)
                     }
                     if(Status_Un.PROFILE_RxLowSpeed_TYPE == 0)   //426
                     {
+                        Flag_AppClose_action = 0;
 		                if (DATA_Packet_ID == 0xFFFFFE)
 		                    DATA_Packet_Control = DATA_Packet_Contro_buf; //2015.3.24修正 Control缓存�?ID判断是否学习过后才能使用
 
@@ -202,6 +203,11 @@ void ID_Decode_IDCheck(void)
                     {
                        if(DATA_Packet_Control == 0x02 || DATA_Packet_Control == 0x04 || DATA_Packet_Control == 0x08)
                         {
+                            if(DATA_Packet_Control == 0x02 && Status_Un.Buzzer_Switch == 1)
+                            {
+                                Flag_AppClose_action = 1;
+                            }
+                            else Flag_AppClose_action = 0;
                             FREQ_auto_useful = 0;
                             FREQ_auto_useful_count = 0;
                             TIME_auto_useful = 0;
@@ -1043,6 +1049,7 @@ void ID_Decode_OUT(void)
                 FLAG_APP_TX_fromUART = 1;
                 _ReqBuzzer_2(0,0,0,0,0,0);
                 Flag_beepon_stat = 0;
+                Flag_AppClose_action = 0;
             }
             break;
         case BUZZER_ON_COMMAND:
@@ -1260,18 +1267,18 @@ void Beep_Action_On(void)
     if(Struct_DATA_Packet_Contro_fno != Struct_DATA_Packet_Contro_Backup)
     {
         Struct_DATA_Packet_Contro_Backup = Struct_DATA_Packet_Contro_fno;
-        if(Status_Un.Buzzer_Switch==1 && Receiver_429MHz_mode==1 && Flag_normal_stat==0 &&
-           (Status_Un.PROFILE_RxLowSpeed_TYPE==1 || Status_Un.Receive_SignalType==0))
+        if(Status_Un.Buzzer_Switch==1 && Receiver_429MHz_mode==1 && Flag_normal_stat==0)
         {
             switch(Struct_DATA_Packet_Contro_fno)
             {
                 case Tx_Close_Action_Status:
                 case Tx_Close_Action_Auto:
                 case Tx_Close_Action_StatusNG:
-                    if(Flag_beepon_stat == 0)
+                    if(Flag_beepon_stat == 0 && (Flag_AppClose_action==1 || Status_Un.Receive_SignalType==0))
                     {
                         Flag_beepon_stat = 1;
                         _ReqBuzzer_2(144,100,2,0,1000,0xffff);
+                        Flag_AppClose_action = 0;
                     }
                     break;
                 case Tx_Close_Status:
@@ -1281,6 +1288,8 @@ void Beep_Action_On(void)
                 case Tx_Open_StatusNG:
                 case Tx_Close_StatusNG:
                 case Tx_Open_Action_StatusNG:
+                case Tx_Abnormal_Status:
+                case Tx_Abnormal_StatusNG:
                     if(Flag_beepon_stat == 1 || Flag_beepon_auto == 1)
                     {
                         Flag_beepon_stat = 0;
