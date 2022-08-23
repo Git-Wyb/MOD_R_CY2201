@@ -1295,6 +1295,7 @@ void Beep_Action_On(void)
                         Flag_beepon_stat = 0;
                         Flag_beepon_manual = 0;
                         Flag_beepon_auto = 0;
+                        Status_Un.Receive_SignalType = 1;
                         _ReqBuzzer_2(0,10,0,0,10,0);
                     }
                     break;
