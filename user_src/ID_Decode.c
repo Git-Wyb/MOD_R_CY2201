@@ -1045,7 +1045,7 @@ void ID_Decode_OUT(void)
                 Flag_setting_stat = 1;
                 Struct_DATA_Packet_Contro_fno = Tx_Setting_Status;
                 FLAG_APP_TX_fromUART = 1;
-                _ReqBuzzer_2(0,0,0,0,0,0);
+                _ReqBuzzer_2(0,10,0,0,0,0);
                 Flag_beepon_stat = 0;
                 Flag_AppClose_action = 0;
             }
