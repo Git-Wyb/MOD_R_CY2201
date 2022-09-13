@@ -203,7 +203,7 @@ void ID_Decode_IDCheck(void)
                     {
                        if(DATA_Packet_Control == 0x02 || DATA_Packet_Control == 0x04 || DATA_Packet_Control == 0x08)
                         {
-                            if(DATA_Packet_Control == 0x02 && Status_Un.Buzzer_Switch == 1)
+                            if(DATA_Packet_Control == 0x02 && Status_Un.Buzzer_Switch == 1 && FLAG_BEEP_OFF == 0)
                             {
                                 Flag_AppClose_action = 1;
                             }
@@ -321,7 +321,7 @@ void eeprom_IDcheck(void)
             DATA_Packet_Control = DATA_Packet_Contro_buf;
 		}
 #ifndef DEF_test_MAX_32pcs
-		if(Radio_Date_Type_bak==1)
+		if(PROFILE_CH_FREQ_32bit_200002EC == 426075000) //(Radio_Date_Type_bak==1)
 		{
 				i = 0;
                 do
@@ -350,10 +350,11 @@ void eeprom_IDcheck(void)
                     i++;
                 } while (i < ID_DATA_PCS);
         }
-		else if((Radio_Date_Type_bak==2)&&(DATA_Packet_ID==ID_SCX1801_DATA))
+		else if((PROFILE_CH_FREQ_32bit_200002EC == 429175000 || PROFILE_CH_FREQ_32bit_200002EC == 429200000)&&(DATA_Packet_ID==ID_SCX1801_DATA)) //((Radio_Date_Type_bak==2)&&(DATA_Packet_ID==ID_SCX1801_DATA))
 		{
 			FLAG_IDCheck_OK = 1;
-			Struct_DATA_Packet_Contro=Struct_DATA_Packet_Contro_buf;
+            DATA_Packet_Control = DATA_Packet_Contro_buf;
+			//Struct_DATA_Packet_Contro=Struct_DATA_Packet_Contro_buf;
 		}
 #else
 			for (i = 0; i < ID_DATA_PCS; i++)
@@ -432,7 +433,7 @@ void BEEP_function(void)
             FG_beep_on_Motor = 1;
             FG_beep_off_Motor = 0;
             //BEEP_CSR2_BEEPEN = 1;
-            if(Status_Un.Buzzer_Switch == 1)    TIM3_init();
+            TIM3_init();
         }
     }
     else if (TIME_BEEP_off)
@@ -457,7 +458,7 @@ void BEEP_function(void)
             FG_beep_on_Motor = 1;
             FG_beep_off_Motor = 0;
             //BEEP_CSR2_BEEPEN = 1;
-            if(Status_Un.Buzzer_Switch == 1)    TIM3_init();
+            TIM3_init();
         }
     }
 
@@ -470,7 +471,7 @@ void BEEP_function(void)
             FG_beep_on_Motor2 = 1;
             FG_beep_off_Motor2 = 0;
             //BEEP_CSR2_BEEPEN = 1;
-            if(Status_Un.Buzzer_Switch == 1)    TIM3_init();
+            TIM3_init();
         }
     }
     else if (TIME_BEEP_off2)
@@ -498,7 +499,7 @@ void BEEP_function(void)
             FG_beep_on_Motor2 = 1;
             FG_beep_off_Motor2 = 0;
             //BEEP_CSR2_BEEPEN = 1;
-            if(Status_Un.Buzzer_Switch == 1)    TIM3_init();
+            TIM3_init();
         }
     }
 }
@@ -589,10 +590,7 @@ void BEEP_Module(UINT16 time_beepON, UINT16 time_beepOFF)
 			FG_beep_on = 1;
 			FG_beep_off = 0;
 			//BEEP_CSR2_BEEPEN = 1;
-            if(Status_Un.Buzzer_Switch == 1)
-            {
-                if(FLAG_BEEP_OFF==0)TIM3_init();
-            }
+            if(FLAG_BEEP_OFF==0)TIM3_init();
         }
 		Delayus_With_UartACK(250); //80us
 		Delayus_With_UartACK(250); //80us
@@ -1267,7 +1265,7 @@ void Beep_Action_On(void)
     if(Struct_DATA_Packet_Contro_fno != Struct_DATA_Packet_Contro_Backup)
     {
         Struct_DATA_Packet_Contro_Backup = Struct_DATA_Packet_Contro_fno;
-        if(Status_Un.Buzzer_Switch==1 && Receiver_429MHz_mode==1 && Flag_normal_stat==0)
+        if(FLAG_BEEP_OFF==0 && Status_Un.Buzzer_Switch==1 && Receiver_429MHz_mode==1 && Flag_normal_stat==0)
         {
             switch(Struct_DATA_Packet_Contro_fno)
             {

@@ -53,7 +53,7 @@ void TIM4_UPD_OVF(void)
             --TIME_auto_out;
             if(TIME_auto_out == 360)
             {
-                if(Receiver_429MHz_mode==1 && Status_Un.Buzzer_Switch==1 && auto_over_time!=1)
+                if(FLAG_BEEP_OFF==0 && Receiver_429MHz_mode==1 && Status_Un.Buzzer_Switch==1 && auto_over_time!=1)
                 {
                     Flag_beepon_auto = 1;
                     _ReqBuzzer_2(144,1000,3,1000,10,1);//短音三次，长音一次
